@@ -9,6 +9,5 @@
 }
 
 .MuiCard-root {
-    border-radius: 0.5em;
-    border: 1px solid #9a9a9a;
+    @apply border border-solid border-gray-400 rounded-2xl shadow-xl;
 }

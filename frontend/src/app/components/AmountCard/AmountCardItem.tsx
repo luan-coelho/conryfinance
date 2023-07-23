@@ -1,5 +1,4 @@
 import { CardItem } from '@/types';
-import Typography from '@mui/material/Typography';
 import * as React from 'react';
 
 type AmountCardItemProps = {
@@ -8,8 +7,11 @@ type AmountCardItemProps = {
 
 export default function AmountCardItem({ cardItem }: AmountCardItemProps) {
   return (
-    <Typography>
-      {cardItem.description} | R${cardItem.amount}
-    </Typography>
+    <div className="border rounded-xl p-2">
+      <div className="flex gap-2">
+        {cardItem.description}
+        <span className="font-bold">R${cardItem.amount}</span>
+      </div>
+    </div>
   );
 }

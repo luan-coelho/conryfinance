@@ -1,5 +1,7 @@
-import { MonthlyBudget } from '@/types';
+import { CardType, MonthlyBudget } from '@/types';
 import AmountCard from '@/app/components/AmountCard/AmountCard';
+import { Grid } from '@mui/material';
+import AmountCardNoContent from '@/app/components/AmountCard/AmountCardNoContent';
 
 async function fetchMonthBudgetById(montlyBudgetId: string) {
   const res = await fetch(
@@ -23,5 +25,19 @@ export default async function MonthlyBudgetPage({
   const response = await fetchMonthBudgetById(params.id);
   const montlyBudget = response as MonthlyBudget;
 
-  return <AmountCard card={montlyBudget.cards[0]} />;
+  return (
+    <Grid container rowSpacing={2} columnSpacing={2}>
+      {montlyBudget.cards.map((card) => {
+        return (
+          <Grid key={card.id} item xs={12} sm={12} md={3}>
+            {CardType[card.cardType] == CardType.DEFAULT ? (
+              <AmountCard card={card} />
+            ) : (
+              <AmountCardNoContent card={card} />
+            )}
+          </Grid>
+        );
+      })}
+    </Grid>
+  );
 }

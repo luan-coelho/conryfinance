@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Card as MontlyBudgetAmountCard } from '@/types';
 import AmountCardItem from '@/app/components/AmountCard/AmountCardItem';
+import { CardHeader } from '@mui/material';
 
 type CardProps = {
   card: MontlyBudgetAmountCard;
@@ -14,12 +15,16 @@ type CardProps = {
 
 export default function AmountCard({ card }: CardProps) {
   return (
-    <Box sx={{ maxWidth: 275 }}>
+    <Box>
       <Card variant="outlined">
+        <CardHeader
+          title={
+            <Typography fontWeight="bold" gutterBottom>
+              {card.description}
+            </Typography>
+          }
+        />
         <CardContent>
-          <Typography fontSize="1em" fontWeight="bold" gutterBottom>
-            {card.description}
-          </Typography>
           {card.cardItems.map((cardItem) => {
             return <AmountCardItem key={cardItem.id} cardItem={cardItem} />;
           })}
