@@ -22,7 +22,7 @@ public class MonthlyBudgetResource {
 
     @GET
     public Response findAll(Pageable pageable) {
-        PagedData<MonthlyBudget> response = monthlyBudgetService.findAll(pageable);
+        PagedData<MonthlyBudget> response = monthlyBudgetService.findAllPaginated(pageable);
         return Response.ok(response).build();
     }
 

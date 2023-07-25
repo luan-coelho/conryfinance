@@ -22,7 +22,7 @@ public class MonthlyBudgetRepository extends BaseRepository<MonthlyBudget> {
         return count("description LIKE ?1", description) > 0;
     }
 
-    public PagedData<MonthlyBudget> listAllPaginated(Pageable pageable) {
+    public PagedData<MonthlyBudget> findAllPaginated(Pageable pageable) {
         PanacheQuery<MonthlyBudget> list = findAll();
         List<MonthlyBudget> monthlyBudgets = list.page(Page.of(pageable.getPage(), pageable.getSize())).list();
         Pagination pagination = buildPagination(pageable);
