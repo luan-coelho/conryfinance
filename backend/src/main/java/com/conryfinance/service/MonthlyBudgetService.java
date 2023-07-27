@@ -10,39 +10,41 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
-import java.util.List;
-
 @ApplicationScoped
 public class MonthlyBudgetService extends BaseService<MonthlyBudget, MonthlyBudgetRepository> {
 
     @Inject
     MontlyBudgetComponentService montlyBudgetComponentsService;
 
-    public PagedData<MonthlyBudget> findAllPaginated(Pageable pageable) {
-        return repository.findAllPaginated(pageable);
-    }
-
-    public List<MonthlyBudget> findAll() {
-        return repository.findAll().list();
+    public PagedData<MonthlyBudget> findAll(Pageable pageable) {
+        return this.repository.getAllWithPagination(pageable);
     }
 
     @Transactional
     public MonthlyBudget create(MonthlyBudgetCreateDTO monthlyBudget) {
-        if (repository.existsByDescriptionEqualsIgnoreCase(monthlyBudget.description())) {
+        if (this.repository.existsByDescriptionEqualsIgnoreCase(monthlyBudget.description())) {
             throw new IllegalArgumentException("There is already an monthly budget registered with this name");
         }
         MonthlyBudget monthlyBudgetPersisted = montlyBudgetComponentsService.createDefaultInstance(
                 monthlyBudget.description(), monthlyBudget.period()
         );
-        repository.persist(monthlyBudgetPersisted);
+
+        this.repository.persist(monthlyBudgetPersisted);
 
         return monthlyBudgetPersisted;
+    }
+
+    @Transactional
+    public void addCard(Long montlyBudgetId, Card card) {
+        MonthlyBudget monthlyBudget = findById(montlyBudgetId);
+        monthlyBudget.getCards().add(card);
+        this.repository.persist(monthlyBudget);
     }
 
     @Transactional
     public void updateDescription(Long montlyBudgetId, String newDescription) {
         MonthlyBudget monthlyBudget = findById(montlyBudgetId);
         monthlyBudget.setDescription(newDescription);
-        repository.persist(monthlyBudget);
+        this.repository.persist(monthlyBudget);
     }
 }

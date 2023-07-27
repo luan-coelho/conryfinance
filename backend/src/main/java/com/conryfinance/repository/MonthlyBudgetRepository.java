@@ -4,7 +4,6 @@ import com.conryfinance.commons.pagination.Pageable;
 import com.conryfinance.commons.pagination.PagedData;
 import com.conryfinance.commons.pagination.Pagination;
 import com.conryfinance.model.monthlybudget.MonthlyBudget;
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.panache.common.Page;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -22,10 +21,13 @@ public class MonthlyBudgetRepository extends BaseRepository<MonthlyBudget> {
         return count("description LIKE ?1", description) > 0;
     }
 
-    public PagedData<MonthlyBudget> findAllPaginated(Pageable pageable) {
-        PanacheQuery<MonthlyBudget> list = findAll();
-        List<MonthlyBudget> monthlyBudgets = list.page(Page.of(pageable.getPage(), pageable.getSize())).list();
-        Pagination pagination = buildPagination(pageable);
-        return new PagedData<>(monthlyBudgets, pagination);
+    public PagedData<MonthlyBudget> getAllWithPagination(Pageable pageable) {
+        List<MonthlyBudget> paginatedBudgets = getAllForPageable(pageable);
+        Pagination paginationMetaData = buildPagination(pageable);
+        return new PagedData<>(paginatedBudgets, paginationMetaData);
+    }
+
+    public List<MonthlyBudget> getAllForPageable(Pageable pageable) {
+        return findAll().page(Page.of(pageable.getPage(), pageable.getSize())).list();
     }
 }
