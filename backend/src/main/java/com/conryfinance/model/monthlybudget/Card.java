@@ -23,7 +23,7 @@ public class Card {
     @SequenceGenerator(name = "CARD_SEQ", sequenceName = "CARD_SEQ", allocationSize = 1)
     private Long id;
     private String description;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "card")
     private List<CardItem> cardItems = new LinkedList<>();
     private BigDecimal amount = new BigDecimal(0);
     private CardType cardType = CardType.DEFAULT;

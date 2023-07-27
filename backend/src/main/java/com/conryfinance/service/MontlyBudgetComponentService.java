@@ -83,7 +83,9 @@ public class MontlyBudgetComponentService {
     private Card buildCard(String description) {
         Card newCard = new Card();
         newCard.setDescription(description);
-        newCard.getCardItems().add(buildCardItem(INITIAL_DESCRIPTION));
+        CardItem cardItem = buildCardItem(INITIAL_DESCRIPTION);
+        cardItem.setCard(newCard);
+        newCard.getCardItems().add(cardItem);
         return newCard;
     }
 
@@ -93,6 +95,6 @@ public class MontlyBudgetComponentService {
      * @return Default card item
      */
     public CardItem buildCardItem(String description) {
-        return new CardItem(null, description, INITIAL_AMOUNT, LocalDateTime.now());
+        return new CardItem(null, description, INITIAL_AMOUNT, LocalDateTime.now(), null);
     }
 }

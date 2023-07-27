@@ -21,4 +21,6 @@ public class CardItem {
     private String description;
     private BigDecimal amount = new BigDecimal(0);
     private LocalDateTime eventDateTime;
+    @ManyToOne
+    private Card card;
 }
