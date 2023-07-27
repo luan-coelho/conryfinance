@@ -38,14 +38,6 @@ public class MonthlyBudgetResource {
         return Response.status(Response.Status.CREATED).entity(dto).build();
     }
 
-    @Path("/{id}/add-card")
-    @POST
-    public Response addCard(@PathParam("id") Long montlyBudgetId) {
-        MonthlyBudget monthlyBudget = monthlyBudgetService.addCard(montlyBudgetId);
-        MonthlyBudgetResponseDTO dto = MonthlyBudgetResponseDTO.toDataTransferObject(monthlyBudget);
-        return Response.status(Response.Status.CREATED).entity(dto).build();
-    }
-
     @Path("/update-description/{id}")
     @POST
     public Response updateDescription(@PathParam("id") Long montlyBudgetId, String newDescription) {

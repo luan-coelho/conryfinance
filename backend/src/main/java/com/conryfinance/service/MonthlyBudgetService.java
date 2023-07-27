@@ -15,9 +15,6 @@ public class MonthlyBudgetService extends BaseService<MonthlyBudget, MonthlyBudg
     @Inject
     MontlyBudgetComponentService montlyBudgetComponentsService;
 
-    @Inject
-    CardService cardService;
-
     public PagedData<MonthlyBudget> findAllWithPagination(Pageable pageable) {
         return this.repository.getAllWithPagination(pageable);
     }
@@ -34,15 +31,6 @@ public class MonthlyBudgetService extends BaseService<MonthlyBudget, MonthlyBudg
         this.repository.persist(monthlyBudgetPersisted);
 
         return monthlyBudgetPersisted;
-    }
-
-    @Transactional
-    public MonthlyBudget addCard(Long montlyBudgetId) {
-        MonthlyBudget monthlyBudget = findById(montlyBudgetId);
-//        List<Card> cards = cardRepository.listAllByMonthlyBudgetId(montlyBudgetId);
-        monthlyBudget.getCards().add(montlyBudgetComponentsService.createDefaultCardInstance());
-        this.repository.persist(monthlyBudget);
-        return monthlyBudget;
     }
 
     @Transactional
