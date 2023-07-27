@@ -2,8 +2,7 @@ package com.conryfinance.service;
 
 import com.conryfinance.commons.pagination.Pageable;
 import com.conryfinance.commons.pagination.PagedData;
-import com.conryfinance.dto.MonthlyBudgetCreateDTO;
-import com.conryfinance.model.monthlybudget.Card;
+import com.conryfinance.dto.montlybudget.MonthlyBudgetCreateDTO;
 import com.conryfinance.model.monthlybudget.MonthlyBudget;
 import com.conryfinance.repository.MonthlyBudgetRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -16,7 +15,10 @@ public class MonthlyBudgetService extends BaseService<MonthlyBudget, MonthlyBudg
     @Inject
     MontlyBudgetComponentService montlyBudgetComponentsService;
 
-    public PagedData<MonthlyBudget> findAll(Pageable pageable) {
+    @Inject
+    CardService cardService;
+
+    public PagedData<MonthlyBudget> findAllWithPagination(Pageable pageable) {
         return this.repository.getAllWithPagination(pageable);
     }
 
@@ -35,10 +37,12 @@ public class MonthlyBudgetService extends BaseService<MonthlyBudget, MonthlyBudg
     }
 
     @Transactional
-    public void addCard(Long montlyBudgetId, Card card) {
+    public MonthlyBudget addCard(Long montlyBudgetId) {
         MonthlyBudget monthlyBudget = findById(montlyBudgetId);
-        monthlyBudget.getCards().add(card);
+//        List<Card> cards = cardRepository.listAllByMonthlyBudgetId(montlyBudgetId);
+        monthlyBudget.getCards().add(montlyBudgetComponentsService.createDefaultCardInstance());
         this.repository.persist(monthlyBudget);
+        return monthlyBudget;
     }
 
     @Transactional

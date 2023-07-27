@@ -14,11 +14,11 @@ import java.util.Optional;
 public class MonthlyBudgetRepository extends BaseRepository<MonthlyBudget> {
 
     Optional<MonthlyBudget> findByDescriptionEqualsIgnoreCase(String description) {
-        return find("description ILIKE ?1", description).singleResultOptional();
+        return find("newDescription ILIKE ?1", description).singleResultOptional();
     }
 
     public boolean existsByDescriptionEqualsIgnoreCase(String description) {
-        return count("description LIKE ?1", description) > 0;
+        return count("newDescription LIKE ?1", description) > 0;
     }
 
     public PagedData<MonthlyBudget> getAllWithPagination(Pageable pageable) {

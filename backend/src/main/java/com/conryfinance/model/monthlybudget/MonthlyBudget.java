@@ -22,7 +22,7 @@ public class MonthlyBudget {
     @SequenceGenerator(name = "MONTHLYBUDGET_SEQ", sequenceName = "MONTHLYBUDGET_SEQ", allocationSize = 1)
     private Long id;
     private String description;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "monthlyBudget")
     private List<Card> cards = new ArrayList<>();
     private LocalDate period = LocalDate.now();
 }

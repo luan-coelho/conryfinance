@@ -4,6 +4,7 @@ import com.conryfinance.repository.BaseRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
+import org.hibernate.exception.ConstraintViolationException;
 
 import java.util.List;
 

@@ -2,16 +2,13 @@ package com.conryfinance.resource;
 
 import com.conryfinance.commons.pagination.Pageable;
 import com.conryfinance.commons.pagination.PagedData;
-import com.conryfinance.dto.MonthlyBudgetCreateDTO;
-import com.conryfinance.dto.MonthlyBudgetResponseDTO;
+import com.conryfinance.dto.montlybudget.MonthlyBudgetCreateDTO;
+import com.conryfinance.dto.montlybudget.MonthlyBudgetResponseDTO;
 import com.conryfinance.model.monthlybudget.MonthlyBudget;
 import com.conryfinance.service.MonthlyBudgetService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 
 @Path("/montlybudget")
@@ -21,8 +18,8 @@ public class MonthlyBudgetResource {
     MonthlyBudgetService monthlyBudgetService;
 
     @GET
-    public Response findAll(Pageable pageable) {
-        PagedData<MonthlyBudget> response = monthlyBudgetService.findAllPaginated(pageable);
+    public Response findAll(@BeanParam Pageable pageable) {
+        PagedData<MonthlyBudget> response = monthlyBudgetService.findAllWithPagination(pageable);
         return Response.ok(response).build();
     }
 
@@ -41,10 +38,25 @@ public class MonthlyBudgetResource {
         return Response.status(Response.Status.CREATED).entity(dto).build();
     }
 
-    @Path("/updateDescription/{id}")
+    @Path("/{id}/add-card")
+    @POST
+    public Response addCard(@PathParam("id") Long montlyBudgetId) {
+        MonthlyBudget monthlyBudget = monthlyBudgetService.addCard(montlyBudgetId);
+        MonthlyBudgetResponseDTO dto = MonthlyBudgetResponseDTO.toDataTransferObject(monthlyBudget);
+        return Response.status(Response.Status.CREATED).entity(dto).build();
+    }
+
+    @Path("/update-description/{id}")
     @POST
     public Response updateDescription(@PathParam("id") Long montlyBudgetId, String newDescription) {
         monthlyBudgetService.updateDescription(montlyBudgetId, newDescription);
+        return Response.status(Response.Status.NO_CONTENT).build();
+    }
+
+    @Path("/{id}")
+    @DELETE
+    public Response deletebyId(@PathParam("id") Long id) {
+        monthlyBudgetService.deleteById(id);
         return Response.status(Response.Status.NO_CONTENT).build();
     }
 }

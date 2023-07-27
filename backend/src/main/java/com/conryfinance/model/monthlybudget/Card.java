@@ -27,11 +27,6 @@ public class Card {
     private List<CardItem> cardItems = new LinkedList<>();
     private BigDecimal amount = new BigDecimal(0);
     private CardType cardType = CardType.DEFAULT;
-
-    public void addItem(CardItem cardItem) {
-        if (this.cardItems == null) {
-            this.cardItems = new ArrayList<>();
-        }
-        this.cardItems.add(cardItem);
-    }
+    @ManyToOne
+    private MonthlyBudget monthlyBudget;
 }
