@@ -8,11 +8,12 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public record CardResponseDTO(String description, List<CardItemResponseDTO> cardItems, BigDecimal amount,
+public record CardResponseDTO(Long id, String description, List<CardItemResponseDTO> cardItems, BigDecimal amount,
                               CardType cardType) {
 
     public static CardResponseDTO toDataTransferObject(Card monthlyBudget) {
         return new CardResponseDTO(
+                monthlyBudget.getId(),
                 monthlyBudget.getDescription(),
                 monthlyBudget.getCardItems()
                         .stream()

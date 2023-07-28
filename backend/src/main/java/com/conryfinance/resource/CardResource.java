@@ -32,6 +32,7 @@ public class CardResource {
     @POST
     public Response updateDescription(@PathParam("id") Long id, NewDescriptionCardDTO requestBody) {
         Card card = cardService.updateDescription(id, requestBody.newDescription());
-        return Response.ok(card).build();
+        CardResponseDTO dto = CardResponseDTO.toDataTransferObject(card);
+        return Response.ok(dto).build();
     }
 }

@@ -6,7 +6,6 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @EqualsAndHashCode(of = "id")
@@ -23,8 +22,8 @@ public class Card {
     @SequenceGenerator(name = "CARD_SEQ", sequenceName = "CARD_SEQ", allocationSize = 1)
     private Long id;
     private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "card")
-    private List<CardItem> cardItems = new LinkedList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "card", fetch = FetchType.LAZY)
+    private List<CardItem> cardItems = new ArrayList<>();
     private BigDecimal amount = new BigDecimal(0);
     private CardType cardType = CardType.DEFAULT;
     @ManyToOne
