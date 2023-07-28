@@ -3,11 +3,14 @@ package com.conryfinance.service;
 import com.conryfinance.commons.pagination.Pageable;
 import com.conryfinance.commons.pagination.PagedData;
 import com.conryfinance.dto.montlybudget.MonthlyBudgetCreateDTO;
+import com.conryfinance.dto.montlybudget.MonthlyBudgetResponseDTO;
 import com.conryfinance.model.monthlybudget.MonthlyBudget;
 import com.conryfinance.repository.MonthlyBudgetRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+
+import java.util.List;
 
 @ApplicationScoped
 public class MonthlyBudgetService extends BaseService<MonthlyBudget, MonthlyBudgetRepository> {
@@ -15,8 +18,12 @@ public class MonthlyBudgetService extends BaseService<MonthlyBudget, MonthlyBudg
     @Inject
     MontlyBudgetComponentService montlyBudgetComponentsService;
 
-    public PagedData<MonthlyBudget> findAllWithPagination(Pageable pageable) {
-        return this.repository.getAllWithPagination(pageable);
+    public PagedData<MonthlyBudgetResponseDTO> findAllWithPagination(Pageable pageable) {
+        List<MonthlyBudgetResponseDTO> dtos = this.repository.getAllForPageable(pageable)
+                .stream()
+                .map(MonthlyBudgetResponseDTO::toDataTransferObject)
+                .toList();
+        return buildPagedData(dtos, pageable);
     }
 
     @Transactional

@@ -19,7 +19,7 @@ public class MonthlyBudgetResource {
 
     @GET
     public Response findAll(@BeanParam Pageable pageable) {
-        PagedData<MonthlyBudget> response = monthlyBudgetService.findAllWithPagination(pageable);
+        PagedData<MonthlyBudgetResponseDTO> response = monthlyBudgetService.findAllWithPagination(pageable);
         return Response.ok(response).build();
     }
 
