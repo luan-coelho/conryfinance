@@ -1,32 +1,29 @@
-'use client';
+import MonthlyBudgetCard from "@/components/application/MonthlyBudget";
+import Title from "@/components/commons/Title";
+import { MonthlyBudget } from "@/types";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card';
+async function fetchMonthlyBudgets() {
+  const res = await fetch(`${process.env.BASEAPI_URL}/montlybudget`, {
+    cache: "no-cache",
+  });
 
-export default function MonthlyBudgetPage() {
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return res.json();
+}
+
+export default async function MonthlyBudgetsPage() {
+  const response = await fetchMonthlyBudgets();
+  const montlyBudgets = response.data as MonthlyBudget[];
+
   return (
     <div>
-      <h1>Orçamentos Mensais</h1>
-
-      <div>
-        <Card>
-          <CardHeader>
-            <CardTitle>Card Title</CardTitle>
-            <CardDescription>Card Description</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p>Card Content</p>
-          </CardContent>
-          <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter>
-        </Card>
+      <Title>Orçamentos Mensais</Title>
+      <div className="grid grid-cols-4 gap-4">
+        {montlyBudgets.map((mb) => {
+          return (<MonthlyBudgetCard key={mb.id} monthlyBudget={mb} />);
+        })}
       </div>
     </div>
   );
