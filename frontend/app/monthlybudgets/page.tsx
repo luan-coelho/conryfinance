@@ -1,6 +1,9 @@
 import MonthlyBudgetCard from "@/components/application/MonthlyBudget";
 import Title from "@/components/commons/Title";
 import { MonthlyBudget } from "@/types";
+import { Button } from "@/components/ui/button";
+import { MonthlyBudgetForm } from "@/components/application/MonthlyBudget/Form";
+import { DialogTrigger } from "@/components/ui/dialog";
 
 async function fetchMonthlyBudgets() {
   const res = await fetch(`${process.env.BASEAPI_URL}/montlybudget`, {
@@ -24,6 +27,9 @@ export default async function MonthlyBudgetsPage() {
         {montlyBudgets.map((mb) => {
           return (<MonthlyBudgetCard key={mb.id} monthlyBudget={mb} />);
         })}
+      </div>
+      <div className="mt-4">
+        <MonthlyBudgetForm />
       </div>
     </div>
   );
