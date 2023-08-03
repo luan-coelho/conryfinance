@@ -11,7 +11,7 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 
-@Path("/montlybudget")
+@Path("/monthlybudget")
 public class MonthlyBudgetResource {
 
     @Inject

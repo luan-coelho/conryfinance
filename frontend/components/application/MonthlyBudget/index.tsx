@@ -9,10 +9,10 @@ interface MonthlyBudgetCardProps {
 
 export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardProps) {
   return (
-    <Card className="bg-white border-1 rounded-xl shadow min-w-[300px] p-3 flex justify-between">
+    <Card className="w-full border-1 border-t-4 border-green-600 bg-white rounded-xl shadow p-3 flex justify-between">
       <div>
         <h2 className="text-base font-bold">{monthlyBudget.description}</h2>
-        <span className=" bg-green-600 text-white font-semibold text-xs py-1 px-2 rounded border">
+        <span className="bg-green-600 text-white font-semibold text-xs py-1 px-2 rounded border">
           {getMonthNameFromDate(monthlyBudget.period)}
         </span>
       </div>

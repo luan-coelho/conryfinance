@@ -3,7 +3,7 @@ import Title from "@/components/commons/Title";
 import AmountCard from "@/components/application/AmountCard";
 
 async function fetchMonthBudgetById(montlyBudgetId: string) {
-  const response = await fetch(`${process.env.BASEAPI_URL}/montlybudget/${montlyBudgetId}`,
+  const response = await fetch(`${process.env.BASEAPI_URL}/monthlybudget/${montlyBudgetId}`,
     { cache: "no-cache" },
   );
 
