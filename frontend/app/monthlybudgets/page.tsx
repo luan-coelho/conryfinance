@@ -1,33 +1,44 @@
+"use client";
+
 import MonthlyBudgetCard from "@/components/application/MonthlyBudget";
 import Title from "@/components/commons/Title";
 import { MonthlyBudget } from "@/types";
 import { MonthlyBudgetForm } from "@/components/application/MonthlyBudget/Form";
+import { useEffect, useState } from "react";
+import { toastError } from "@/utils/toast";
+import { routes } from "@/routes";
 
-async function fetchMonthlyBudgets() {
-  const res = await fetch(`${process.env.BASEAPI_URL}/monthlybudget`, {
-    cache: "no-cache",
-  });
+export default function MonthlyBudgetsPage() {
+  const [monthlyBudgets, setMonthlyBudgets] = useState<MonthlyBudget[]>([]);
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
+  useEffect(() => {
+    fetchMonthlyBudgets();
+  }, []);
+
+  async function fetchMonthlyBudgets() {
+    const response = await fetch(routes.monthlyBudget.root, {
+      cache: "no-cache",
+    });
+
+    if (!response.ok) {
+      toastError("Failed to fetch data");
+    }
+
+    const json = await response.json();
+    const monthlyBudgets = json.data as MonthlyBudget[];
+    setMonthlyBudgets(monthlyBudgets);
   }
-  return res.json();
-}
-
-export default async function MonthlyBudgetsPage() {
-  const response = await fetchMonthlyBudgets();
-  const montlyBudgets = response.data as MonthlyBudget[];
 
   return (
     <div>
       <Title>Orçamentos Mensais</Title>
       <div className="grid sm:grid-cols-1 grid-cols-1 gap-2 place-content-center place-items-center">
-        {montlyBudgets.map((mb) => {
-          return (<MonthlyBudgetCard key={mb.id} monthlyBudget={mb} />);
+        {monthlyBudgets.map(mb => {
+          return <MonthlyBudgetCard key={mb.id} monthlyBudget={mb} />;
         })}
       </div>
       <div className="mt-4">
-        <MonthlyBudgetForm />
+        <MonthlyBudgetForm setMonthlyBudgets={fetchMonthlyBudgets} />
       </div>
     </div>
   );
