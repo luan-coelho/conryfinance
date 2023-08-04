@@ -1,4 +1,5 @@
-import AmountCard from "@/components/application/monthlybudget/amountcard";
+import AmountCard from "@/components/application/monthlybudget/cards/amount-card";
+import EmptyAmountCard from "@/components/application/monthlybudget/cards/empty-amount-card";
 import Title from "@/components/commons/title";
 import { CardType, MonthlyBudget } from "@/types";
 
@@ -11,13 +12,6 @@ async function fetchMonthBudgetById(montlyBudgetId: string) {
   return response.json();
 }
 
-function getClassByCardType(cardType: CardType): string {
-  if (cardType == CardType.TOTAL_AVAILABLE || cardType == CardType.TOTAL_AMOUNT_SPENT) {
-    return "w-[150px]";
-  }
-  return "w-[300px]";
-}
-
 export default async function MonthlyBudgetPage({ params }: { params: { id: string } }) {
   const response = await fetchMonthBudgetById(params.id);
   const monthlyBudget = response as MonthlyBudget;
@@ -25,10 +19,20 @@ export default async function MonthlyBudgetPage({ params }: { params: { id: stri
   return (
     <>
       <Title>{monthlyBudget.description}</Title>
-      <div className="grid grid-cols-1 gap-3">
-        {monthlyBudget.cards.map(card => {
-          return <AmountCard className={getClassByCardType(card.cardType)} key={card.id} card={card} />;
-        })}
+      <div className="flex gap-3">
+        <div className="flex flex-col gap-2">
+          {monthlyBudget.cards.map(card => {
+            return card.cardType == CardType.DEFAULT && <AmountCard className="w-[500px]" key={card.id} card={card} />;
+          })}
+        </div>
+
+        <div className="flex flex-col gap-2">
+          {monthlyBudget.cards.map(card => {
+            return (
+              card.cardType != CardType.DEFAULT && <EmptyAmountCard className="w-[200px]" key={card.id} card={card} />
+            );
+          })}
+        </div>
       </div>
     </>
   );
