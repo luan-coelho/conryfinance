@@ -21,7 +21,7 @@ export interface MonthlyBudget {
   }
   
   export enum CardType {
-    DEFAULT,
-    TOTAL_AMOUNT_SPENT,
-    TOTAL_AVAILABLE
+    DEFAULT = "DEFAULT",
+    TOTAL_AMOUNT_SPENT = "TOTAL_AMOUNT_SPENT",
+    TOTAL_AVAILABLE = "TOTAL_AVAILABLE"
   }
