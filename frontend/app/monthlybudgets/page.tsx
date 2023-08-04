@@ -1,12 +1,14 @@
 "use client";
 
-import MonthlyBudgetCard from "@/components/application/MonthlyBudget";
-import Title from "@/components/commons/Title";
+import MonthlyBudgetCard from "@/components/application/monthlybudget/card";
+import Title from "@/components/commons/title";
 import { MonthlyBudget } from "@/types";
-import { MonthlyBudgetForm } from "@/components/application/MonthlyBudget/Form";
+import { MonthlyBudgetCreateForm } from "@/components/application/monthlybudget/form";
 import { useEffect, useState } from "react";
 import { toastError } from "@/utils/toast";
 import { routes } from "@/routes";
+import Investment from "@/public/images/Investment.svg";
+import Image from "next/image";
 
 export default function MonthlyBudgetsPage() {
   const [monthlyBudgets, setMonthlyBudgets] = useState<MonthlyBudget[]>([]);
@@ -32,13 +34,22 @@ export default function MonthlyBudgetsPage() {
   return (
     <div>
       <Title>Orçamentos Mensais</Title>
-      <div className="grid sm:grid-cols-1 grid-cols-1 gap-2 place-content-center place-items-center">
-        {monthlyBudgets.map(mb => {
-          return <MonthlyBudgetCard key={mb.id} monthlyBudget={mb} />;
-        })}
-      </div>
+      {monthlyBudgets.length > 0 ? (
+        <div className="grid sm:grid-cols-1 grid-cols-1 gap-2 place-content-center place-items-center">
+          {monthlyBudgets.map(mb => {
+            return <MonthlyBudgetCard key={mb.id} monthlyBudget={mb} setMonthlyBudgets={fetchMonthlyBudgets} />;
+          })}
+        </div>
+      ) : (
+        <div className="flex items-center justify-center flex-col gap-5">
+          <Image src={Investment} width={200} height={200} alt="Picture of the author" />
+          <span className="p-2 border rounded border-gray-400 border-dashed">
+            Ainda não há nenhum orçamento cadastrado
+          </span>
+        </div>
+      )}
       <div className="mt-4">
-        <MonthlyBudgetForm setMonthlyBudgets={fetchMonthlyBudgets} />
+        <MonthlyBudgetCreateForm setMonthlyBudgets={fetchMonthlyBudgets} />
       </div>
     </div>
   );

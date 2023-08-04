@@ -1,6 +1,6 @@
 "use client";
 
-import DateInput from "@/components/application/DatePicker";
+import DateInput from "@/components/commons/datepicker";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,13 +15,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { routes } from "@/routes";
 import { toastError, toastSuccess } from "@/utils/toast";
+import { Plus, PlusCircle } from "lucide-react";
 import React, { useState } from "react";
 
-interface MonthlyBudgetFormProps {
+interface MonthlyBudgetCreateFormProps {
   setMonthlyBudgets: Function;
 }
 
-export function MonthlyBudgetForm({ setMonthlyBudgets }: MonthlyBudgetFormProps) {
+export function MonthlyBudgetCreateForm({ setMonthlyBudgets }: MonthlyBudgetCreateFormProps) {
+  const [open, setOpen] = useState(false);
   const [description, setDescription] = useState<string>();
   const [period, setPeriod] = useState<string>();
 
@@ -72,6 +74,7 @@ export function MonthlyBudgetForm({ setMonthlyBudgets }: MonthlyBudgetFormProps)
     resetData();
     toastSuccess("Orçamento mensal criado com sucesso!");
     setMonthlyBudgets();
+    setOpen(false);
   }
 
   function convertStringToDate(data: string): Date | null {
@@ -87,9 +90,15 @@ export function MonthlyBudgetForm({ setMonthlyBudgets }: MonthlyBudgetFormProps)
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-green-600 hover:bg-green-500 text-white rounded px-2 py-0 w-full">Cadastrar</Button>
+        <Button
+          onClick={() => {
+            setOpen(true);
+          }}
+          className="bg-blue-600 hover:bg-blue-500 text-white rounded px-2 py-0 w-full">
+          <PlusCircle className="mr-2" /> Cadastrar
+        </Button>
       </DialogTrigger>
       <DialogContent className="max-w-[425px] border border-gray-300 bg-white">
         <DialogHeader>
@@ -101,6 +110,7 @@ export function MonthlyBudgetForm({ setMonthlyBudgets }: MonthlyBudgetFormProps)
             <Label htmlFor="name">Descrição</Label>
             <Input
               id="description"
+              placeholder="Minhas despesas"
               className="col-span-3"
               value={description}
               onChange={e => setDescription(e.target.value)}

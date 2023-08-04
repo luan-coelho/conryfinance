@@ -15,7 +15,7 @@ const DateInput: React.FC<DateInputProps> = ({ value, setValue }) => {
     } else if (inputValue.length > 2) {
       inputValue = inputValue.replace(/[^0-9/]/g, "").substr(0, 7);
       if (inputValue[2] !== "/") {
-        inputValue = inputValue.slice(0, 2) +   "/" + inputValue.slice(2);
+        inputValue = inputValue.slice(0, 2) + "/" + inputValue.slice(2);
       }
     }
 
@@ -32,13 +32,16 @@ const DateInput: React.FC<DateInputProps> = ({ value, setValue }) => {
   };
 
   return (
-    <Input id="description"
-           className="col-span-3"
-           maxLength={7}
-           onChange={handleInputChange} onBlur={handleInputBlur}
-           value={value} />
+    <Input
+      id="description"
+      className="col-span-3"
+      placeholder="Informe o mês e ano - 00/0000"
+      maxLength={7}
+      onChange={handleInputChange}
+      onBlur={handleInputBlur}
+      value={value}
+    />
   );
 };
 
 export default DateInput;
-

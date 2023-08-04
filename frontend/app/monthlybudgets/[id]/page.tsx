@@ -1,11 +1,9 @@
 import { MonthlyBudget } from "@/types";
-import Title from "@/components/commons/Title";
-import AmountCard from "@/components/application/AmountCard";
+import Title from "@/components/commons/title";
+import AmountCard from "@/components/application/monthlybudget/amountcard";
 
 async function fetchMonthBudgetById(montlyBudgetId: string) {
-  const response = await fetch(`${process.env.BASEAPI_URL}/monthlybudget/${montlyBudgetId}`,
-    { cache: "no-cache" },
-  );
+  const response = await fetch(`${process.env.BASEAPI_URL}/monthlybudget/${montlyBudgetId}`, { cache: "no-cache" });
 
   if (!response.ok) {
     throw new Error("Failed to fetch data");
@@ -13,16 +11,18 @@ async function fetchMonthBudgetById(montlyBudgetId: string) {
   return response.json();
 }
 
-export default async function MonthlyBudgetPage({ params }: { params: { id: string }; }) {
+export default async function MonthlyBudgetPage({ params }: { params: { id: string } }) {
   const response = await fetchMonthBudgetById(params.id);
   const monthlyBudget = response as MonthlyBudget;
 
-  return <>
-    <Title>{monthlyBudget.description}</Title>
-    <div className="grid grid-cols-3 gap-3">
-      {monthlyBudget.cards.map((card) => {
-        return (<AmountCard key={card.id} card={card} />);
-      })}
-    </div>
-  </>;
+  return (
+    <>
+      <Title>{monthlyBudget.description}</Title>
+      <div className="grid grid-cols-3 gap-3">
+        {monthlyBudget.cards.map(card => {
+          return <AmountCard key={card.id} card={card} />;
+        })}
+      </div>
+    </>
+  );
 }

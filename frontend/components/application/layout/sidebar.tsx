@@ -1,6 +1,16 @@
+"use client";
+
+import { GemIcon } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Sidebar() {
+  const activePathName = usePathname();
+
+  function getStyleForPath(pathName: string): string | undefined {
+    return activePathName == pathName ? "active-menu-item" : "menu-item";
+  }
+
   return (
     <aside className="bg-[#101727] text-white min-w-[300px] min-h-screen p-4 grid content-between">
       <div>
@@ -21,9 +31,10 @@ export default function Sidebar() {
         <div>
           <span className="text-xs text-gray-300 font-medium">FINANCES</span>
           <ul className="my-1">
-            <li className="bg-blue-500 hover:bg-blue-600 text-gray-200 px-4 py-1 rounded">
+            <li className={getStyleForPath("/monthlybudgets")}>
               <Link href={"/monthlybudgets"}>
                 <div className="flex items-center gap-2">
+                  <GemIcon />
                   <span>Orçamentos mensais</span>
                 </div>
               </Link>
@@ -35,9 +46,7 @@ export default function Sidebar() {
       <div className="bg-blue-600 flex items-center gap-2 px-4 py-2 rounded ">
         <div className="flex flex-col">
           <span className="text-xs text-white font-bold">LUAN COÊLHO</span>
-          <span className="text-xs text-gray-50">
-            Desenvolvedor de Software
-          </span>
+          <span className="text-xs text-gray-50">Desenvolvedor de Software</span>
         </div>
       </div>
     </aside>

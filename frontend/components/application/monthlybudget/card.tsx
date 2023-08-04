@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -13,7 +15,9 @@ import { routes } from "@/routes";
 import { MonthlyBudget } from "@/types";
 import { getMonthNameFromDate } from "@/utils/dateutils";
 import { toastError, toastSuccess } from "@/utils/toast";
+import { EyeIcon, Trash } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 interface MonthlyBudgetCardProps {
   monthlyBudget: MonthlyBudget;
@@ -21,6 +25,8 @@ interface MonthlyBudgetCardProps {
 }
 
 export default function MonthlyBudgetCard({ monthlyBudget, setMonthlyBudgets }: MonthlyBudgetCardProps) {
+  const [open, setOpen] = useState(false);
+
   async function handleDeleteById() {
     const response = await fetch(`${routes.monthlyBudget.root}/${monthlyBudget.id}`, {
       method: "DELETE",
@@ -33,7 +39,7 @@ export default function MonthlyBudgetCard({ monthlyBudget, setMonthlyBudgets }: 
       toastError(json.detail);
       return;
     }
-    toastSuccess("Orçamento mensal criado com sucesso!");
+    toastSuccess("Orçamento mensal deletado com sucesso!");
     setMonthlyBudgets();
   }
 
@@ -46,28 +52,38 @@ export default function MonthlyBudgetCard({ monthlyBudget, setMonthlyBudgets }: 
             {getMonthNameFromDate(monthlyBudget.period)}
           </span>
         </div>
-        <div className="min-w-7 rounded border p-2 flex flex-col items-center gap-2">
+        <div className="min-w-7 rounded border shadow p-2 flex flex-col items-center gap-2">
           <Link href={`/monthlybudgets/${monthlyBudget.id}`}>
-            <Button className="bg-blue-600 hover:bg-green-500 text-white rounded">V</Button>
+            <EyeIcon className="text-blue-500" />
           </Link>
 
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className="bg-green-600 hover:bg-green-500 text-white rounded px-2 py-0 w-full">X</Button>
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger
+              onClick={() => {
+                setOpen(true);
+              }}
+              className="cursor-pointer"
+              asChild>
+              <Trash className="text-red-500" />
             </DialogTrigger>
             <DialogContent className="max-w-[425px] border border-gray-300 bg-white">
               <DialogHeader>
-                <DialogTitle>Cadastrar</DialogTitle>
-                <DialogDescription>
-                  Crie um novo orçamento mensal, seja pessoal, sua empresa, uma viagem...
-                </DialogDescription>
+                <DialogTitle>Você tem certeza?</DialogTitle>
+                <DialogDescription>Esta ação não poderá ser desfeita</DialogDescription>
               </DialogHeader>
               <DialogFooter>
                 <Button
-                  className="bg-blue-600 hover:bg-green-500 text-white rounded"
+                  variant="outline"
+                  className="hover:bg-gray-100 rounded"
                   type="submit"
                   onClick={handleDeleteById}>
                   Confirmar
+                </Button>
+                <Button
+                  onClick={() => setOpen(false)}
+                  className="bg-red-600 hover:bg-red-500 text-white rounded"
+                  type="submit">
+                  Cancelar
                 </Button>
               </DialogFooter>
             </DialogContent>
