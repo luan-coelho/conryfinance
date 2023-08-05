@@ -1,6 +1,6 @@
 "use client";
 
-import MonthlyBudgetCard from "@/components/application/monthlybudget/card";
+import MonthlyBudgetCard from "@/components/application/monthlybudget/monthlybudget-card";
 import Title from "@/components/commons/title";
 import { MonthlyBudget } from "@/types";
 import { MonthlyBudgetCreateForm } from "@/components/application/monthlybudget/form";

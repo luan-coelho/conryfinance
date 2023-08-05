@@ -1,5 +1,5 @@
-import AmountCard from "@/components/application/monthlybudget/cards/amount-card";
-import EmptyAmountCard from "@/components/application/monthlybudget/cards/empty-amount-card";
+import AmountCard from "@/components/application/monthlybudget/card/amount-card";
+import EmptyAmountCard from "@/components/application/monthlybudget/card/empty-amount-card";
 import Title from "@/components/commons/title";
 import { CardType, MonthlyBudget } from "@/types";
 
