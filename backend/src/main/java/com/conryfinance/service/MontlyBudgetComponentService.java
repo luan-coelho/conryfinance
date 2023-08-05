@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,7 +19,7 @@ import java.util.List;
 @Singleton
 public class MontlyBudgetComponentService {
 
-    static final String INITIAL_DESCRIPTION = "Description";
+    static final String INITIAL_DESCRIPTION = "Descrição";
     static final BigDecimal INITIAL_AMOUNT = new BigDecimal("0.00");
 
     /**
@@ -46,27 +46,7 @@ public class MontlyBudgetComponentService {
                         List.of(buildCardItem(INITIAL_DESCRIPTION))
                 )).build();
 
-        Card totalAmountCard = Card
-                .builder()
-                .description("Total amount")
-                .amount(INITIAL_AMOUNT)
-                .cardType(CardType.TOTAL_AMOUNT_SPENT)
-                .monthlyBudget(monthlyBudget)
-                .cardItems(new ArrayList<>(
-                        List.of(buildCardItem(INITIAL_DESCRIPTION))
-                )).build();
-
-        Card totalAvailable = Card
-                .builder()
-                .description("Total available")
-                .amount(INITIAL_AMOUNT)
-                .cardType(CardType.TOTAL_AVAILABLE)
-                .monthlyBudget(monthlyBudget)
-                .cardItems(new ArrayList<>(
-                        List.of(buildCardItem(INITIAL_DESCRIPTION))
-                )).build();
-
-        monthlyBudget.setCards(new ArrayList<>(Arrays.asList(defaultCard, totalAmountCard, totalAvailable)));
+        monthlyBudget.setCards(new ArrayList<>(Collections.singletonList(defaultCard)));
         return monthlyBudget;
     }
 

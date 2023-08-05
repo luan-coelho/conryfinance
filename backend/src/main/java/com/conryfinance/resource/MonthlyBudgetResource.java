@@ -28,7 +28,7 @@ public class MonthlyBudgetResource {
     public Response findById(@PathParam("id") Long montlyBudgetId) {
         MonthlyBudget monthlyBudget = monthlyBudgetService.findById(montlyBudgetId);
         MonthlyBudgetResponseDTO dto = MonthlyBudgetResponseDTO.toDataTransferObject(monthlyBudget);
-        return Response.status(Response.Status.CREATED).entity(dto).build();
+        return Response.ok().entity(dto).build();
     }
 
     @POST
