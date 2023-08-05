@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { routes } from "@/routes";
 import { toastError, toastSuccess } from "@/utils/toast";
-import { Plus, PlusCircle } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 import React, { useState } from "react";
 
 interface MonthlyBudgetCreateFormProps {

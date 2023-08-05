@@ -3,7 +3,7 @@
 import MonthlyBudgetCard from "@/components/application/monthlybudget/monthlybudget-card";
 import Title from "@/components/commons/title";
 import { MonthlyBudget } from "@/types";
-import { MonthlyBudgetCreateForm } from "@/components/application/monthlybudget/form";
+import { MonthlyBudgetCreateForm } from "@/components/application/monthlybudget/monthlybudget-create-form";
 import { useEffect, useState } from "react";
 import { toastError } from "@/utils/toast";
 import { routes } from "@/routes";
