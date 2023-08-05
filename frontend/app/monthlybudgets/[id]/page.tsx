@@ -9,9 +9,12 @@ import { MonthlyBudget } from "@/types";
 import { getMonthNameFromDate } from "@/utils/dateutils";
 import { toastError } from "@/utils/toast";
 import { PlusCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function MonthlyBudgetPage({ params }: { params: { id: string } }) {
+  const router = useRouter();
+
   const monthlyBudgetId = params.id;
   const [monthlyBudget, setMonthlyBudget] = useState<MonthlyBudget>({} as MonthlyBudget);
 
@@ -25,7 +28,8 @@ export default function MonthlyBudgetPage({ params }: { params: { id: string } }
     });
 
     if (!response.ok) {
-      toastError("Failed to fetch data");
+      toastError("Falha ao encontrar orçamento");
+      router.push("/monthlybudgets");
     }
 
     const json = await response.json();

@@ -4,12 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { MonthlyBudgetCard } from "@/types";
-import { PlusCircle, Replace, Trash } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 import { ComponentProps, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import AmountCardItem from "./amount-card-item";
 import { toastError } from "@/utils/toast";
 import { routes } from "@/routes";
+import { PresetActions } from "@/components/commons/actions";
 
 type AmountCardProps = ComponentProps<"div"> & {
   card: MonthlyBudgetCard;
@@ -39,7 +40,7 @@ export default function AmountCard({ card, updateMonthlyCard, className }: Amoun
       <div className="flex flex-col justify-between gap-2 h-full">
         <div className="flex items-center justify-between">
           <h2 className="text-base font-bold">{card.description}</h2>
-          <Trash />
+          <PresetActions cardId={card.id} updateMonthlyBudgets={updateMonthlyCard} />
         </div>
 
         <div>
