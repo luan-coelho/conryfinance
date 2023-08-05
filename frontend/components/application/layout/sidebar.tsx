@@ -12,7 +12,7 @@ export default function Sidebar() {
   }
 
   return (
-    <aside className="bg-[#101727] text-white min-w-[300px] min-h-screen p-4 grid content-between">
+    <aside className="fixed bg-[#101727] text-white sm:min-w-full md:min-w-[300px] min-h-screen p-4 grid content-between">
       <div>
         <div className="flex gap-3 py-3">
           <div className="bg-blue-600 text-white rounded w-12 h-12 flex items-center justify-center">

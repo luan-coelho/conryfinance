@@ -1,20 +1,21 @@
 "use client";
 
 import MonthlyBudgetCard from "@/components/application/monthlybudget/monthlybudget-card";
-import Title from "@/components/commons/title";
-import { MonthlyBudget } from "@/types";
 import { MonthlyBudgetCreateForm } from "@/components/application/monthlybudget/monthlybudget-create-form";
-import { useEffect, useState } from "react";
-import { toastError } from "@/utils/toast";
-import { routes } from "@/routes";
+import Title from "@/components/commons/title";
 import Investment from "@/public/images/Investment.svg";
+import { routes } from "@/routes";
+import { MonthlyBudget } from "@/types";
+import { toastError } from "@/utils/toast";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function MonthlyBudgetsPage() {
   const [monthlyBudgets, setMonthlyBudgets] = useState<MonthlyBudget[]>([]);
 
   useEffect(() => {
     fetchMonthlyBudgets();
+    document.title = "Orçamentos Mensais";
   }, []);
 
   async function fetchMonthlyBudgets() {

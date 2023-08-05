@@ -28,9 +28,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           pauseOnHover
           theme="colored"
         />
-        <div className="w-full">
+        <div className="w-full ml-[300px]">
           <Header />
-          <main className="px-10">{children}</main>
+          <main className="mt-14 p-10">{children}</main>
         </div>
       </body>
     </html>

@@ -16,10 +16,10 @@ export default function MonthlyBudgetPage({ params }: { params: { id: string } }
   const [monthlyBudget, setMonthlyBudget] = useState<MonthlyBudget>({} as MonthlyBudget);
 
   useEffect(() => {
-    fetchMonthBudgetById();
+    fetchMonthBudget();
   }, []);
 
-  async function fetchMonthBudgetById() {
+  async function fetchMonthBudget() {
     const response = await fetch(`${routes.monthlyBudget.root}/${monthlyBudgetId}`, {
       cache: "no-cache",
     });
@@ -44,7 +44,7 @@ export default function MonthlyBudgetPage({ params }: { params: { id: string } }
       toastError("Failed to fetch data");
     }
 
-    fetchMonthBudgetById();
+    fetchMonthBudget();
   }
 
   return (
@@ -61,7 +61,9 @@ export default function MonthlyBudgetPage({ params }: { params: { id: string } }
         <div className="flex flex-col gap-2">
           {monthlyBudget.cards &&
             monthlyBudget.cards.map(card => {
-              return <AmountCard className="w-[500px]" key={card.id} card={card} />;
+              return (
+                <AmountCard updateMonthlyCard={fetchMonthBudget} className="w-[500px]" key={card.id} card={card} />
+              );
             })}
           <div
             onClick={fetchCreateCard}

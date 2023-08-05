@@ -7,4 +7,7 @@ export const routes = {
   monthlyBudgetCard: {
     root: `${BASEAPI_URL}/card`,
   },
+  monthlyBudgetCardItem: {
+    root: `${BASEAPI_URL}/card-item`,
+  },
 };
