@@ -54,6 +54,10 @@ public class MontlyBudgetComponentService {
         return buildCard(INITIAL_DESCRIPTION);
     }
 
+    public CardItem createCardItemInstance(String description) {
+        return buildCardItem(description);
+    }
+
     /**
      * Constructs a card item with a standard card item inserted
      *
