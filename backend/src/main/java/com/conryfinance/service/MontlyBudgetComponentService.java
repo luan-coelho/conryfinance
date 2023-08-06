@@ -67,9 +67,6 @@ public class MontlyBudgetComponentService {
     private Card buildCard(String description) {
         Card newCard = new Card();
         newCard.setDescription(description);
-        CardItem cardItem = buildCardItem(INITIAL_DESCRIPTION);
-        cardItem.setCard(newCard);
-        newCard.getCardItems().add(cardItem);
         return newCard;
     }
 

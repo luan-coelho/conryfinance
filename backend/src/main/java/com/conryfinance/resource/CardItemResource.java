@@ -30,7 +30,7 @@ public class CardItemResource {
         return Response.status(Response.Status.NO_CONTENT).build();
     }
 
-    @Path("/{id}")
+    @Path("/update-description/{id}")
     @POST
     public Response updateDescription(@PathParam("id") Long id, @Valid NewDescriptionCardDTO requestBody) {
         CardItem cardItem = cardItemService.updateDescription(id, requestBody.newDescription());
