@@ -4,17 +4,11 @@ import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import * as React from "react";
 
 import { Button } from "../ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { ConfirmDialog } from "./confirm-dialog";
 
 import { routes } from "@/routes";
-import { toastError, toastSuccess } from "@/utils/toast";
+import { toastError } from "@/utils/toast";
 
 interface PresetActionsProps {
   cardId: number;
@@ -22,8 +16,6 @@ interface PresetActionsProps {
 }
 
 export function PresetActions({ cardId, updateMonthlyBudgets }: PresetActionsProps) {
-  const [showDeleteDialog, setShowDeleteDialog] = React.useState(false);
-
   async function handleDeleteById() {
     const response = await fetch(`${routes.monthlyBudgetCard.root}/${cardId}`, {
       method: "DELETE",
@@ -49,12 +41,10 @@ export function PresetActions({ cardId, updateMonthlyBudgets }: PresetActionsPro
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="bg-white" align="end">
-          <DropdownMenuItem>
-            <div className="text-red-600 flex items-center justify-center gap-2">
-              Deletar
-              <ConfirmDialog confirmAction={handleDeleteById} />
-            </div>
-          </DropdownMenuItem>
+          <div className="text-red-600 flex items-center justify-center gap-2">
+            Deletar
+            <ConfirmDialog confirmAction={handleDeleteById} />
+          </div>
           <DropdownMenuSeparator />
         </DropdownMenuContent>
       </DropdownMenu>

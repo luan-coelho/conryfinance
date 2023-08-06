@@ -11,11 +11,11 @@ export default function EmptyAmountCard({ description, amount, className }: Empt
   return (
     <Card
       className={twMerge(
-        "bg-white border-1 rounded-xl shadow p-3 w-[200px] min-h-[100px] max-h-[100px] flex flex-col items-center justify-center",
+        "bg-white border-1 rounded-xl shadow p-3 w-[200px] min-h-[100px] max-h-[100px] flex flex-col items-center justify-center gap-2",
         className,
       )}>
-      <h2 className="text-base font-bold">{description}</h2>
-      <div className="text-4xl">R${amount}</div>
+      <h2 className="text-xl font-bold">{description}</h2>
+      <div className="text-4xl font-bold">R${amount}</div>
     </Card>
   );
 }

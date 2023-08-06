@@ -1,7 +1,6 @@
 "use client";
 
 import AmountCard from "@/components/application/monthlybudget/card/amount-card";
-import { AmountCardCreateForm } from "@/components/application/monthlybudget/card/amout-card-create-form";
 import EmptyAmountCard from "@/components/application/monthlybudget/card/empty-amount-card";
 import Title from "@/components/commons/title";
 import { routes } from "@/routes";

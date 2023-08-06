@@ -1,16 +1,9 @@
 "use client";
 
-import { GemIcon } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import SidebarMenu from "./sidebar-menu";
+import SidebarMenuItem from "./sidebar-menu-item";
 
 export default function Sidebar() {
-  const activePathName = usePathname();
-
-  function getStyleForPath(pathName: string): string | undefined {
-    return activePathName == pathName ? "active-menu-item" : "menu-item";
-  }
-
   return (
     <aside className="fixed bg-[#101727] text-white sm:min-w-full md:min-w-[300px] min-h-screen p-4 grid content-between">
       <div>
@@ -29,17 +22,9 @@ export default function Sidebar() {
         </div>
 
         <div>
-          <span className="text-xs text-gray-300 font-medium">FINANCES</span>
-          <ul className="my-1">
-            <li className={getStyleForPath("/monthlybudgets")}>
-              <Link href={"/monthlybudgets"}>
-                <div className="flex items-center gap-2">
-                  <GemIcon />
-                  <span>Orçamentos mensais</span>
-                </div>
-              </Link>
-            </li>
-          </ul>
+          <SidebarMenu description="finances">
+            <SidebarMenuItem description="Orçamentos" path="/monthlybudgets" />
+          </SidebarMenu>
         </div>
       </div>
 
