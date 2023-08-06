@@ -15,3 +15,11 @@
 .active-menu-item {
   @apply bg-blue-500 text-gray-200 px-4 py-1 rounded;
 }
+
+.input {
+  @apply focus:border-violet-500 focus:border-2 border-gray-300 hover:border-2 rounded;
+}
+
+.square-input {
+  @apply focus:border-violet-500 focus:border-2 border-gray-300 hover:border-2 rounded rounded-l-lg;
+}

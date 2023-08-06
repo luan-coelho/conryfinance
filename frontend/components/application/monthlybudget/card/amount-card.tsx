@@ -11,8 +11,15 @@ import { toastError } from "@/utils/toast";
 import { Check, PlusCircle, X } from "lucide-react";
 import { ComponentProps, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { addDays, format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import AmountCardItem from "./amount-card-item";
+import ptBR from "date-fns/locale/pt-BR";
 
 type AmountCardProps = ComponentProps<"div"> & {
   card: MonthlyBudgetCard;
@@ -21,8 +28,10 @@ type AmountCardProps = ComponentProps<"div"> & {
 
 export default function AmountCard({ card, updateMonthlyCard, className }: AmountCardProps) {
   const [description, setDescription] = useState<string>();
+  const [amount, setAmount] = useState<string>();
   const [editDescriptionCard, setEditDescriptionCard] = useState<boolean>(false);
   const [descriptionCard, setDescriptionCard] = useState<string>(card.description);
+  const [date, setDate] = useState<Date>();
 
   function changeDescription() {
     const input = document.getElementById("card-description") as HTMLInputElement;
@@ -104,26 +113,57 @@ export default function AmountCard({ card, updateMonthlyCard, className }: Amoun
           <NoData text="Ainda não há nenhum orçamento cadastrado" />
         )}
 
-        <div>
-          <div className="group flex items-center gap-2">
-            <Input
-              id="description"
-              placeholder="Descrição do item"
-              className="col-span-3 min-w-full placeholder:text-gray-500 border-gray-300 group-hover:border-2 group-hover:border-green-600 delay-100 rounded"
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-            />
+        <div className="grid grid-cols-12 items-center gap-2">
+          <Input
+            id="description"
+            placeholder="Descrição do item"
+            className="col-span-4 input placeholder:text-gray-500"
+            value={description}
+            onChange={e => setDescription(e.target.value)}
+          />
 
-            <div className="relative right-[7.5rem]">
-              <Button
-                disabled={!description}
-                onClick={fetchCreateCardItem}
-                className="flex items-center justify-center gap-1 group-hover:text-green-600 delay-100">
-                <span>Adicionar</span>
-                <PlusCircle />
-              </Button>
-            </div>
+          <div className="col-span-3">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "text-gray-500 w-full justify-start text-left input",
+                    !date && "text-muted-foreground",
+                  )}>
+                  <CalendarIcon className="text-gray-500 mr-2 h-4 w-4" />
+                  {date ? format(date, "dd/MM/yyyy") : <span className="text-gray-500">Data</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="bg-white flex w-auto flex-col space-y-2 p-2">
+                <Select onValueChange={value => setDate(addDays(new Date(), parseInt(value)))} />
+                <div className="rounded-md border">
+                  <Calendar mode="single" selected={date} onSelect={setDate} locale={ptBR} />
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
+
+          <div className="col-span-2 flex items-center">
+            <div className="bg-gray-200 flex items-center px-1 border border-gray-200 h-10">
+              <span className="font-semibold text-gray-500">R$</span>
+            </div>
+            <Input
+              id="item-amount"
+              placeholder="Valor"
+              className="square-input placeholder:text-gray-500"
+              value={amount}
+              onChange={e => setAmount(e.target.value)}
+            />
+          </div>
+
+          <Button
+            disabled={!description || !amount || !date}
+            onClick={fetchCreateCardItem}
+            className="col-span-3 border border-green-600 flex items-center justify-center gap-1 text-green-600 delay-100">
+            <PlusCircle />
+            <span>Adicionar</span>
+          </Button>
         </div>
       </div>
     </Card>

@@ -60,13 +60,11 @@ export default function MonthlyBudgetPage({ params }: { params: { id: string } }
           </div>
         </div>
       </div>
-      <div className="flex gap-3">
-        <div className="flex flex-col gap-2">
+      <div className="grid grid-cols-12 gap-3">
+        <div className="col-span-10 flex flex-col gap-2">
           {monthlyBudget.cards &&
             monthlyBudget.cards.map(card => {
-              return (
-                <AmountCard updateMonthlyCard={fetchMonthBudget} className="w-[500px]" key={card.id} card={card} />
-              );
+              return <AmountCard updateMonthlyCard={fetchMonthBudget} key={card.id} card={card} />;
             })}
           <div
             onClick={fetchCreateCard}
@@ -75,7 +73,7 @@ export default function MonthlyBudgetPage({ params }: { params: { id: string } }
           </div>
         </div>
 
-        <div className="flex gap-2 flex-col">
+        <div className="col-span-2 flex gap-2 flex-col">
           <EmptyAmountCard className="bg-blue-600 text-white" description={"Orçamento"} amount="0,00" />
           <EmptyAmountCard className="bg-green-600 text-white" description={"Disponivel"} amount="0,00" />
           <EmptyAmountCard className="bg-red-600 text-white" description={"Total"} amount="0,00" />
