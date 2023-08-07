@@ -16,7 +16,7 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select } from "@/components/ui/select";
 
 import AmountCardItem from "./amount-card-item";
 import ptBR from "date-fns/locale/pt-BR";
@@ -29,14 +29,37 @@ type AmountCardProps = ComponentProps<"div"> & {
 export default function AmountCard({ card, updateMonthlyCard, className }: AmountCardProps) {
   const [description, setDescription] = useState<string>();
   const [amount, setAmount] = useState<string>();
+
   const [editDescriptionCard, setEditDescriptionCard] = useState<boolean>(false);
   const [descriptionCard, setDescriptionCard] = useState<string>(card.description);
-  const [date, setDate] = useState<Date>();
+  const [eventDateTime, setEventDateTime] = useState<Date>();
 
   function changeDescription() {
     const input = document.getElementById("card-description") as HTMLInputElement;
     input.focus();
     setEditDescriptionCard(false);
+  }
+
+  const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+
+    const numericValue = value.replace(/[^0-9]/g, "");
+
+    if (numericValue) {
+      const numberValue = parseFloat(numericValue) / 100;
+
+      const formattedValue = numberValue.toLocaleString("pt-BR", { style: "decimal", minimumFractionDigits: 2 });
+
+      setAmount(formattedValue);
+    } else {
+      setAmount("");
+    }
+  };
+
+  function formatToGlobalNumber(value: string): string {
+    const withoutThousandSeparator = value.replace(/\./g, "");
+    const withDecimalPoint = withoutThousandSeparator.replace(",", ".");
+    return withDecimalPoint;
   }
 
   async function fetchCreateCardItem() {
@@ -45,7 +68,7 @@ export default function AmountCard({ card, updateMonthlyCard, className }: Amoun
       headers: { "Content-Type": "application/json" },
       cache: "no-cache",
       mode: "cors",
-      body: JSON.stringify({ description: description }),
+      body: JSON.stringify({ description, amount: formatToGlobalNumber(amount!), eventDateTime }),
     });
 
     if (!response.ok) {
@@ -53,7 +76,7 @@ export default function AmountCard({ card, updateMonthlyCard, className }: Amoun
     }
 
     updateMonthlyCard();
-    setDescription("");
+    // setDescription("");
   }
 
   async function fetchUpdateCardDescription() {
@@ -80,7 +103,7 @@ export default function AmountCard({ card, updateMonthlyCard, className }: Amoun
             <div className="flex border rounded-md w-full">
               <Input
                 id="card-description"
-                className="col-span-3 w-full border-2 border-blue-500 delay-100 rounded-l-lg"
+                className="col-span-3 w-full border-2 input rounded-l-lg"
                 value={descriptionCard}
                 onChange={e => setDescriptionCard(e.target.value)}
               />
@@ -129,16 +152,16 @@ export default function AmountCard({ card, updateMonthlyCard, className }: Amoun
                   variant={"outline"}
                   className={cn(
                     "text-gray-500 w-full justify-start text-left input",
-                    !date && "text-muted-foreground",
+                    !eventDateTime && "text-muted-foreground",
                   )}>
                   <CalendarIcon className="text-gray-500 mr-2 h-4 w-4" />
-                  {date ? format(date, "dd/MM/yyyy") : <span className="text-gray-500">Data</span>}
+                  {eventDateTime ? format(eventDateTime, "dd/MM/yyyy") : <span className="text-gray-500">Data</span>}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="bg-white flex w-auto flex-col space-y-2 p-2">
-                <Select onValueChange={value => setDate(addDays(new Date(), parseInt(value)))} />
+                <Select onValueChange={value => setEventDateTime(addDays(new Date(), parseInt(value)))} />
                 <div className="rounded-md border">
-                  <Calendar mode="single" selected={date} onSelect={setDate} locale={ptBR} />
+                  <Calendar mode="single" selected={eventDateTime} onSelect={setEventDateTime} locale={ptBR} />
                 </div>
               </PopoverContent>
             </Popover>
@@ -146,19 +169,19 @@ export default function AmountCard({ card, updateMonthlyCard, className }: Amoun
 
           <div className="col-span-2 flex items-center">
             <div className="bg-gray-200 flex items-center px-1 border border-gray-200 h-10">
-              <span className="font-semibold text-gray-500">R$</span>
+              <span className="rounded font-semibold text-gray-500">R$</span>
             </div>
             <Input
               id="item-amount"
               placeholder="Valor"
               className="square-input placeholder:text-gray-500"
               value={amount}
-              onChange={e => setAmount(e.target.value)}
+              onChange={handleAmountChange}
             />
           </div>
 
           <Button
-            disabled={!description || !amount || !date}
+            disabled={!description || !amount || !eventDateTime}
             onClick={fetchCreateCardItem}
             className="col-span-3 border border-green-600 flex items-center justify-center gap-1 text-green-600 delay-100">
             <PlusCircle />

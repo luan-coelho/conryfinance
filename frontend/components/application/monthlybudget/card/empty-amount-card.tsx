@@ -4,10 +4,21 @@ import { twMerge } from "tailwind-merge";
 
 type EmptyAmountCardProps = ComponentProps<"div"> & {
   description: string;
-  amount: string;
+  amount: number;
 };
 
 export default function EmptyAmountCard({ description, amount, className }: EmptyAmountCardProps) {
+  function formatToBRL(value: string): string {
+    const numberValue = parseFloat(value);
+
+    const formattedValue = numberValue.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+
+    return formattedValue;
+  }
+
   return (
     <Card
       className={twMerge(
@@ -15,7 +26,7 @@ export default function EmptyAmountCard({ description, amount, className }: Empt
         className,
       )}>
       <h2 className="text-xl font-bold">{description}</h2>
-      <div className="text-4xl font-bold">R${amount}</div>
+      <div className="text-4xl font-bold">{amount && formatToBRL(amount.toString())}</div>
     </Card>
   );
 }

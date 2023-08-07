@@ -11,13 +11,24 @@ type AmountCardItemProps = {
 
 export default function AmountCardItem({ cardItem, updateCard }: AmountCardItemProps) {
   async function handleDeleteById() {
-    const response = await fetch(`${routes.monthlyBudgetCardItem.root}/${cardItem.id}`, {
+    await fetch(`${routes.monthlyBudgetCardItem.root}/${cardItem.id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       mode: "cors",
     });
 
     updateCard();
+  }
+
+  function formatToBRL(value: string): string {
+    const numberValue = parseFloat(value);
+
+    const formattedValue = numberValue.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+
+    return formattedValue;
   }
 
   return (
@@ -28,7 +39,7 @@ export default function AmountCardItem({ cardItem, updateCard }: AmountCardItemP
           <span className="text-sm">20/02/2023</span>
         </div>
         <div className="flex items-center justify-center gap-2">
-          <span className="text-xl font-bold">R${cardItem.amount}</span>
+          <span className="text-xl font-bold">{formatToBRL(cardItem.amount.toString())}</span>
           <Button onClick={handleDeleteById} className="text-gray-500 hover:text-gray-400 p-0">
             <Trash />
           </Button>

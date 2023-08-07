@@ -1,6 +1,7 @@
 "use client";
 
 import AmountCard from "@/components/application/monthlybudget/card/amount-card";
+import BudgetCard from "@/components/application/monthlybudget/card/budget-card";
 import EmptyAmountCard from "@/components/application/monthlybudget/card/empty-amount-card";
 import Title from "@/components/commons/title";
 import { routes } from "@/routes";
@@ -61,7 +62,7 @@ export default function MonthlyBudgetPage({ params }: { params: { id: string } }
         </div>
       </div>
       <div className="grid grid-cols-12 gap-3">
-        <div className="col-span-10 flex flex-col gap-2">
+        <div className="col-span-10 flex flex-col gap-4">
           {monthlyBudget.cards &&
             monthlyBudget.cards.map(card => {
               return <AmountCard updateMonthlyCard={fetchMonthBudget} key={card.id} card={card} />;
@@ -74,9 +75,22 @@ export default function MonthlyBudgetPage({ params }: { params: { id: string } }
         </div>
 
         <div className="col-span-2 flex gap-2 flex-col">
-          <EmptyAmountCard className="bg-blue-600 text-white" description={"Orçamento"} amount="0,00" />
-          <EmptyAmountCard className="bg-green-600 text-white" description={"Disponivel"} amount="0,00" />
-          <EmptyAmountCard className="bg-red-600 text-white" description={"Total"} amount="0,00" />
+          <BudgetCard
+            className="bg-blue-600 text-white"
+            description={"Orçamento"}
+            monthlyBudget={monthlyBudget}
+            updateMonthlyCard={fetchMonthBudget}
+          />
+          <EmptyAmountCard
+            className="bg-green-600 text-white"
+            description={"Disponivel"}
+            amount={monthlyBudget.remainingTotalAmount}
+          />
+          <EmptyAmountCard
+            className="bg-red-600 text-white"
+            description={"Total"}
+            amount={monthlyBudget.totalAmountSpent}
+          />
         </div>
       </div>
     </div>
