@@ -1,5 +1,6 @@
 package com.conryfinance.model.monthlybudget;
 
+import com.conryfinance.dto.carditem.CardItemCreateDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,4 +24,8 @@ public class CardItem {
     private LocalDateTime eventDateTime;
     @ManyToOne
     private Card card;
+
+    public static CardItem dataTransferObjectToEntity(CardItemCreateDTO dto) {
+        return new CardItem(null, dto.description(), dto.amount(), dto.eventDateTime(), null);
+    }
 }

@@ -10,6 +10,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @ApplicationScoped
@@ -44,6 +45,13 @@ public class MonthlyBudgetService extends BaseService<MonthlyBudget, MonthlyBudg
     public void updateDescription(Long montlyBudgetId, String newDescription) {
         MonthlyBudget monthlyBudget = findById(montlyBudgetId);
         monthlyBudget.setDescription(newDescription);
+        this.repository.persist(monthlyBudget);
+    }
+
+    @Transactional
+    public void updateBudget(Long montlyBudgetId, BigDecimal newBudget) {
+        MonthlyBudget monthlyBudget = findById(montlyBudgetId);
+        monthlyBudget.setBudget(newBudget);
         this.repository.persist(monthlyBudget);
     }
 }

@@ -18,7 +18,7 @@ public class CardItemResource {
 
     @POST
     public Response create(@QueryParam("card") Long card, @Valid CardItemCreateDTO cardItemCreateDTO) {
-        CardItem cardItem = cardItemService.create(card, cardItemCreateDTO.description());
+        CardItem cardItem = cardItemService.create(card, cardItemCreateDTO);
         CardItemResponseDTO dto = CardItemResponseDTO.toDataTransferObject(cardItem);
         return Response.ok(dto).build();
     }

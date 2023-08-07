@@ -1,5 +1,6 @@
 package com.conryfinance.service;
 
+import com.conryfinance.dto.carditem.CardItemCreateDTO;
 import com.conryfinance.model.monthlybudget.Card;
 import com.conryfinance.model.monthlybudget.CardItem;
 import com.conryfinance.repository.CardItemRepository;
@@ -12,18 +13,15 @@ import jakarta.ws.rs.QueryParam;
 public class CardItemService extends BaseService<CardItem, CardItemRepository> {
 
     @Inject
-    MontlyBudgetComponentService montlyBudgetComponentService;
-
-    @Inject
     CardService cardService;
 
     @Transactional
-    public CardItem create(@QueryParam("monthlybudget") Long monthlyBudgetId, String description) {
-        CardItem defaultCardItemInstance = montlyBudgetComponentService.createCardItemInstance(description);
+    public CardItem create(@QueryParam("monthlybudget") Long monthlyBudgetId, CardItemCreateDTO cardItemCreateDTO) {
+        CardItem cardItem = CardItem.dataTransferObjectToEntity(cardItemCreateDTO);
         Card card = cardService.findById(monthlyBudgetId);
-        defaultCardItemInstance.setCard(card);
-        this.repository.persist(defaultCardItemInstance);
-        return defaultCardItemInstance;
+        cardItem.setCard(card);
+        this.repository.persist(cardItem);
+        return cardItem;
     }
 
     @Transactional

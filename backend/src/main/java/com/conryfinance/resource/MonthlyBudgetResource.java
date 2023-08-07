@@ -4,12 +4,15 @@ import com.conryfinance.commons.pagination.Pageable;
 import com.conryfinance.commons.pagination.PagedData;
 import com.conryfinance.dto.montlybudget.MonthlyBudgetCreateDTO;
 import com.conryfinance.dto.montlybudget.MonthlyBudgetResponseDTO;
+import com.conryfinance.dto.montlybudget.MonthlyBudgetUpdateBudgetDTO;
 import com.conryfinance.model.monthlybudget.MonthlyBudget;
 import com.conryfinance.service.MonthlyBudgetService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
+
+import java.math.BigDecimal;
 
 @Path("/monthlybudget")
 public class MonthlyBudgetResource {
@@ -42,6 +45,18 @@ public class MonthlyBudgetResource {
     @POST
     public Response updateDescription(@PathParam("id") Long montlyBudgetId, String newDescription) {
         monthlyBudgetService.updateDescription(montlyBudgetId, newDescription);
+        return Response.status(Response.Status.NO_CONTENT).build();
+    }
+
+    static record Update (String newBudget){
+
+    }
+
+    @Path("/update-budget/{id}")
+    @POST
+    public Response updateBudget(@PathParam("id") Long montlyBudgetId, MonthlyBudgetUpdateBudgetDTO dto) {
+        BigDecimal budget = new BigDecimal(dto.newBudget());
+        monthlyBudgetService.updateBudget(montlyBudgetId, budget);
         return Response.status(Response.Status.NO_CONTENT).build();
     }
 
