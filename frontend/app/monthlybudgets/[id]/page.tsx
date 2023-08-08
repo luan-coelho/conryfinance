@@ -3,6 +3,7 @@
 import AmountCard from "@/components/application/monthlybudget/card/amount-card";
 import BudgetCard from "@/components/application/monthlybudget/card/budget-card";
 import EmptyAmountCard from "@/components/application/monthlybudget/card/empty-amount-card";
+import RouteBack from "@/components/commons/route-back";
 import Title from "@/components/commons/title";
 import { routes } from "@/routes";
 import { MonthlyBudget } from "@/types";
@@ -55,6 +56,7 @@ export default function MonthlyBudgetPage({ params }: { params: { id: string } }
     <div>
       <div className="flex items-center justify-between">
         <div className="flex gap-2 items-center">
+          <RouteBack />
           <Title>{monthlyBudget.description}</Title>
           <div className="bg-blue-600 text-white rounded-2xl py-0 opacity-75 p-2">
             <span className="text-sm opacity-100">{getMonthNameFromDate(monthlyBudget.period)}</span>

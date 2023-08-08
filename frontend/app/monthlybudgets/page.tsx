@@ -2,6 +2,7 @@
 
 import MonthlyBudgetCard from "@/components/application/monthlybudget/monthlybudget-card";
 import { MonthlyBudgetCreateForm } from "@/components/application/monthlybudget/monthlybudget-create-form";
+import RouteBack from "@/components/commons/route-back";
 import Title from "@/components/commons/title";
 import Investment from "@/public/images/Investment.svg";
 import { routes } from "@/routes";
@@ -34,9 +35,10 @@ export default function MonthlyBudgetsPage() {
 
   return (
     <div>
+      <RouteBack />
       <Title>Orçamentos Mensais</Title>
       {monthlyBudgets.length > 0 ? (
-        <div className="grid sm:grid-cols-1 grid-cols-1 gap-2 place-content-center place-items-center">
+        <div className="grid sm:grid-cols-1 grid-cols-1 gap-2 place-content-center place-items-center mt-6">
           {monthlyBudgets.map(mb => {
             return <MonthlyBudgetCard key={mb.id} monthlyBudget={mb} setMonthlyBudgets={fetchMonthlyBudgets} />;
           })}

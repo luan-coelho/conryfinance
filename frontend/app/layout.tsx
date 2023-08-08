@@ -12,25 +12,29 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const TC = (
+    <ToastContainer
+      position="top-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="colored"
+    />
+  );
+
   return (
     <html lang="pt-br">
-      <body className="bg-gray-200 flex">
-        <Sidebar />
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-        />
-        <div className="w-full ml-[300px]">
-          <Header />
-          <main className="mt-14 p-10">{children}</main>
+      <body>
+        {TC}
+        <Header />
+        <div className="w-full flex">
+          <Sidebar />
+          <main className="p-8">{children}</main>
         </div>
       </body>
     </html>
