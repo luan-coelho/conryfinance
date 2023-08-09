@@ -1,15 +1,11 @@
-"use client";
-
+import SidebarMenu from "./sidebar-menu";
 import SidebarMenuItem from "./sidebar-menu-item";
+import SidebarMenuItemDescription from "./sidebar-menu-item-description";
+import SidebarRoot from "./sidebar-root";
 
-export default function Sidebar() {
-  return (
-    <aside className="bg-neutral-100 min-w-[300px] max-w-[300px] min-h-screen p-4 grid content-between border-r border-gray-300">
-      <div>
-        <div>
-          <SidebarMenuItem description="Orçamentos" pathName="/monthlybudgets" />
-        </div>
-      </div>
-    </aside>
-  );
-}
+export const Sidebar = {
+  Root: SidebarRoot,
+  SidebarMenu: SidebarMenu,
+  SidebarMenuItem: SidebarMenuItem,
+  SidebarMenuItemDescription: SidebarMenuItemDescription,
+};

@@ -46,7 +46,7 @@ export default function MonthlyBudgetCard({ monthlyBudget, setMonthlyBudgets }: 
 
   return (
     <>
-      <div className="min-w-[500px] border-1 bg-white rounded-lg shadow p-6">
+      <Card className="min-w-[500px] border-1 bg-white rounded-lg shadow p-6">
         <div className="flex items-center justify-between">
           <h2 className="text-zinc-900 text-lg font-medium">{monthlyBudget.description}</h2>
           <div className="flex items-center gap-1">
@@ -75,7 +75,7 @@ export default function MonthlyBudgetCard({ monthlyBudget, setMonthlyBudgets }: 
 
           <ConfirmDialog confirmAction={handleDeleteById} />
         </div> */}
-      </div>
+      </Card>
     </>
   );
 }

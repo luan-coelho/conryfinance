@@ -1,11 +1,11 @@
 import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import type { Metadata } from "next";
-import Sidebar from "@/components/application/layout/sidebar";
 import { ToastContainer } from "react-toastify";
 import React from "react";
 import Header from "@/components/application/layout/header";
 import RouteBack from "@/components/commons/route-back";
+import { Sidebar } from "@/components/application/layout/sidebar/index";
 
 export const metadata: Metadata = {
   title: "Conry Finance",
@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {TC}
         <Header />
         <div className="w-full flex">
-          <Sidebar />
+          <Sidebar.Root />
           <main className="p-8">
             <RouteBack />
             {children}
