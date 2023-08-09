@@ -10,8 +10,8 @@ type SidebarMenuItemProps = {
 export default function SidebarMenuItem({ description, pathName }: SidebarMenuItemProps) {
   const activePathName = usePathname();
   const itemTextStyle = activePathName == pathName ? "font-medium" : "font-normal";
-  const iconTextStyle = activePathName == pathName ? "text-sky-500" : "text-zinc-600";
-  const itemBorderStyle = activePathName == pathName ? " border border-gray-200" : "";
+  const iconTextStyle = activePathName == pathName ? "text-lightblue-500" : "text-zinc-600";
+  const itemBorderStyle = activePathName == pathName ? "border border-gray-200" : "";
 
   return (
     <Link href={pathName}>

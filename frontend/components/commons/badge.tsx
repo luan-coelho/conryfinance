@@ -6,11 +6,11 @@ type BadgeProps = {
 
 export default function Badge({ children }: BadgeProps) {
   return (
-    <div className="w-14 h-6 text-center text-green-600 text-xs font-medium leading-tight justify-start items-start inline-flex">
-      <div className="px-1.5 py-0.5 bg-green-100 rounded-md justify-start items-center gap-1 flex">
-        <Calendar className="w-3 h-3" />
-        <div>{children}</div>
+    <>
+      <div className="bg-green-100 text-center border border-green-500 text-green-600 text-[13px] font-medium px-2 py-1 rounded-lg flex items-center gap-1">
+        <Calendar size={"16px"} />
+        <span>{children}</span>
       </div>
-    </div>
+    </>
   );
 }

@@ -96,7 +96,7 @@ export function MonthlyBudgetCreateForm({ setMonthlyBudgets }: MonthlyBudgetCrea
           onClick={() => {
             setOpen(true);
           }}
-          className="bg-blue-600 hover:bg-blue-500 text-white rounded px-2 py-0 w-full">
+          className="bg-lightblue-500 hover:bg-blue-500 text-white rounded px-2 py-0 w-full">
           <PlusCircle className="mr-2" /> Cadastrar
         </Button>
       </DialogTrigger>

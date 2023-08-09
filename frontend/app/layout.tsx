@@ -5,6 +5,7 @@ import Sidebar from "@/components/application/layout/sidebar";
 import { ToastContainer } from "react-toastify";
 import React from "react";
 import Header from "@/components/application/layout/header";
+import RouteBack from "@/components/commons/route-back";
 
 export const metadata: Metadata = {
   title: "Conry Finance",
@@ -34,7 +35,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <div className="w-full flex">
           <Sidebar />
-          <main className="p-8">{children}</main>
+          <main className="p-8">
+            <RouteBack />
+            {children}
+          </main>
         </div>
       </body>
     </html>
