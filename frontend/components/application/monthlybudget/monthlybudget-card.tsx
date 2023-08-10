@@ -9,7 +9,7 @@ import { routes } from "@/routes";
 import { MonthlyBudget } from "@/types";
 import { getMonthNameFromDate } from "@/utils/dateutils";
 import { toastError, toastSuccess } from "@/utils/toast";
-import { Eye, EyeIcon } from "lucide-react";
+import { Eye } from "lucide-react";
 import Link from "next/link";
 
 interface MonthlyBudgetCardProps {
@@ -65,11 +65,9 @@ export default function MonthlyBudgetCard({ monthlyBudget, setMonthlyBudgets }: 
             <span className="text-zinc-900 text-2xl font-medium">{formatToBRL(monthlyBudget.budget.toString())}</span>
           </div>
           <div className="flex items-end">
-            <Link
-              className="flex items-center gap-2 px-3 py-1 bg-lightblue-500 rounded-lg shadow justify-start text-center text-white text-base font-medium"
-              href={`/monthlybudgets/${monthlyBudget.id}`}>
-              Visualizar
+            <Link className="app-button" href={`/monthlybudgets/${monthlyBudget.id}`}>
               <Eye />
+              Visualizar
             </Link>
           </div>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import MonthlyBudgetCard from "@/components/application/monthlybudget/monthlybudget-card";
+import MonthlyBudgetCardSkeleton from "@/components/application/monthlybudget/monthlybudget-card-skeleton";
 import { MonthlyBudgetCreateForm } from "@/components/application/monthlybudget/monthlybudget-create-form";
 import Title from "@/components/commons/title";
 import Investment from "@/public/images/Investment.svg";
@@ -8,36 +9,33 @@ import { routes } from "@/routes";
 import { MonthlyBudget } from "@/types";
 import { toastError } from "@/utils/toast";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 
 export default function MonthlyBudgetsPage() {
-  const [monthlyBudgets, setMonthlyBudgets] = useState<MonthlyBudget[]>([]);
+  const { isLoading, isError, data, error } = useQuery<MonthlyBudget[]>("monthlyBudgets", fetchMonthlyBudgets);
 
-  useEffect(() => {
-    fetchMonthlyBudgets();
-    document.title = "Orçamentos Mensais";
-  }, []);
-
-  async function fetchMonthlyBudgets() {
+  async function fetchMonthlyBudgets(): Promise<MonthlyBudget[]> {
     const response = await fetch(routes.monthlyBudget.root, {
       cache: "no-cache",
     });
-
-    if (!response.ok) {
-      toastError("Failed to fetch data");
-    }
-
     const json = await response.json();
-    const monthlyBudgets = json.data as MonthlyBudget[];
-    setMonthlyBudgets(monthlyBudgets);
+    return json.data as MonthlyBudget[];
   }
 
   return (
     <>
-      <Title>Orçamentos Mensais</Title>
-      {monthlyBudgets.length > 0 ? (
-        <div className="grid sm:grid-cols-1 grid-cols-1 gap-2 place-content-center place-items-center mt-6">
-          {monthlyBudgets.map(mb => {
+      <div className="flex items-center justify-between">
+        <Title>Orçamentos Mensais</Title>
+        <MonthlyBudgetCreateForm setMonthlyBudgets={fetchMonthlyBudgets} />
+      </div>
+
+      {isLoading ? (
+        <div className="grid grid-cols-1 gap-2 mt-6">
+          <MonthlyBudgetCardSkeleton />
+        </div>
+      ) : data && data.length > 0 ? (
+        <div className="grid grid-cols-1 gap-2 mt-6">
+          {data.map(mb => {
             return <MonthlyBudgetCard key={mb.id} monthlyBudget={mb} setMonthlyBudgets={fetchMonthlyBudgets} />;
           })}
         </div>
@@ -49,9 +47,6 @@ export default function MonthlyBudgetsPage() {
           </span>
         </div>
       )}
-      <div className="mt-4">
-        <MonthlyBudgetCreateForm setMonthlyBudgets={fetchMonthlyBudgets} />
-      </div>
     </>
   );
 }
