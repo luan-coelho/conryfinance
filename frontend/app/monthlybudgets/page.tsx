@@ -33,7 +33,7 @@ export default function MonthlyBudgetsPage() {
   }
 
   return (
-    <div>
+    <>
       <Title>Orçamentos Mensais</Title>
       {monthlyBudgets.length > 0 ? (
         <div className="grid sm:grid-cols-1 grid-cols-1 gap-2 place-content-center place-items-center mt-6">
@@ -52,6 +52,6 @@ export default function MonthlyBudgetsPage() {
       <div className="mt-4">
         <MonthlyBudgetCreateForm setMonthlyBudgets={fetchMonthlyBudgets} />
       </div>
-    </div>
+    </>
   );
 }

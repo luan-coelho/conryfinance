@@ -9,7 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Trash } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/button";
 
@@ -28,7 +27,7 @@ export function ConfirmDialog({ confirmAction }: ConfirmDialogProps) {
         }}
         className="cursor-pointer"
         asChild>
-        <Trash className="text-red-500" />
+        <span className="text-red-600">Deletar</span>
       </DialogTrigger>
       <DialogContent className="max-w-[425px] border border-gray-300 bg-white">
         <DialogHeader>

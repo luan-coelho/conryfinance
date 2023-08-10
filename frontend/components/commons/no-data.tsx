@@ -1,11 +1,7 @@
-interface NoDataProps {
+type NoDataProps = {
   text: string;
-}
+};
 
 export function NoData({ text }: NoDataProps) {
-  return (
-    <span className="min-w-full text-center text-violet-600 p-2 border rounded border-violet-600 border-dashed">
-      {text}
-    </span>
-  );
+  return <span className="my-2 font-medium text-center p-2 border-2 rounded border-dashed">{text}</span>;
 }

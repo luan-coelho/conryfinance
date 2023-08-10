@@ -1,6 +1,5 @@
 "use client";
 
-import { PresetActions } from "@/components/commons/actions";
 import { NoData } from "@/components/commons/no-data";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -8,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { routes } from "@/routes";
 import { MonthlyBudgetCard } from "@/types";
 import { toastError } from "@/utils/toast";
-import { Check, PlusCircle, X } from "lucide-react";
+import { Check, Gem, PlusCircle, X } from "lucide-react";
 import { ComponentProps, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { addDays, format } from "date-fns";
@@ -20,6 +19,7 @@ import { Select } from "@/components/ui/select";
 
 import AmountCardItem from "./amount-card-item";
 import ptBR from "date-fns/locale/pt-BR";
+import { PresentActions } from "@/components/commons/present-actions";
 
 type AmountCardProps = ComponentProps<"div"> & {
   card: MonthlyBudgetCard;
@@ -96,7 +96,7 @@ export default function AmountCard({ card, updateMonthlyCard, className }: Amoun
   }
 
   return (
-    <Card className={twMerge("bg-white border-1 rounded-xl shadow p-3 min-h-[130px]", className)}>
+    <Card className={twMerge("min-h-[130px] bg-white border-1 rounded-xl shadow p-6", className)}>
       <div className="flex flex-col justify-between gap-2 h-full">
         <div className="flex items-center justify-between gap-2">
           {editDescriptionCard ? (
@@ -119,33 +119,36 @@ export default function AmountCard({ card, updateMonthlyCard, className }: Amoun
               </Button>
             </div>
           ) : (
-            <h2 onDoubleClick={() => setEditDescriptionCard(true)} className="text-lg font-bold">
+            <h2
+              onDoubleClick={() => setEditDescriptionCard(true)}
+              className="text-zinc-900 text-lg font-medium flex items-center gap-2">
+              <Gem />
               {card.description}
             </h2>
           )}
-          <PresetActions cardId={card.id} updateMonthlyBudgets={updateMonthlyCard} />
+          {/* <PresentActions.Root /> */}
         </div>
 
         {card.cardItems.length > 0 ? (
-          <div className="flex gap-1 flex-col">
+          <div className="mt-4 flex gap-1 flex-col">
             {card.cardItems.map(cardItem => {
               return <AmountCardItem key={cardItem.id} updateCard={updateMonthlyCard} cardItem={cardItem} />;
             })}
           </div>
         ) : (
-          <NoData text="Ainda não há nenhum orçamento cadastrado" />
+          <NoData text="Ainda não há nenhum item cadastrado" />
         )}
 
         <div className="grid grid-cols-12 items-center gap-2">
           <Input
             id="description"
             placeholder="Descrição do item"
-            className="col-span-4 input placeholder:text-gray-500"
+            className="col-span-6 input placeholder:text-gray-500"
             value={description}
             onChange={e => setDescription(e.target.value)}
           />
 
-          <div className="col-span-3">
+          <div className="col-span-2">
             <Popover>
               <PopoverTrigger asChild>
                 <Button
@@ -183,9 +186,8 @@ export default function AmountCard({ card, updateMonthlyCard, className }: Amoun
           <Button
             disabled={!description || !amount || !eventDateTime}
             onClick={fetchCreateCardItem}
-            className="col-span-3 border border-green-600 flex items-center justify-center gap-1 text-green-600 delay-100">
+            className="bg-lightblue-500 col-span-2 border flex items-center justify-center gap-1 text-white delay-100">
             <PlusCircle />
-            <span>Adicionar</span>
           </Button>
         </div>
       </div>

@@ -1,4 +1,3 @@
-import { CircleDollarSign } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -12,7 +11,7 @@ export default function SidebarMenuItem({ pathName, description, children }: Sid
   const activePathName = usePathname();
   const itemTextStyle = activePathName == pathName ? "font-medium" : "font-normal";
   const iconTextStyle = activePathName == pathName ? "text-lightblue-500" : "text-zinc-600";
-  const itemBorderStyle = activePathName == pathName ? "border border-gray-200" : "";
+  const itemBorderStyle = activePathName == pathName ? "border border-gray-300" : "border border-gray-200";
 
   return (
     <>

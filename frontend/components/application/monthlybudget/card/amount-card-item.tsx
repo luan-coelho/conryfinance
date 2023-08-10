@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { routes } from "@/routes";
 import { MonthlyBudgetCardItem } from "@/types";
-import { Trash } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import * as React from "react";
 
 type AmountCardItemProps = {
@@ -40,8 +40,8 @@ export default function AmountCardItem({ cardItem, updateCard }: AmountCardItemP
         </div>
         <div className="flex items-center justify-center gap-2">
           <span className="text-xl font-bold">{formatToBRL(cardItem.amount.toString())}</span>
-          <Button onClick={handleDeleteById} className="text-gray-500 hover:text-gray-400 p-0">
-            <Trash />
+          <Button onClick={handleDeleteById} className="bg-white text-gray-500 hover:text-gray-400 p-0">
+            <Trash2 />
           </Button>
         </div>
       </div>

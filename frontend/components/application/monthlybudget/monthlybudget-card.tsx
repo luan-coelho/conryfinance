@@ -1,8 +1,9 @@
 "use client";
 
-import ActionOptions from "@/components/commons/action-options";
 import Badge from "@/components/commons/badge";
 import { ConfirmDialog } from "@/components/commons/confirm-dialog";
+import { PresentActions } from "@/components/commons/present-actions";
+import PresentActionsOption from "@/components/commons/present-actions/present-actions-option";
 import { Card } from "@/components/ui/card";
 import { routes } from "@/routes";
 import { MonthlyBudget } from "@/types";
@@ -51,7 +52,11 @@ export default function MonthlyBudgetCard({ monthlyBudget, setMonthlyBudgets }: 
           <h2 className="text-zinc-900 text-lg font-medium">{monthlyBudget.description}</h2>
           <div className="flex items-center gap-1">
             <Badge>{getMonthNameFromDate(monthlyBudget.period)}</Badge>
-            <ActionOptions />
+            <PresentActions.Root>
+              <PresentActionsOption>
+                <ConfirmDialog confirmAction={handleDeleteById} />
+              </PresentActionsOption>
+            </PresentActions.Root>
           </div>
         </div>
         <div className="mt-3 flex justify-between">
@@ -73,7 +78,7 @@ export default function MonthlyBudgetCard({ monthlyBudget, setMonthlyBudgets }: 
             <EyeIcon className="text-blue-500" />
           </Link>
 
-          <ConfirmDialog confirmAction={handleDeleteById} />
+         
         </div> */}
       </Card>
     </>

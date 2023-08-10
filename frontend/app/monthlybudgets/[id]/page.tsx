@@ -4,7 +4,6 @@ import AmountCard from "@/components/application/monthlybudget/card/amount-card"
 import BudgetCard from "@/components/application/monthlybudget/card/budget-card";
 import EmptyAmountCard from "@/components/application/monthlybudget/card/empty-amount-card";
 import Badge from "@/components/commons/badge";
-import RouteBack from "@/components/commons/route-back";
 import Title from "@/components/commons/title";
 import { routes } from "@/routes";
 import { MonthlyBudget } from "@/types";
@@ -69,7 +68,7 @@ export default function MonthlyBudgetPage({ params }: { params: { id: string } }
             })}
           <div
             onClick={fetchCreateCard}
-            className="bg-blue-600 hover:bg-blue-500 text-white rounded px-2 py-2 w-full flex items-center justify-center">
+            className="bg-lightblue-500 hover:bg-blue-500 text-white rounded px-2 py-2 w-full flex items-center justify-center">
             <PlusCircle className="mr-2" /> Cadastrar
           </div>
         </div>
