@@ -7,6 +7,7 @@ import com.conryfinance.model.monthlybudget.MonthlyBudget;
 import jakarta.inject.Singleton;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -34,6 +35,9 @@ public class MontlyBudgetComponentService {
                 .builder()
                 .description(description)
                 .period(period)
+                .budget(new BigDecimal(BigInteger.ZERO))
+                .remainingTotalAmount(new BigDecimal(BigInteger.ZERO))
+                .totalAmountSpent(new BigDecimal(BigInteger.ZERO))
                 .build();
 
         Card defaultCard = Card
