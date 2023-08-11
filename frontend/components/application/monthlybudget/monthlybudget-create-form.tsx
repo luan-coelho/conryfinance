@@ -17,12 +17,9 @@ import { routes } from "@/routes";
 import { toastError, toastSuccess } from "@/utils/toast";
 import { PlusCircle } from "lucide-react";
 import React, { useState } from "react";
+import { mutate } from "swr";
 
-interface MonthlyBudgetCreateFormProps {
-  setMonthlyBudgets: Function;
-}
-
-export function MonthlyBudgetCreateForm({ setMonthlyBudgets }: MonthlyBudgetCreateFormProps) {
+export default function MonthlyBudgetCreateForm() {
   const [open, setOpen] = useState(false);
   const [description, setDescription] = useState<string>();
   const [period, setPeriod] = useState<string>();
@@ -73,7 +70,7 @@ export function MonthlyBudgetCreateForm({ setMonthlyBudgets }: MonthlyBudgetCrea
     }
     resetData();
     toastSuccess("Orçamento mensal criado com sucesso!");
-    setMonthlyBudgets();
+    mutate(routes.monthlyBudget.root);
     setOpen(false);
   }
 
@@ -91,14 +88,14 @@ export function MonthlyBudgetCreateForm({ setMonthlyBudgets }: MonthlyBudgetCrea
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button
+      <DialogTrigger>
+        <div
           onClick={() => {
             setOpen(true);
           }}
-          className="bg-lightblue-500 hover:bg-blue-500 text-white rounded px-2 py-0 w-full">
+          className="app-button">
           <PlusCircle className="mr-2" /> Cadastrar
-        </Button>
+        </div>
       </DialogTrigger>
       <DialogContent className="max-w-[425px] border border-gray-300 bg-white">
         <DialogHeader>
@@ -123,10 +120,7 @@ export function MonthlyBudgetCreateForm({ setMonthlyBudgets }: MonthlyBudgetCrea
         </div>
 
         <DialogFooter>
-          <Button
-            className="bg-green-600 hover:bg-green-500 text-white rounded px-2"
-            type="submit"
-            onClick={handleSubmit}>
+          <Button className="app-button" type="submit" onClick={handleSubmit}>
             Cadastrar
           </Button>
         </DialogFooter>

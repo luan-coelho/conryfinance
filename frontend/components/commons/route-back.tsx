@@ -26,8 +26,8 @@ export default function RouteBack() {
         <button
           onClick={goToParent}
           className="w-[88px] h-6 text-base font-normal hover:font-medium text-zinc-600 rounded-lg justify-start items-center gap-2 inline-flex leading-normal">
-          <ChevronLeft />
-          <div>Voltar</div>
+          <ChevronLeft size="16px" />
+          <span>Voltar</span>
         </button>
       )}
     </>

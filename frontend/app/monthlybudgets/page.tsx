@@ -2,41 +2,36 @@
 
 import MonthlyBudgetCard from "@/components/application/monthlybudget/monthlybudget-card";
 import MonthlyBudgetCardSkeleton from "@/components/application/monthlybudget/monthlybudget-card-skeleton";
-import { MonthlyBudgetCreateForm } from "@/components/application/monthlybudget/monthlybudget-create-form";
+import MonthlyBudgetCreateForm from "@/components/application/monthlybudget/monthlybudget-create-form";
 import Title from "@/components/commons/title";
 import Investment from "@/public/images/Investment.svg";
 import { routes } from "@/routes";
-import { MonthlyBudget } from "@/types";
-import { toastError } from "@/utils/toast";
+import { MonthlyBudget, ResponseData } from "@/types";
 import Image from "next/image";
-import { useQuery } from "react-query";
+import useSWR from "swr";
+import { getAllMonthlyBudgets } from "@/services/monthly-budget-service";
 
 export default function MonthlyBudgetsPage() {
-  const { isLoading, isError, data, error } = useQuery<MonthlyBudget[]>("monthlyBudgets", fetchMonthlyBudgets);
-
-  async function fetchMonthlyBudgets(): Promise<MonthlyBudget[]> {
-    const response = await fetch(routes.monthlyBudget.root, {
-      cache: "no-cache",
-    });
-    const json = await response.json();
-    return json.data as MonthlyBudget[];
-  }
+  const { data, isLoading, error } = useSWR<ResponseData<MonthlyBudget>>(
+    routes.monthlyBudget.root,
+    getAllMonthlyBudgets,
+  );
 
   return (
     <>
       <div className="flex items-center justify-between">
         <Title>Orçamentos Mensais</Title>
-        <MonthlyBudgetCreateForm setMonthlyBudgets={fetchMonthlyBudgets} />
+        <MonthlyBudgetCreateForm />
       </div>
 
       {isLoading ? (
-        <div className="grid grid-cols-1 gap-2 mt-6">
+        <div className="grid grid-cols-3 gap-3 mt-6">
           <MonthlyBudgetCardSkeleton />
         </div>
-      ) : data && data.length > 0 ? (
-        <div className="grid grid-cols-1 gap-2 mt-6">
-          {data.map(mb => {
-            return <MonthlyBudgetCard key={mb.id} monthlyBudget={mb} setMonthlyBudgets={fetchMonthlyBudgets} />;
+      ) : data?.data && data?.data.length > 0 ? (
+        <div className="grid grid-cols-3 gap-3 mt-6">
+          {data?.data.map(mb => {
+            return <MonthlyBudgetCard key={mb.id} monthlyBudget={mb} />;
           })}
         </div>
       ) : (

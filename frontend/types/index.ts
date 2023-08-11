@@ -25,6 +25,16 @@ export interface MonthlyBudgetCardItem {
 
 export enum CardType {
   DEFAULT = "DEFAULT",
-  TOTAL_AMOUNT_SPENT = "TOTAL_AMOUNT_SPENT",
-  TOTAL_AVAILABLE = "TOTAL_AVAILABLE",
+}
+
+export interface Pagination {
+  currentPage: number;
+  itemsPerPage: number;
+  totalPages: number;
+  totalItems: number;
+}
+
+export interface ResponseData<T> {
+  data: T[];
+  pagination: Pagination;
 }

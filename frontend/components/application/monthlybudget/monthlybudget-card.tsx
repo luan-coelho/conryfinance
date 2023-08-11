@@ -11,13 +11,13 @@ import { getMonthNameFromDate } from "@/utils/dateutils";
 import { toastError, toastSuccess } from "@/utils/toast";
 import { Eye } from "lucide-react";
 import Link from "next/link";
+import { mutate } from "swr";
 
 interface MonthlyBudgetCardProps {
   monthlyBudget: MonthlyBudget;
-  setMonthlyBudgets: Function;
 }
 
-export default function MonthlyBudgetCard({ monthlyBudget, setMonthlyBudgets }: MonthlyBudgetCardProps) {
+export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardProps) {
   async function handleDeleteById() {
     const response = await fetch(`${routes.monthlyBudget.root}/${monthlyBudget.id}`, {
       method: "DELETE",
@@ -31,7 +31,7 @@ export default function MonthlyBudgetCard({ monthlyBudget, setMonthlyBudgets }: 
       return;
     }
     toastSuccess("Orçamento mensal deletado com sucesso!");
-    setMonthlyBudgets();
+    mutate(routes.monthlyBudget.root);
   }
 
   function formatToBRL(value: string): string {
@@ -47,7 +47,7 @@ export default function MonthlyBudgetCard({ monthlyBudget, setMonthlyBudgets }: 
 
   return (
     <>
-      <Card className="min-w-[500px] border-1 bg-white rounded-lg shadow p-6">
+      <Card className="w-[400px] h-[300] border-1 bg-white rounded-lg shadow p-6">
         <div className="flex items-center justify-between">
           <h2 className="text-zinc-900 text-lg font-medium">{monthlyBudget.description}</h2>
           <div className="flex items-center gap-1">
@@ -71,13 +71,6 @@ export default function MonthlyBudgetCard({ monthlyBudget, setMonthlyBudgets }: 
             </Link>
           </div>
         </div>
-        {/* <div className="min-w-7 rounded border shadow p-2 flex flex-col items-center gap-2">
-          <Link href={`/monthlybudgets/${monthlyBudget.id}`}>
-            <EyeIcon className="text-blue-500" />
-          </Link>
-
-         
-        </div> */}
       </Card>
     </>
   );
