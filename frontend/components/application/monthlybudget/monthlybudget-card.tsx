@@ -47,7 +47,7 @@ export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardPr
 
   return (
     <>
-      <Card className="w-[400px] h-[300] border-1 bg-white rounded-lg shadow p-6">
+      <Card className="w-[460px] h-[150px] border-1 bg-white rounded-lg shadow p-6">
         <div className="flex items-center justify-between">
           <h2 className="text-zinc-900 text-lg font-medium">{monthlyBudget.description}</h2>
           <div className="flex items-center gap-1">

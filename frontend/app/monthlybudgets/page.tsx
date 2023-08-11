@@ -10,6 +10,7 @@ import { MonthlyBudget, ResponseData } from "@/types";
 import Image from "next/image";
 import useSWR from "swr";
 import { getAllMonthlyBudgets } from "@/services/monthly-budget-service";
+import { NoData } from "@/components/commons/no-data";
 
 export default function MonthlyBudgetsPage() {
   const { data, isLoading, error } = useSWR<ResponseData<MonthlyBudget>>(
@@ -35,11 +36,9 @@ export default function MonthlyBudgetsPage() {
           })}
         </div>
       ) : (
-        <div className="flex items-center justify-center flex-col gap-5">
+        <div className="flex items-center justify-center flex-col gap-5 mt-5">
           <Image src={Investment} width={200} height={200} alt="Picture of the author" />
-          <span className="p-2 border rounded border-gray-400 border-dashed">
-            Ainda não há nenhum orçamento cadastrado
-          </span>
+          <NoData>Ainda não há nenhum orçamento cadastrado</NoData>
         </div>
       )}
     </>

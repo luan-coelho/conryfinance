@@ -76,7 +76,6 @@ export default function AmountCard({ card, updateMonthlyCard, className }: Amoun
     }
 
     updateMonthlyCard();
-    // setDescription("");
   }
 
   async function fetchUpdateCardDescription() {
@@ -126,7 +125,6 @@ export default function AmountCard({ card, updateMonthlyCard, className }: Amoun
               {card.description}
             </h2>
           )}
-          {/* <PresentActions.Root /> */}
         </div>
 
         {card.cardItems.length > 0 ? (
@@ -136,7 +134,7 @@ export default function AmountCard({ card, updateMonthlyCard, className }: Amoun
             })}
           </div>
         ) : (
-          <NoData text="Ainda não há nenhum item cadastrado" />
+          <NoData>Ainda não há nenhum item cadastrado</NoData>
         )}
 
         <div className="grid grid-cols-12 items-center gap-2">

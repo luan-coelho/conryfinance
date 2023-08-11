@@ -33,7 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {TC}
         <Header />
-        <div className="w-full flex">
+        <div className="flex">
           <Sidebar.Root />
           <main className="w-full p-8">
             <RouteBack />

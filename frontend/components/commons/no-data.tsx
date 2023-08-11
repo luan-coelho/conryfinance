@@ -1,7 +1,7 @@
 type NoDataProps = {
-  text: string;
+  children: React.ReactNode;
 };
 
-export function NoData({ text }: NoDataProps) {
-  return <span className="my-2 font-medium text-center p-2 border-2 rounded border-dashed">{text}</span>;
+export function NoData({ children }: NoDataProps) {
+  return <span className="my-2 font-medium text-center p-2 border-2 rounded border-dashed">{children}</span>;
 }
