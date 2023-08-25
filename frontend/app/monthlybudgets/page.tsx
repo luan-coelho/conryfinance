@@ -5,18 +5,13 @@ import MonthlyBudgetCardSkeleton from "@/components/application/monthlybudget/mo
 import MonthlyBudgetCreateForm from "@/components/application/monthlybudget/monthlybudget-create-form";
 import Title from "@/components/commons/title";
 import Investment from "@/public/images/Investment.svg";
-import { routes } from "@/routes";
-import { MonthlyBudget, ResponseData } from "@/types";
 import Image from "next/image";
-import useSWR from "swr";
-import { getAllMonthlyBudgets } from "@/services/monthly-budget-service";
 import { NoData } from "@/components/commons/no-data";
+import { useFetchAllMonthlyBudgets } from "@/services/monthly-budget-service";
+import { MonthlyBudget } from "@/types";
 
 export default function MonthlyBudgetsPage() {
-  const { data, isLoading, error } = useSWR<ResponseData<MonthlyBudget>>(
-    routes.monthlyBudget.root,
-    getAllMonthlyBudgets,
-  );
+  const { isLoading, data: monthlyBudgets, error } = useFetchAllMonthlyBudgets();
 
   return (
     <>
@@ -29,9 +24,9 @@ export default function MonthlyBudgetsPage() {
         <div className="grid grid-cols-3 gap-3 mt-6">
           <MonthlyBudgetCardSkeleton />
         </div>
-      ) : data?.data && data?.data.length > 0 ? (
+      ) : monthlyBudgets.data && monthlyBudgets.data.length > 0 ? (
         <div className="grid grid-cols-3 gap-3 mt-6">
-          {data?.data.map(mb => {
+          {monthlyBudgets.data.map((mb: MonthlyBudget) => {
             return <MonthlyBudgetCard key={mb.id} monthlyBudget={mb} />;
           })}
         </div>

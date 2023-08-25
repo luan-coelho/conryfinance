@@ -6,7 +6,7 @@ import SidebarMenuItem from "./sidebar-menu-item";
 
 export default function SidebarRoot() {
   return (
-    <aside className="bg-neutral-200 min-w-[300px] max-w-[300px] min-h-screen p-4 grid content-between border-r border-gray-300">
+    <aside className="min-w-[300px] max-w-[300px] min-h-screen p-4 grid content-between border-r border-gray-300">
       <SidebarMenu>
         <SidebarMenuItem description="Dashboard" pathName="/dashboard">
           <Home />

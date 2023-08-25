@@ -1,16 +1,9 @@
 import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
-import type { Metadata } from "next";
 import { ToastContainer } from "react-toastify";
-import React from "react";
 import Header from "@/components/application/layout/header";
 import RouteBack from "@/components/commons/route-back";
-import { Sidebar } from "@/components/application/layout/sidebar/index";
-
-export const metadata: Metadata = {
-  title: "Conry Finance",
-  description: "Aplicativo de Finanças mensais",
-};
+import { Sidebar } from "@/components/application/layout/sidebar";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const TC = (

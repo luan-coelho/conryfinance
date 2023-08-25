@@ -9,21 +9,20 @@ import { toastError } from "@/utils/toast";
 import { Check, X } from "lucide-react";
 import { ComponentProps, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { mutate } from "swr";
 
 type BudgetCardProps = ComponentProps<"div"> & {
   description: string;
   monthlyBudget: MonthlyBudget;
-  updateMonthlyCard: Function;
 };
 
-export default function BudgetCard({ description, monthlyBudget, updateMonthlyCard, className }: BudgetCardProps) {
+export default function BudgetCard({ description, monthlyBudget, className }: BudgetCardProps) {
   const [amount, setAmount] = useState<string>();
   const [editBudget, setEditBudget] = useState<boolean>(false);
 
   function formatToGlobalNumber(value: string): string {
     const withoutThousandSeparator = value.replace(/\./g, "");
-    const withDecimalPoint = withoutThousandSeparator.replace(",", ".");
-    return withDecimalPoint;
+    return withoutThousandSeparator.replace(",", ".");
   }
 
   async function fetchUpdateCardAmount() {
@@ -40,7 +39,7 @@ export default function BudgetCard({ description, monthlyBudget, updateMonthlyCa
     }
 
     setEditBudget(false);
-    updateMonthlyCard();
+    await mutate(`routes.monthlyBudget.root}/${monthlyBudget.id}`);
   }
 
   const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {

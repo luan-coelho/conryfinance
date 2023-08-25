@@ -3,13 +3,13 @@ import { routes } from "@/routes";
 import { MonthlyBudgetCardItem } from "@/types";
 import { Trash2 } from "lucide-react";
 import * as React from "react";
+import { mutate } from "swr";
 
 type AmountCardItemProps = {
   cardItem: MonthlyBudgetCardItem;
-  updateCard: Function;
 };
 
-export default function AmountCardItem({ cardItem, updateCard }: AmountCardItemProps) {
+export default function AmountCardItem({ cardItem }: AmountCardItemProps) {
   async function handleDeleteById() {
     await fetch(`${routes.monthlyBudgetCardItem.root}/${cardItem.id}`, {
       method: "DELETE",
@@ -17,18 +17,16 @@ export default function AmountCardItem({ cardItem, updateCard }: AmountCardItemP
       mode: "cors",
     });
 
-    updateCard();
+    await mutate(`${routes.monthlyBudgetCardItem.root}/${cardItem.id}`);
   }
 
   function formatToBRL(value: string): string {
     const numberValue = parseFloat(value);
 
-    const formattedValue = numberValue.toLocaleString("pt-BR", {
+    return numberValue.toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL",
     });
-
-    return formattedValue;
   }
 
   return (

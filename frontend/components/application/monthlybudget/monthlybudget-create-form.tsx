@@ -25,10 +25,7 @@ export default function MonthlyBudgetCreateForm() {
   const [period, setPeriod] = useState<string>();
 
   function validateData(): boolean {
-    if (!description || !period) {
-      return false;
-    }
-    return true;
+    return !(!description || !period);
   }
 
   function resetData() {

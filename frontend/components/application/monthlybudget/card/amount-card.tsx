@@ -7,11 +7,10 @@ import { Input } from "@/components/ui/input";
 import { routes } from "@/routes";
 import { MonthlyBudgetCard } from "@/types";
 import { toastError } from "@/utils/toast";
-import { Check, Gem, PlusCircle, X } from "lucide-react";
+import { Calendar as CalendarIcon, Check, Gem, PlusCircle, X } from "lucide-react";
 import { ComponentProps, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { addDays, format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -19,14 +18,13 @@ import { Select } from "@/components/ui/select";
 
 import AmountCardItem from "./amount-card-item";
 import ptBR from "date-fns/locale/pt-BR";
-import { PresentActions } from "@/components/commons/present-actions";
+import { mutate } from "swr";
 
 type AmountCardProps = ComponentProps<"div"> & {
   card: MonthlyBudgetCard;
-  updateMonthlyCard: Function;
 };
 
-export default function AmountCard({ card, updateMonthlyCard, className }: AmountCardProps) {
+export default function AmountCard({ card, className }: AmountCardProps) {
   const [description, setDescription] = useState<string>();
   const [amount, setAmount] = useState<string>();
 
@@ -58,8 +56,7 @@ export default function AmountCard({ card, updateMonthlyCard, className }: Amoun
 
   function formatToGlobalNumber(value: string): string {
     const withoutThousandSeparator = value.replace(/\./g, "");
-    const withDecimalPoint = withoutThousandSeparator.replace(",", ".");
-    return withDecimalPoint;
+    return withoutThousandSeparator.replace(",", ".");
   }
 
   async function fetchCreateCardItem() {
@@ -75,7 +72,7 @@ export default function AmountCard({ card, updateMonthlyCard, className }: Amoun
       toastError("Failed to fetch data");
     }
 
-    updateMonthlyCard();
+    await mutate(`${routes.monthlyBudgetCard.root}/${card.id}`);
   }
 
   async function fetchUpdateCardDescription() {
@@ -91,7 +88,7 @@ export default function AmountCard({ card, updateMonthlyCard, className }: Amoun
       toastError("Failed to fetch data");
     }
 
-    updateMonthlyCard();
+    await mutate(`${routes.monthlyBudgetCard.root}/${card.id}`);
   }
 
   return (
@@ -130,7 +127,7 @@ export default function AmountCard({ card, updateMonthlyCard, className }: Amoun
         {card.cardItems.length > 0 ? (
           <div className="mt-4 flex gap-1 flex-col">
             {card.cardItems.map(cardItem => {
-              return <AmountCardItem key={cardItem.id} updateCard={updateMonthlyCard} cardItem={cardItem} />;
+              return <AmountCardItem key={cardItem.id} cardItem={cardItem} />;
             })}
           </div>
         ) : (
