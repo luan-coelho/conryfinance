@@ -10,7 +10,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { routes } from "@/routes";
-import { toastError, toastSuccess } from "@/utils/toast";
 import { PlusCircle } from "lucide-react";
 import React, { useState } from "react";
 import { mutate } from "swr";
@@ -18,34 +17,34 @@ import { mutate } from "swr";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addInputDateMask, stringToDate } from "@/utils/dateutils";
 import { Form } from "@/components/form";
 import { MonthlyBudget } from "@/types";
+import { useMessage } from "@/hooks/useMessage";
+import { MessageRoot } from "@/components/message/message-root";
+import DatePicker, { registerLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+import pt from "date-fns/locale/pt";
+
+registerLocale("pt", pt);
 
 const schema = z.object({
   description: z.string()
     .nonempty("A descrição é obrigatória"),
-  period: z.string()
-    .nonempty("O período é obrigatório")
-    .min(7, "Informe a data no padrão mês/ano")
-    .transform((period) => {
-        return stringToDate(period);
-      },
-    ).refine(date => {
-      const currentDate = new Date();
-      currentDate.setFullYear(currentDate.getFullYear() - 1);
-      return date! > currentDate;
-    }, "A data não pode ser inferior que 1 ano atrás"),
+  period: z.date({
+    required_error: "O período é obrigatório",
+  }),
 });
 
 export default function MonthlyBudgetCreateForm() {
   const [open, setOpen] = useState(false);
+  const { message, showMessage } = useMessage();
 
   const createMonthlyBudgetForm = useForm<MonthlyBudget>({
     resolver: zodResolver(schema),
   });
 
-  const { handleSubmit, control } = createMonthlyBudgetForm;
+  const { handleSubmit, control, reset } = createMonthlyBudgetForm;
 
   async function createMonthlyBudget(monthlyBudget: MonthlyBudget) {
     const response = await fetch(routes.monthlyBudget.root, {
@@ -57,11 +56,11 @@ export default function MonthlyBudgetCreateForm() {
 
     if (!response.ok) {
       const json = await response.json();
-      toastError(json.details);
+      showMessage(json.detail);
       return;
     }
-    toastSuccess("Orçamento mensal criado com sucesso!");
     await mutate(routes.monthlyBudget.root);
+    reset();
     setOpen(false);
   }
 
@@ -83,6 +82,8 @@ export default function MonthlyBudgetCreateForm() {
           <DialogDescription>Crie um novo orçamento mensal, seja pessoal, sua empresa, uma viagem...</DialogDescription>
         </DialogHeader>
 
+        <MessageRoot value={message} />
+
         <FormProvider {...createMonthlyBudgetForm}>
           <form onSubmit={handleSubmit(createMonthlyBudget)} className="grid gap-4 py-4">
             <Form.Field>
@@ -97,15 +98,18 @@ export default function MonthlyBudgetCreateForm() {
                 Período
               </Form.Label>
               <Controller
-                name="period"
                 control={control}
+                name="period"
                 render={({ field }) => (
-                  // @ts-ignore
-                  <Form.TextField name="period" value={field.value}
-                                  onChange={(e) => addInputDateMask(e, field.onChange)}
-                                  onBlur={field.onBlur} />
-                )}
-              />
+                  <DatePicker
+                    selected={field.value}
+                    onChange={(date) => field.onChange(date)}
+                    locale={pt}
+                    dateFormat="MM/yyyy"
+                    showMonthYearPicker
+                    className="input"
+                  />
+                )} />
               <Form.ErrorMessage field="period" />
             </Form.Field>
             <div>
