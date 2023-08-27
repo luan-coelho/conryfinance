@@ -18,13 +18,15 @@ import { Controller, FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/form";
-import { MonthlyBudget } from "@/types";
+import { ApiErrorResponse, MonthlyBudget } from "@/types";
 import { useMessage } from "@/hooks/useMessage";
 import { MessageRoot } from "@/components/message/message-root";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import pt from "date-fns/locale/pt";
+import api from "@/services/api";
+import { AxiosError } from "axios";
 
 registerLocale("pt", pt);
 
@@ -38,7 +40,13 @@ const schema = z.object({
 
 export default function MonthlyBudgetCreateForm() {
   const [open, setOpen] = useState(false);
-  const { message, showMessage } = useMessage();
+  const { message, showMessage, hideMessage } = useMessage();
+
+  const minDate = new Date();
+  minDate.setFullYear(minDate.getFullYear() - 2);
+
+  const maxDate = new Date();
+  maxDate.setFullYear(maxDate.getFullYear() + 2);
 
   const createMonthlyBudgetForm = useForm<MonthlyBudget>({
     resolver: zodResolver(schema),
@@ -47,21 +55,18 @@ export default function MonthlyBudgetCreateForm() {
   const { handleSubmit, control, reset } = createMonthlyBudgetForm;
 
   async function createMonthlyBudget(monthlyBudget: MonthlyBudget) {
-    const response = await fetch(routes.monthlyBudget.root, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      mode: "cors",
-      body: JSON.stringify(monthlyBudget),
-    });
-
-    if (!response.ok) {
-      const json = await response.json();
-      showMessage(json.detail);
-      return;
-    }
-    await mutate(routes.monthlyBudget.root);
-    reset();
-    setOpen(false);
+    await api.post(routes.monthlyBudget.root, monthlyBudget)
+      .then(() => {
+        mutate(routes.monthlyBudget.root);
+        reset({
+          description: "",
+          period: undefined,
+        });
+        hideMessage()
+        setOpen(false);
+      }).catch((error: AxiosError<ApiErrorResponse>) => {
+        showMessage(error.response!.data.detail);
+      });
   }
 
   return (
@@ -108,6 +113,8 @@ export default function MonthlyBudgetCreateForm() {
                     dateFormat="MM/yyyy"
                     showMonthYearPicker
                     className="input"
+                    minDate={minDate}
+                    maxDate={maxDate}
                   />
                 )} />
               <Form.ErrorMessage field="period" />
@@ -123,3 +130,5 @@ export default function MonthlyBudgetCreateForm() {
     </Dialog>
   );
 }
+
+

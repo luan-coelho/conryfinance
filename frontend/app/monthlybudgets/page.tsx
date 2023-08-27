@@ -11,7 +11,7 @@ import { useFetchAllMonthlyBudgets } from "@/services/monthly-budget-service";
 import { MonthlyBudget } from "@/types";
 
 export default function MonthlyBudgetsPage() {
-  const { isLoading, data: monthlyBudgets, error } = useFetchAllMonthlyBudgets();
+  const { isLoading, data: monthlyBudgets } = useFetchAllMonthlyBudgets();
 
   return (
     <>

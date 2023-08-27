@@ -1,17 +1,5 @@
 import { ChangeEvent } from "react";
 
-export function convertStringToDate(data: string): Date | null {
-  if (!data || data.length < 5 || !data.includes("/")) {
-    return null;
-  }
-  const parts = data.split("/");
-
-  if (parts.length === 2 && parts[1].length === 4) {
-    return new Date(parseInt(parts[1]), parseInt(parts[0]) - 1);
-  }
-  return null;
-}
-
 export function addInputDateMask(e: ChangeEvent<HTMLInputElement>, onChange: (...event: any[]) => void) {
   let inputValue = e.target.value;
   e.target.value = addDateMask(inputValue);

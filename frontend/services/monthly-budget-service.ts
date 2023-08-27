@@ -8,5 +8,7 @@ export function useFetchAllMonthlyBudgets(): SWRResponse {
 }
 
 export function useFetchMonthlyBudgetById(monthlyBudgetId: string): SWRResponse {
-  return useFetch<MonthlyBudget>(`${routes.monthlyBudget.root}/${monthlyBudgetId}`, HTTP_METHOD.GET);
+  let url = `${routes.monthlyBudget.root}/${monthlyBudgetId}`;
+  console.log(url);
+  return useFetch<MonthlyBudget>(url, HTTP_METHOD.GET);
 }

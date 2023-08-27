@@ -5,7 +5,6 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { routes } from "@/routes";
 import { MonthlyBudget } from "@/types";
-import { toastError } from "@/utils/toast";
 import { Check, X } from "lucide-react";
 import { ComponentProps, useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -33,10 +32,6 @@ export default function BudgetCard({ description, monthlyBudget, className }: Bu
       mode: "cors",
       body: JSON.stringify({ newBudget: formatToGlobalNumber(amount!) }),
     });
-
-    if (!response.ok) {
-      toastError("Failed to fetch data");
-    }
 
     setEditBudget(false);
     await mutate(`routes.monthlyBudget.root}/${monthlyBudget.id}`);

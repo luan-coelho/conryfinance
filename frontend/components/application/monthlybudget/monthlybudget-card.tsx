@@ -8,7 +8,6 @@ import { Card } from "@/components/ui/card";
 import { routes } from "@/routes";
 import { MonthlyBudget } from "@/types";
 import { getMonthNameFromDate } from "@/utils/dateutils";
-import { toastError, toastSuccess } from "@/utils/toast";
 import { Eye } from "lucide-react";
 import Link from "next/link";
 import { mutate } from "swr";
@@ -19,30 +18,22 @@ interface MonthlyBudgetCardProps {
 
 export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardProps) {
   async function handleDeleteById() {
-    const response = await fetch(`${routes.monthlyBudget.root}/${monthlyBudget.id}`, {
+    await fetch(`${routes.monthlyBudget.root}/${monthlyBudget.id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       mode: "cors",
     });
 
-    if (!response.ok) {
-      const json = await response.json();
-      toastError(json.detail);
-      return;
-    }
-    toastSuccess("Orçamento mensal deletado com sucesso!");
-    mutate(routes.monthlyBudget.root);
+    await mutate(routes.monthlyBudget.root);
   }
 
   function formatToBRL(value: string): string {
     const numberValue = parseFloat(value);
 
-    const formattedValue = numberValue.toLocaleString("pt-BR", {
+    return numberValue.toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL",
     });
-
-    return formattedValue;
   }
 
   return (

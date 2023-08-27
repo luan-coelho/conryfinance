@@ -6,7 +6,6 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { routes } from "@/routes";
 import { MonthlyBudgetCard } from "@/types";
-import { toastError } from "@/utils/toast";
 import { Calendar as CalendarIcon, Check, Gem, PlusCircle, X } from "lucide-react";
 import { ComponentProps, useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -32,12 +31,6 @@ export default function AmountCard({ card, className }: AmountCardProps) {
   const [descriptionCard, setDescriptionCard] = useState<string>(card.description);
   const [eventDateTime, setEventDateTime] = useState<Date>();
 
-  function changeDescription() {
-    const input = document.getElementById("card-description") as HTMLInputElement;
-    input.focus();
-    setEditDescriptionCard(false);
-  }
-
   const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
 
@@ -60,7 +53,7 @@ export default function AmountCard({ card, className }: AmountCardProps) {
   }
 
   async function fetchCreateCardItem() {
-    const response = await fetch(`${routes.monthlyBudgetCardItem.root}?card=${card.id}`, {
+    await fetch(`${routes.monthlyBudgetCardItem.root}?card=${card.id}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       cache: "no-cache",
@@ -68,25 +61,17 @@ export default function AmountCard({ card, className }: AmountCardProps) {
       body: JSON.stringify({ description, amount: formatToGlobalNumber(amount!), eventDateTime }),
     });
 
-    if (!response.ok) {
-      toastError("Failed to fetch data");
-    }
-
     await mutate(`${routes.monthlyBudgetCard.root}/${card.id}`);
   }
 
   async function fetchUpdateCardDescription() {
-    const response = await fetch(`${routes.monthlyBudgetCard.updateDescription}/${card.id}`, {
+    await fetch(`${routes.monthlyBudgetCard.updateDescription}/${card.id}`, {
       method: "POST",
       cache: "no-cache",
       headers: { "Content-Type": "application/json" },
       mode: "cors",
       body: JSON.stringify({ newDescription: descriptionCard }),
     });
-
-    if (!response.ok) {
-      toastError("Failed to fetch data");
-    }
 
     await mutate(`${routes.monthlyBudgetCard.root}/${card.id}`);
   }
