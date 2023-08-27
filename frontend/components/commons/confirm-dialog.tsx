@@ -35,14 +35,14 @@ export function ConfirmDialog({ confirmAction }: ConfirmDialogProps) {
           <DialogDescription className="text-gray-500">Esta ação não poderá ser desfeita</DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button onClick={() => confirmAction()} className="hover:bg-gray-100 rounded border border-gray-200">
+          <Button
+            onClick={() => confirmAction()}
+            className="app-button-small">
             Confirmar
           </Button>
           <Button
-            size={"sm"}
             onClick={() => setOpen(false)}
-            className="bg-red-600 hover:bg-red-500 text-white rounded"
-            type="submit">
+            className="app-button-small-danger">
             Cancelar
           </Button>
         </DialogFooter>

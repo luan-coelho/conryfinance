@@ -71,6 +71,14 @@ body {
   @apply h-10 px-4 py-2 flex items-center gap-2 bg-lightblue-500 rounded-lg shadow justify-start text-center text-white text-base font-medium;
 }
 
+.app-button-small {
+  @apply h-8 p-3 flex items-center gap-2 bg-lightblue-500 hover:bg-lightblue-600 rounded-lg shadow justify-start text-center text-white text-sm font-medium;
+}
+
+.app-button-small-danger {
+  @apply h-8 p-3 flex items-center gap-2 bg-red-500 hover:bg-red-600 rounded-lg shadow justify-start text-center text-white text-sm font-medium;
+}
+
 .input {
   @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50
 }

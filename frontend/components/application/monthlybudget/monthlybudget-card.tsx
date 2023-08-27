@@ -11,6 +11,7 @@ import { getMonthNameFromDate } from "@/utils/dateutils";
 import { Eye } from "lucide-react";
 import Link from "next/link";
 import { mutate } from "swr";
+import api from "@/services/api";
 
 interface MonthlyBudgetCardProps {
   monthlyBudget: MonthlyBudget;
@@ -18,13 +19,10 @@ interface MonthlyBudgetCardProps {
 
 export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardProps) {
   async function handleDeleteById() {
-    await fetch(`${routes.monthlyBudget.root}/${monthlyBudget.id}`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      mode: "cors",
-    });
-
-    await mutate(routes.monthlyBudget.root);
+    await api.delete(`${routes.monthlyBudget.root}/${monthlyBudget.id}`)
+      .then(() => {
+        mutate(routes.monthlyBudget.root);
+      })
   }
 
   function formatToBRL(value: string): string {
@@ -38,7 +36,7 @@ export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardPr
 
   return (
     <>
-      <Card className="w-[460px] h-[150px] border-1 bg-white rounded-lg shadow p-6">
+      <Card className="border-1 bg-white rounded-lg shadow p-6">
         <div className="flex items-center justify-between">
           <h2 className="text-zinc-900 text-lg font-medium">{monthlyBudget.description}</h2>
           <div className="flex items-center gap-1">
@@ -56,7 +54,7 @@ export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardPr
             <span className="text-zinc-900 text-2xl font-medium">{formatToBRL(monthlyBudget.budget.toString())}</span>
           </div>
           <div className="flex items-end">
-            <Link className="app-button" href={`/monthlybudgets/${monthlyBudget.id}`}>
+            <Link className="app-button-small" href={`/monthlybudgets/${monthlyBudget.id}`}>
               <Eye />
               Visualizar
             </Link>

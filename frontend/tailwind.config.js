@@ -14,6 +14,7 @@ module.exports = {
       colors: {
         lightblue: {
           500: "#0085FF",
+          600: "#0066ff",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

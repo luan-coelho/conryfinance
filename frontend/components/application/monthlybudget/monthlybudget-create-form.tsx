@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
+  DialogDescription, DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -62,7 +62,7 @@ export default function MonthlyBudgetCreateForm() {
           description: "",
           period: undefined,
         });
-        hideMessage()
+        hideMessage();
         setOpen(false);
       }).catch((error: AxiosError<ApiErrorResponse>) => {
         showMessage(error.response!.data.detail);
@@ -70,64 +70,68 @@ export default function MonthlyBudgetCreateForm() {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
-        <div
-          onClick={() => {
-            setOpen(true);
-          }}
-          className="app-button">
-          <PlusCircle className="mr-2" /> Cadastrar
-        </div>
-      </DialogTrigger>
-      <DialogContent className="max-w-[425px] border border-gray-300 bg-white">
+    <>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger>
+          <div
+            onClick={() => {
+              setOpen(true);
+            }}
+            className="app-button">
+            <PlusCircle className="mr-2" /> Cadastrar
+          </div>
+        </DialogTrigger>
+        <DialogContent className="max-w-[425px] border border-gray-300 bg-white">
 
-        <DialogHeader>
-          <DialogTitle>Cadastrar</DialogTitle>
-          <DialogDescription>Crie um novo orçamento mensal, seja pessoal, sua empresa, uma viagem...</DialogDescription>
-        </DialogHeader>
+          <DialogHeader>
+            <DialogTitle>Cadastrar</DialogTitle>
+            <DialogDescription>
+              Crie um novo orçamento mensal, seja pessoal, sua empresa, uma viagem...
+            </DialogDescription>
+          </DialogHeader>
 
-        <MessageRoot value={message} />
+          <MessageRoot value={message} />
 
-        <FormProvider {...createMonthlyBudgetForm}>
-          <form onSubmit={handleSubmit(createMonthlyBudget)} className="grid gap-4 py-4">
-            <Form.Field>
-              <Form.Label htmlFor="description">
-                Descrição
-              </Form.Label>
-              <Form.TextField name="description" />
-              <Form.ErrorMessage field="description" />
-            </Form.Field>
-            <Form.Field>
-              <Form.Label htmlFor="period">
-                Período
-              </Form.Label>
-              <Controller
-                control={control}
-                name="period"
-                render={({ field }) => (
-                  <DatePicker
-                    selected={field.value}
-                    onChange={(date) => field.onChange(date)}
-                    locale={pt}
-                    dateFormat="MM/yyyy"
-                    showMonthYearPicker
-                    className="input"
-                    minDate={minDate}
-                    maxDate={maxDate}
-                  />
-                )} />
-              <Form.ErrorMessage field="period" />
-            </Form.Field>
-            <div>
-              <Button className="app-button" type="submit">
-                Cadastrar
-              </Button>
-            </div>
-          </form>
-        </FormProvider>
-      </DialogContent>
-    </Dialog>
+          <FormProvider {...createMonthlyBudgetForm}>
+            <form onSubmit={handleSubmit(createMonthlyBudget)} className="grid gap-4">
+              <Form.Field>
+                <Form.Label htmlFor="description">
+                  Descrição
+                </Form.Label>
+                <Form.TextField name="description" />
+                <Form.ErrorMessage field="description" />
+              </Form.Field>
+              <Form.Field>
+                <Form.Label htmlFor="period">
+                  Período
+                </Form.Label>
+                <Controller
+                  control={control}
+                  name="period"
+                  render={({ field }) => (
+                    <DatePicker
+                      selected={field.value}
+                      onChange={(date) => field.onChange(date)}
+                      locale={pt}
+                      dateFormat="MM/yyyy"
+                      showMonthYearPicker
+                      className="input"
+                      minDate={minDate}
+                      maxDate={maxDate}
+                    />
+                  )} />
+                <Form.ErrorMessage field="period" />
+              </Form.Field>
+              <DialogFooter>
+                <Button className="app-button" type="submit">
+                  Cadastrar
+                </Button>
+              </DialogFooter>
+            </form>
+          </FormProvider>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
 
