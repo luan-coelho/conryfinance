@@ -30,7 +30,7 @@ public class MonthlyBudgetService extends BaseService<MonthlyBudget, MonthlyBudg
     @Transactional
     public MonthlyBudget create(MonthlyBudgetCreateDTO monthlyBudget) {
         if (this.repository.existsByDescriptionEqualsIgnoreCase(monthlyBudget.description())) {
-            throw new IllegalArgumentException("There is already an monthly budget registered with this name");
+            throw new IllegalArgumentException("Já existe um orçamento mensal cadastrado com este nome");
         }
         MonthlyBudget monthlyBudgetPersisted = montlyBudgetComponentsService.createDefaultInstance(
                 monthlyBudget.description(), monthlyBudget.period()
