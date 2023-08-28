@@ -9,6 +9,7 @@ import Image from "next/image";
 import { NoData } from "@/components/commons/no-data";
 import { useFetchAllMonthlyBudgets } from "@/services/monthly-budget-service";
 import { MonthlyBudget } from "@/types";
+import Head from "next/head";
 
 export default function MonthlyBudgetsPage() {
   const { isLoading, data: monthlyBudgets } = useFetchAllMonthlyBudgets();

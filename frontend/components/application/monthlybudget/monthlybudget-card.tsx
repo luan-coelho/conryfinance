@@ -22,7 +22,7 @@ export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardPr
     await api.delete(`${routes.monthlyBudget.root}/${monthlyBudget.id}`)
       .then(() => {
         mutate(routes.monthlyBudget.root);
-      })
+      });
   }
 
   function formatToBRL(value: string): string {
@@ -40,7 +40,7 @@ export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardPr
         <div className="flex items-center justify-between">
           <h2 className="text-zinc-900 text-lg font-medium">{monthlyBudget.description}</h2>
           <div className="flex items-center gap-1">
-            <Badge>{getMonthNameFromDate(monthlyBudget.period)}</Badge>
+            <Badge period={monthlyBudget.period}>{getMonthNameFromDate(monthlyBudget.period)}</Badge>
             <PresentActions.Root>
               <PresentActionsOption>
                 <ConfirmDialog confirmAction={handleDeleteById} />
