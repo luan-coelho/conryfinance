@@ -13,7 +13,6 @@ export interface MonthlyBudgetCard {
   description: string;
   cardItems: MonthlyBudgetCardItem[];
   amount: number;
-  cardType: CardType;
 }
 
 export interface MonthlyBudgetCardItem {
@@ -21,10 +20,6 @@ export interface MonthlyBudgetCardItem {
   description: string;
   amount: number;
   eventDateTime: string;
-}
-
-export enum CardType {
-  DEFAULT = "DEFAULT",
 }
 
 export interface Pagination {

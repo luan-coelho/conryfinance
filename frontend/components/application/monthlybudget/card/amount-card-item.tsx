@@ -7,9 +7,10 @@ import { mutate } from "swr";
 
 type AmountCardItemProps = {
   cardItem: MonthlyBudgetCardItem;
+  monthlyBudgetId: number
 };
 
-export default function AmountCardItem({ cardItem }: AmountCardItemProps) {
+export default function AmountCardItem({ cardItem, monthlyBudgetId }: AmountCardItemProps) {
   async function handleDeleteById() {
     await fetch(`${routes.monthlyBudgetCardItem.root}/${cardItem.id}`, {
       method: "DELETE",
@@ -17,7 +18,7 @@ export default function AmountCardItem({ cardItem }: AmountCardItemProps) {
       mode: "cors",
     });
 
-    await mutate(`${routes.monthlyBudgetCardItem.root}/${cardItem.id}`);
+    await mutate(`${routes.monthlyBudget.root}/${monthlyBudgetId}`);
   }
 
   function formatToBRL(value: string): string {

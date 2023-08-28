@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { routes } from "@/routes";
 import { MonthlyBudgetCard } from "@/types";
 import { Calendar as CalendarIcon, Check, Gem, PlusCircle, X } from "lucide-react";
-import { ComponentProps, useState } from "react";
+import React, { ComponentProps, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { addDays, format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -21,9 +21,10 @@ import { mutate } from "swr";
 
 type AmountCardProps = ComponentProps<"div"> & {
   card: MonthlyBudgetCard;
+  monthlyBudgetId: number
 };
 
-export default function AmountCard({ card, className }: AmountCardProps) {
+export default function AmountCard({ card, monthlyBudgetId, className }: AmountCardProps) {
   const [description, setDescription] = useState<string>();
   const [amount, setAmount] = useState<string>();
 
@@ -61,7 +62,7 @@ export default function AmountCard({ card, className }: AmountCardProps) {
       body: JSON.stringify({ description, amount: formatToGlobalNumber(amount!), eventDateTime }),
     });
 
-    await mutate(`${routes.monthlyBudgetCard.root}/${card.id}`);
+    await mutate(`${routes.monthlyBudget.root}/${monthlyBudgetId}`);
   }
 
   async function fetchUpdateCardDescription() {
@@ -73,7 +74,7 @@ export default function AmountCard({ card, className }: AmountCardProps) {
       body: JSON.stringify({ newDescription: descriptionCard }),
     });
 
-    await mutate(`${routes.monthlyBudgetCard.root}/${card.id}`);
+    await mutate(`${routes.monthlyBudget.root}/${monthlyBudgetId}`);
   }
 
   return (
@@ -112,7 +113,7 @@ export default function AmountCard({ card, className }: AmountCardProps) {
         {card.cardItems.length > 0 ? (
           <div className="mt-4 flex gap-1 flex-col">
             {card.cardItems.map(cardItem => {
-              return <AmountCardItem key={cardItem.id} cardItem={cardItem} />;
+              return <AmountCardItem key={cardItem.id} monthlyBudgetId={monthlyBudgetId} cardItem={cardItem} />;
             })}
           </div>
         ) : (

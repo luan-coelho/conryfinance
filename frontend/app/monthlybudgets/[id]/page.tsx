@@ -28,7 +28,7 @@ export default function MonthlyBudgetPage({ params }: { params: { id: string } }
           <div className="col-span-10 flex flex-col gap-4">
             {monthlyBudget.cards &&
               monthlyBudget.cards.map((card: MonthlyBudgetCard) => {
-                return <AmountCard key={card.id} card={card} />;
+                return <AmountCard key={card.id} monthlyBudgetId={monthlyBudget.id} card={card} />;
               })}
             <div
               onClick={() => mutate()}
