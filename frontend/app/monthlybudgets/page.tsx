@@ -7,12 +7,12 @@ import Title from "@/components/commons/title";
 import Investment from "@/public/images/Investment.svg";
 import Image from "next/image";
 import { NoData } from "@/components/commons/no-data";
-import { useFetchAllMonthlyBudgets } from "@/services/monthly-budget-service";
-import { MonthlyBudget } from "@/types";
-import Head from "next/head";
+import { MonthlyBudget, ResponseData } from "@/types";
+import { useFetch } from "@/hooks/useFetch";
+import { routes } from "@/routes";
 
 export default function MonthlyBudgetsPage() {
-  const { isLoading, data: monthlyBudgets } = useFetchAllMonthlyBudgets();
+  const { isLoading, data: monthlyBudgets } = useFetch<ResponseData<MonthlyBudget>>(routes.monthlyBudget.root);
 
   return (
     <>

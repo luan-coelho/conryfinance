@@ -7,14 +7,16 @@ import Badge from "@/components/commons/badge";
 import Title from "@/components/commons/title";
 import { getMonthNameFromDate } from "@/utils/dateutils";
 import { PlusCircle } from "lucide-react";
-import { useFetchMonthlyBudgetById } from "@/services/monthly-budget-service";
-import { MonthlyBudgetCard } from "@/types";
+import { MonthlyBudget, MonthlyBudgetCard } from "@/types";
+import { useFetch } from "@/hooks/useFetch";
+import { routes } from "@/routes";
 
 export default function MonthlyBudgetPage({ params }: { params: { id: string } }) {
-  const { isLoading, data: monthlyBudget, error, mutate } = useFetchMonthlyBudgetById(params.id);
+  const url = `${routes.monthlyBudget.root}/${params.id}`;
+  const { isLoading, data: monthlyBudget, error, mutate } = useFetch<MonthlyBudget>(url);
 
   return (
-    <> {isLoading &&
+    <> {!isLoading &&
       <div>
         <div className="flex items-center justify-between">
           <div className="flex gap-2 items-center">
