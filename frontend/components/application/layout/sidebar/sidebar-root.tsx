@@ -1,22 +1,24 @@
 "use client";
+import "@/styles/sidebar.css";
 
 import { CircleDollarSign, Home, Landmark } from "lucide-react";
 import SidebarMenu from "./sidebar-menu";
 import SidebarMenuItem from "./sidebar-menu-item";
 import { useSidebar } from "@/contexts/sidebar-context";
+import { Button } from "@/components/ui/button";
 
 export default function SidebarRoot() {
-  const { isOpen } = useSidebar();
+  const { isOpen,toggleSidebar } = useSidebar();
 
   return (
-    <aside
-      className={`${isOpen ? "min-w-[300px] max-w-[300px]" : ""} bg-[#1A1C1E] text-white relative min-h-screen px-6 py-8 grid content-start border-r border-gray-300 gap-10`}>
-      <div className="flex items-center justify-start gap-2 px-4">
+    <aside className={`${isOpen ? "sidebar-open" : "sidebar-close"}`}>
+      <div className={`flex items-center justify-center gap-3 ${isOpen ? "px-4" : ""}`}>
         <div className="bg-white text-black rounded-full p-1">
           <Landmark size={30} />
         </div>
-        {isOpen && <div className="text-xl font-medium leading-7">Conry Finance</div>}
+        {isOpen && <div className="text-xl font-medium leading-7 hidden md:block">Conry Finance</div>}
       </div>
+
       <SidebarMenu>
         <SidebarMenuItem description="Dashboard" pathName="/dashboard">
           <Home />
@@ -25,6 +27,10 @@ export default function SidebarRoot() {
           <CircleDollarSign />
         </SidebarMenuItem>
       </SidebarMenu>
+
+      <Button onClick={toggleSidebar} className="md:hidden bg-red-600 hover:bg-red-500 rounded-full">
+        Fechar
+      </Button>
     </aside>
   );
 }
