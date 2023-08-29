@@ -16,17 +16,18 @@ export default function MonthlyBudgetsPage() {
 
   return (
     <>
-      <div className="flex items-center justify-between">
-        <Title>Orçamentos Mensais</Title>
+      <Title>Orçamentos Mensais</Title>
+
+      <div className="mt-3">
         <MonthlyBudgetCreateForm />
       </div>
 
       {isLoading ? (
-        <div className="grid grid-cols-3 gap-3 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-6">
           <MonthlyBudgetCardSkeleton />
         </div>
       ) : monthlyBudgets.data && monthlyBudgets.data.length > 0 ? (
-        <div className="grid grid-cols-3 gap-3 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-6">
           {monthlyBudgets.data.map((mb: MonthlyBudget) => {
             return <MonthlyBudgetCard key={mb.id} monthlyBudget={mb} />;
           })}
