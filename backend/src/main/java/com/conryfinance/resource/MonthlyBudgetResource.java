@@ -42,18 +42,14 @@ public class MonthlyBudgetResource {
     }
 
     @Path("/update-description/{id}")
-    @POST
+    @PATCH
     public Response updateDescription(@PathParam("id") Long montlyBudgetId, String newDescription) {
         monthlyBudgetService.updateDescription(montlyBudgetId, newDescription);
         return Response.status(Response.Status.NO_CONTENT).build();
     }
 
-    static record Update (String newBudget){
-
-    }
-
     @Path("/update-budget/{id}")
-    @POST
+    @PUT
     public Response updateBudget(@PathParam("id") Long montlyBudgetId, MonthlyBudgetUpdateBudgetDTO dto) {
         BigDecimal budget = new BigDecimal(dto.newBudget());
         monthlyBudgetService.updateBudget(montlyBudgetId, budget);
