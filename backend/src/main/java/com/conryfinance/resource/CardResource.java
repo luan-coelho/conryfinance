@@ -18,7 +18,7 @@ public class CardResource {
     public Response create(@QueryParam("monthlybudget") Long monthlyBudgetId) {
         Card card = cardService.create(monthlyBudgetId);
         CardResponseDTO dto = CardResponseDTO.toDataTransferObject(card);
-        return Response.ok(dto).build();
+        return Response.status(Response.Status.CREATED).entity(dto).build();
     }
 
     @Path("/{id}")
