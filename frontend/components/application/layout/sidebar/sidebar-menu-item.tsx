@@ -22,7 +22,7 @@ export default function SidebarMenuItem({ pathName, description, children }: Sid
   return (
     <>
       <li
-        className={`${itemBackgroundStyle} text-white px-4 py-2 rounded-lg transition-opacity duration-700 ease-in-out`}>
+        className={`${itemBackgroundStyle} text-zinc-200 px-4 py-2 rounded-lg transition-opacity duration-700 ease-in-out`}>
         <Link href={pathName}
               className={`flex items-center gap-2 ${isOpen ? "justify-start" : "justify-center"} flex-col md:flex-row`}>
           <div className={iconTextStyle}>{children}</div>

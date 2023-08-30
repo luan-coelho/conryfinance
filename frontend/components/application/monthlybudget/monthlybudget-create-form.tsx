@@ -73,13 +73,9 @@ export default function MonthlyBudgetCreateForm() {
     <>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger>
-          <div
-            onClick={() => {
-              setOpen(true);
-            }}
-            className="app-button">
-            <PlusCircle className="mr-2" /> Cadastrar
-          </div>
+          <Button
+            onClick={() => setOpen(true)}> Cadastrar
+          </Button>
         </DialogTrigger>
         <DialogContent className="max-w-[425px] border border-gray-300 bg-white">
 

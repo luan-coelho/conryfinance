@@ -4,7 +4,7 @@ import Badge from "@/components/commons/badge";
 import { ConfirmDialog } from "@/components/commons/confirm-dialog";
 import { PresentActions } from "@/components/commons/present-actions";
 import PresentActionsOption from "@/components/commons/present-actions/present-actions-option";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { routes } from "@/routes";
 import { MonthlyBudget } from "@/types";
 import { getMonthNameFromDate } from "@/utils/dateutils";
@@ -12,6 +12,7 @@ import { Eye } from "lucide-react";
 import Link from "next/link";
 import { mutate } from "swr";
 import api from "@/services/api";
+import { buttonVariants } from "@/components/ui/button";
 
 interface MonthlyBudgetCardProps {
   monthlyBudget: MonthlyBudget;
@@ -36,10 +37,10 @@ export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardPr
 
   return (
     <>
-      <Card className="border-1 bg-white rounded-lg shadow p-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-zinc-900 text-lg font-medium">{monthlyBudget.description}</h2>
-          <div className="flex items-center gap-1">
+      <Card className="">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">{monthlyBudget.description}</CardTitle>
+          <div>
             <Badge period={monthlyBudget.period}>{getMonthNameFromDate(monthlyBudget.period)}</Badge>
             <PresentActions.Root>
               <PresentActionsOption>
@@ -47,19 +48,18 @@ export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardPr
               </PresentActionsOption>
             </PresentActions.Root>
           </div>
-        </div>
-        <div className="mt-3 flex justify-between">
-          <div className="flex items-start flex-col">
-            <span className="text-zinc-600 text-base font-normal">Orçamento</span>
-            <span className="text-zinc-900 text-2xl font-medium">{formatToBRL(monthlyBudget.budget.toString())}</span>
-          </div>
-          <div className="flex items-end">
-            <Link className="app-button-small" href={`/monthlybudgets/${monthlyBudget.id}`}>
-              <Eye />
+        </CardHeader>
+        <CardContent>
+          <div className="mt-3 flex justify-between">
+            <div className="flex items-start flex-col">
+              <span className="text-zinc-600 text-base font-normal">Orçamento</span>
+              <span className="text-zinc-900 text-2xl font-medium">{formatToBRL(monthlyBudget.budget.toString())}</span>
+            </div>
+            <Link className={buttonVariants({ variant: "outline" })} href={`/monthlybudgets/${monthlyBudget.id}`}>
               Visualizar
             </Link>
           </div>
-        </div>
+        </CardContent>
       </Card>
     </>
   );
