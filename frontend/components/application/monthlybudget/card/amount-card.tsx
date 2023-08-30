@@ -124,7 +124,7 @@ export default function AmountCard({ card, monthlyBudgetId, className }: AmountC
           <Input
             id="description"
             placeholder="Descrição do item"
-            className="col-span-12 input"
+            className="col-span-12 xl:col-span-5 input"
             value={description}
             onChange={e => setDescription(e.target.value)}
           />
@@ -165,9 +165,9 @@ export default function AmountCard({ card, monthlyBudgetId, className }: AmountC
           </div>
 
           <Button
-            disabled={!description || !amount || !eventDateTime}
             onClick={fetchCreateCardItem}
-            className="col-span-12 xl:col-span-2 bg-lightblue-500  border flex items-center justify-center gap-1 text-white delay-100">
+            className="col-span-12 xl:col-span-2 app-button"
+            disabled={!description || !amount || !eventDateTime}>
             <PlusCircle />
           </Button>
         </div>
