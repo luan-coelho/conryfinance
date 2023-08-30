@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { routes } from "@/routes";
@@ -25,7 +24,7 @@ export default function BudgetCard({ description, monthlyBudget, className }: Bu
   }
 
   async function fetchUpdateCardAmount() {
-    const response = await fetch(`${routes.monthlyBudget.updateBudget}/${monthlyBudget.id}`, {
+    await fetch(`${routes.monthlyBudget.updateBudget}/${monthlyBudget.id}`, {
       method: "POST",
       cache: "no-cache",
       headers: { "Content-Type": "application/json" },
@@ -34,7 +33,7 @@ export default function BudgetCard({ description, monthlyBudget, className }: Bu
     });
 
     setEditBudget(false);
-    await mutate(`routes.monthlyBudget.root}/${monthlyBudget.id}`);
+    await mutate(`${routes.monthlyBudget.root}/${monthlyBudget.id}`);
   }
 
   const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,29 +55,24 @@ export default function BudgetCard({ description, monthlyBudget, className }: Bu
   return (
     <Card
       className={twMerge(
-        "flex flex-col items-center justify-center gap-2 bg-white border-1 rounded-xl shadow p-3 min-h-[100px] max-h-[100px]",
+        "min-w-[200px] min-h-[100px] max-h-[100px] flex flex-col items-center justify-center gap-2 bg-white border-2 rounded-xl shadow p-3",
         className,
       )}>
       <h2 className="text-xl text-center font-bold">{description}</h2>
       {editBudget ? (
-        <div className="flex border rounded-md w-full">
+        <div className="relative flex rounded-lg border-2 border-blue-500 w-full items-center">
           <Input
             id="item-amount"
             placeholder="Valor"
-            className="square-input placeholder:text-gray-500"
+            className="input text-black rounded-lg"
             value={amount}
             onChange={handleAmountChange}
           />
-          <Button
-            onClick={fetchUpdateCardAmount}
-            className="px-2 bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-            <Check />
-          </Button>
-          <Button
-            onClick={() => setEditBudget(false)}
-            className="px-2 bg-red-500 text-white hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
-            <X />
-          </Button>
+          <div
+            className="absolute text-black flex items-center justify-center gap-2 right-1 border border-zinc-500 bg-zinc-200 rounded-2xl py-1 px-2 cursor-pointer">
+            <Check className="hover:bg-zinc-300 rounded-full" onClick={fetchUpdateCardAmount} />
+            <X className="hover:bg-zinc-300 rounded-full" onClick={() => setEditBudget(false)} />
+          </div>
         </div>
       ) : (
         <div onDoubleClick={() => setEditBudget(true)} className="text-4xl font-bold">

@@ -11,18 +11,16 @@ export default function EmptyAmountCard({ description, amount, className }: Empt
   function formatToBRL(value: string): string {
     const numberValue = parseFloat(value);
 
-    const formattedValue = numberValue.toLocaleString("pt-BR", {
+    return numberValue.toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL",
     });
-
-    return formattedValue;
   }
 
   return (
     <Card
       className={twMerge(
-        "bg-white border-1 rounded-xl shadow p-3 min-h-[100px] max-h-[100px] flex flex-col items-center justify-center gap-2",
+        "bg-white border-2 rounded-xl shadow p-3 min-w-[200px] min-h-[100px] max-h-[100px] flex flex-col items-center justify-center gap-2",
         className,
       )}>
       <h2 className="text-xl font-bold">{description}</h2>

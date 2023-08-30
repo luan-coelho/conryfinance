@@ -10,48 +10,59 @@ import { PlusCircle } from "lucide-react";
 import { MonthlyBudget, MonthlyBudgetCard } from "@/types";
 import { useFetch } from "@/hooks/useFetch";
 import { routes } from "@/routes";
+import api from "@/services/api";
 
 export default function MonthlyBudgetPage({ params }: { params: { id: string } }) {
   const url = `${routes.monthlyBudget.root}/${params.id}`;
   const { isLoading, data: monthlyBudget, error, mutate } = useFetch<MonthlyBudget>(url);
+
+  async function createNewCard() {
+    await api.post(`${routes.monthlyBudgetCard.root}?monthlybudget=${monthlyBudget!.id}`)
+      .then((response) => {
+        if (response.status == 201) {
+          mutate();
+        }
+      });
+  }
 
   return (
     <> {!isLoading &&
       <div>
         <div className="flex items-center justify-between">
           <div className="flex gap-2 items-center">
-            <Title>{monthlyBudget.description}</Title>
-            <Badge>{getMonthNameFromDate(monthlyBudget.period)}</Badge>
+            <Title>{monthlyBudget!.description}</Title>
+            <Badge>{getMonthNameFromDate(monthlyBudget!.period)}</Badge>
           </div>
         </div>
-        <div className="mt-6 grid grid-cols-12 gap-3">
-          <div className="col-span-10 flex flex-col gap-4">
-            {monthlyBudget.cards &&
-              monthlyBudget.cards.map((card: MonthlyBudgetCard) => {
-                return <AmountCard key={card.id} monthlyBudgetId={monthlyBudget.id} card={card} />;
+
+        <div className="flex flex-col md:flex-row gap-3 mt-6">
+          <div className="flex flex-col gap-4">
+            {monthlyBudget!.cards &&
+              monthlyBudget!.cards.map((card: MonthlyBudgetCard) => {
+                return <AmountCard key={card.id} monthlyBudgetId={monthlyBudget!.id} card={card} />;
               })}
             <div
-              onClick={() => mutate()}
-              className="bg-lightblue-500 hover:bg-blue-500 text-white rounded px-2 py-2 w-full flex items-center justify-center">
-              <PlusCircle className="mr-2" /> Cadastrar
+              onClick={createNewCard}
+              className="app-button justify-center">
+              <PlusCircle /> Cadastrar
             </div>
           </div>
 
-          <div className="col-span-2 flex gap-2 flex-col">
+          <div className="flex gap-2 flex-col">
             <BudgetCard
-              className="bg-blue-600 text-white"
+              className="bg-blue-400 text-white border-blue-500"
               description={"Orçamento"}
-              monthlyBudget={monthlyBudget}
+              monthlyBudget={monthlyBudget!}
             />
             <EmptyAmountCard
-              className="bg-green-600 text-white"
+              className="bg-green-400 text-white border-green-500"
               description={"Disponivel"}
-              amount={monthlyBudget.remainingTotalAmount}
+              amount={monthlyBudget!.remainingTotalAmount}
             />
             <EmptyAmountCard
-              className="bg-red-600 text-white"
+              className="bg-red-400 text-white border-red-500"
               description={"Total"}
-              amount={monthlyBudget.totalAmountSpent}
+              amount={monthlyBudget!.totalAmountSpent}
             />
           </div>
         </div>

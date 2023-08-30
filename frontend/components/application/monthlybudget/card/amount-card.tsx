@@ -78,7 +78,7 @@ export default function AmountCard({ card, monthlyBudgetId, className }: AmountC
   }
 
   return (
-    <Card className={twMerge("min-h-[130px] bg-white border-1 rounded-xl shadow p-6", className)}>
+    <Card className={twMerge("bg-white border-1 rounded-xl shadow p-6", className)}>
       <div className="flex flex-col justify-between gap-2 h-full">
         <div className="flex items-center justify-between gap-2">
           {editDescriptionCard ? (
@@ -124,12 +124,12 @@ export default function AmountCard({ card, monthlyBudgetId, className }: AmountC
           <Input
             id="description"
             placeholder="Descrição do item"
-            className="col-span-6 input placeholder:text-gray-500"
+            className="col-span-12 md:col-span-6 input placeholder:text-gray-500"
             value={description}
             onChange={e => setDescription(e.target.value)}
           />
 
-          <div className="col-span-2">
+          <div className="col-span-12 md:col-span-2">
             <Popover>
               <PopoverTrigger asChild>
                 <Button
@@ -151,7 +151,7 @@ export default function AmountCard({ card, monthlyBudgetId, className }: AmountC
             </Popover>
           </div>
 
-          <div className="col-span-2 flex items-center">
+          <div className="col-span-12 md:col-span-2 flex items-center">
             <div className="bg-gray-200 flex items-center px-1 border border-gray-200 h-10">
               <span className="rounded font-semibold text-gray-500">R$</span>
             </div>
@@ -167,7 +167,7 @@ export default function AmountCard({ card, monthlyBudgetId, className }: AmountC
           <Button
             disabled={!description || !amount || !eventDateTime}
             onClick={fetchCreateCardItem}
-            className="bg-lightblue-500 col-span-2 border flex items-center justify-center gap-1 text-white delay-100">
+            className="col-span-12 md:col-span-2 bg-lightblue-500  border flex items-center justify-center gap-1 text-white delay-100">
             <PlusCircle />
           </Button>
         </div>
