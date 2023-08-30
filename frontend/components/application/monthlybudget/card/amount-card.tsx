@@ -85,7 +85,7 @@ export default function AmountCard({ card, monthlyBudgetId, className }: AmountC
             <div className="flex border rounded-md w-full">
               <Input
                 id="card-description"
-                className="col-span-3 w-full border-2 input rounded-l-lg"
+                className="col-span-3 w-full border-2 input rounded-l-xl"
                 value={descriptionCard}
                 onChange={e => setDescriptionCard(e.target.value)}
               />
@@ -103,7 +103,7 @@ export default function AmountCard({ card, monthlyBudgetId, className }: AmountC
           ) : (
             <h2
               onDoubleClick={() => setEditDescriptionCard(true)}
-              className="text-zinc-900 text-lg font-medium flex items-center gap-2">
+              className="text-zinc-900 text-xl font-medium flex items-center gap-2">
               <Gem />
               {card.description}
             </h2>
@@ -124,22 +124,22 @@ export default function AmountCard({ card, monthlyBudgetId, className }: AmountC
           <Input
             id="description"
             placeholder="Descrição do item"
-            className="col-span-12 md:col-span-6 input placeholder:text-gray-500"
+            className="col-span-12 input"
             value={description}
             onChange={e => setDescription(e.target.value)}
           />
 
-          <div className="col-span-12 md:col-span-2">
+          <div className="col-span-12 xl:col-span-3">
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "text-gray-500 w-full justify-start text-left input",
+                    "input",
                     !eventDateTime && "text-muted-foreground",
                   )}>
-                  <CalendarIcon className="text-gray-500 mr-2 h-4 w-4" />
-                  {eventDateTime ? format(eventDateTime, "dd/MM/yyyy") : <span className="text-gray-500">Data</span>}
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {eventDateTime ? <span>{format(eventDateTime, "dd/MM/yyyy")}</span> : <span>Data</span>}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="bg-white flex w-auto flex-col space-y-2 p-2">
@@ -151,14 +151,14 @@ export default function AmountCard({ card, monthlyBudgetId, className }: AmountC
             </Popover>
           </div>
 
-          <div className="col-span-12 md:col-span-2 flex items-center">
-            <div className="bg-gray-200 flex items-center px-1 border border-gray-200 h-10">
-              <span className="rounded font-semibold text-gray-500">R$</span>
+          <div className="col-span-12 xl:col-span-2 flex items-center">
+            <div className="bg-gray-100 flex items-center px-1 border h-10">
+              <span className="rounded font-medium text-sm text-gray-500 p-1">R$</span>
             </div>
             <Input
               id="item-amount"
               placeholder="Valor"
-              className="square-input placeholder:text-gray-500"
+              className="square-input"
               value={amount}
               onChange={handleAmountChange}
             />
@@ -167,7 +167,7 @@ export default function AmountCard({ card, monthlyBudgetId, className }: AmountC
           <Button
             disabled={!description || !amount || !eventDateTime}
             onClick={fetchCreateCardItem}
-            className="col-span-12 md:col-span-2 bg-lightblue-500  border flex items-center justify-center gap-1 text-white delay-100">
+            className="col-span-12 xl:col-span-2 bg-lightblue-500  border flex items-center justify-center gap-1 text-white delay-100">
             <PlusCircle />
           </Button>
         </div>
