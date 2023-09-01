@@ -8,7 +8,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { routes } from "@/routes";
 import { MonthlyBudget } from "@/types";
 import { getMonthNameFromDate } from "@/utils/dateutils";
-import { Eye } from "lucide-react";
 import Link from "next/link";
 import { mutate } from "swr";
 import api from "@/services/api";
@@ -37,10 +36,10 @@ export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardPr
 
   return (
     <>
-      <Card className="">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+      <Card>
+        <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">{monthlyBudget.description}</CardTitle>
-          <div>
+          <div className="flex items-center justify-center gap-1">
             <Badge period={monthlyBudget.period}>{getMonthNameFromDate(monthlyBudget.period)}</Badge>
             <PresentActions.Root>
               <PresentActionsOption>
@@ -50,12 +49,9 @@ export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardPr
           </div>
         </CardHeader>
         <CardContent>
-          <div className="mt-3 flex justify-between">
-            <div className="flex items-start flex-col">
-              <span className="text-zinc-600 text-base font-normal">Orçamento</span>
-              <span className="text-zinc-900 text-2xl font-medium">{formatToBRL(monthlyBudget.budget.toString())}</span>
-            </div>
-            <Link className={buttonVariants({ variant: "outline" })} href={`/monthlybudgets/${monthlyBudget.id}`}>
+          <div className="mt-3 flex items-end justify-between">
+            <span className="text-zinc-900 text-2xl font-medium">{formatToBRL(monthlyBudget.budget.toString())}</span>
+            <Link className={buttonVariants({ variant: "default" })} href={`/monthly-budgets/${monthlyBudget.id}`}>
               Visualizar
             </Link>
           </div>

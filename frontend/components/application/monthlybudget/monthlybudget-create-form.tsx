@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -72,10 +72,8 @@ export default function MonthlyBudgetCreateForm() {
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger>
-          <Button
-            onClick={() => setOpen(true)}> Cadastrar
-          </Button>
+        <DialogTrigger onClick={() => setOpen(true)} className={buttonVariants({ variant: "default" })}>
+          Cadastrar
         </DialogTrigger>
         <DialogContent className="max-w-[425px] border border-gray-300 bg-white">
 
@@ -119,7 +117,7 @@ export default function MonthlyBudgetCreateForm() {
                 <Form.ErrorMessage field="period" />
               </Form.Field>
               <DialogFooter>
-                <Button className="app-button" type="submit">
+                <Button type="submit">
                   Cadastrar
                 </Button>
               </DialogFooter>
