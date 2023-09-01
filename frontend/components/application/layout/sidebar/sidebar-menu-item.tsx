@@ -15,8 +15,8 @@ export default function SidebarMenuItem({ pathName, description, children }: Sid
   const { isOpen } = useSidebar();
 
   const activePathName = usePathname();
-  const itemTextStyle = activePathName == pathName ? "font-medium" : "font-normal";
-  const iconTextStyle = activePathName == pathName ? "text-lightblue-500" : "text-zinc-600";
+  const itemTextStyle = activePathName == pathName ? "font-medium text-zinc-200" : "font-normal text-zinc-400";
+  const iconTextStyle = activePathName == pathName ? "text-blue-500" : "text-zinc-500";
   const itemBackgroundStyle = activePathName == pathName ? "bg-[#313334]" : "";
 
   return (

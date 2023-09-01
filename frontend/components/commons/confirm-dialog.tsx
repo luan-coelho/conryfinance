@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Dialog,
   DialogContent,
@@ -13,7 +11,7 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 
 interface ConfirmDialogProps {
-  confirmAction: Function;
+  confirmAction: () => void;
 }
 
 export function ConfirmDialog({ confirmAction }: ConfirmDialogProps) {
@@ -32,17 +30,15 @@ export function ConfirmDialog({ confirmAction }: ConfirmDialogProps) {
       <DialogContent className="max-w-[425px] border border-gray-300 bg-white">
         <DialogHeader>
           <DialogTitle>Você tem certeza?</DialogTitle>
-          <DialogDescription className="text-gray-500">Esta ação não poderá ser desfeita</DialogDescription>
+          <DialogDescription className="text-gray-500">Esta ação não poderá ser desfeita!</DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button
-            onClick={() => confirmAction()}
-            className="app-button-small">
+            onClick={confirmAction} size={"sm"} variant={"outline"}>
             Confirmar
           </Button>
           <Button
-            onClick={() => setOpen(false)}
-            className="app-button-small-danger">
+            onClick={() => setOpen(false)} size={"sm"} className="bg-red-600 hover:bg-red-500">
             Cancelar
           </Button>
         </DialogFooter>
