@@ -1,9 +1,6 @@
 "use client";
 
 import Badge from "@/components/commons/badge";
-import { ConfirmDialog } from "@/components/commons/confirm-dialog";
-import { PresentActions } from "@/components/commons/present-actions";
-import PresentActionsOption from "@/components/commons/present-actions/present-actions-option";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { routes } from "@/routes";
 import { MonthlyBudget } from "@/types";
@@ -11,13 +8,32 @@ import { getMonthNameFromDate } from "@/utils/dateutils";
 import Link from "next/link";
 import { mutate } from "swr";
 import api from "@/services/api";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import React, { useState } from "react";
+import { MoreHorizontal } from "lucide-react";
 
 interface MonthlyBudgetCardProps {
   monthlyBudget: MonthlyBudget;
 }
 
 export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardProps) {
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
   async function handleDeleteById() {
     await api.delete(`${routes.monthlyBudget.root}/${monthlyBudget.id}`)
       .then(() => {
@@ -41,11 +57,19 @@ export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardPr
           <CardTitle className="text-sm font-medium">{monthlyBudget.description}</CardTitle>
           <div className="flex items-center justify-center gap-1">
             <Badge period={monthlyBudget.period}>{getMonthNameFromDate(monthlyBudget.period)}</Badge>
-            <PresentActions.Root>
-              <PresentActionsOption>
-                <ConfirmDialog confirmAction={handleDeleteById} />
-              </PresentActionsOption>
-            </PresentActions.Root>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  className="w-8 h-8 px-2 py-2 bg-white hover:bg-gray-100 rounded-lg shadow border border-gray-300 text-gray-400 flex-col justify-start items-center gap-2 flex">
+                  <MoreHorizontal size={"16px"} />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                <DropdownMenuItem onSelect={() => setShowDeleteDialog(true)} className="text-red-600">
+                  Deletar
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </CardHeader>
         <CardContent>
@@ -57,6 +81,23 @@ export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardPr
           </div>
         </CardContent>
       </Card>
+
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
+            <AlertDialogDescription className="text-gray-500">
+              Esta ação não poderá ser desfeita!
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <Button onClick={handleDeleteById} variant="destructive">
+              Confirmar
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }
