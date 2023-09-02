@@ -4,6 +4,7 @@ import com.conryfinance.commons.pagination.Pageable;
 import com.conryfinance.commons.pagination.PagedData;
 import com.conryfinance.dto.montlybudget.MonthlyBudgetCreateDTO;
 import com.conryfinance.dto.montlybudget.MonthlyBudgetResponseDTO;
+import com.conryfinance.dto.montlybudget.MonthlyBudgetUpdateDTO;
 import com.conryfinance.model.monthlybudget.MonthlyBudget;
 import com.conryfinance.repository.MonthlyBudgetRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -39,6 +40,21 @@ public class MonthlyBudgetService extends BaseService<MonthlyBudget, MonthlyBudg
         this.repository.persist(monthlyBudgetPersisted);
 
         return monthlyBudgetPersisted;
+    }
+
+    @Transactional
+    public MonthlyBudget update(Long montlyBudgetId, MonthlyBudgetUpdateDTO monthlyBudget) {
+        MonthlyBudget currentMonthlyBudget = this.findById(montlyBudgetId);
+
+        if (this.repository.existsByDescriptionEqualsIgnoreCase(montlyBudgetId, monthlyBudget.description())) {
+            throw new IllegalArgumentException("Já existe um orçamento mensal cadastrado com este nome");
+        }
+
+        currentMonthlyBudget.setDescription(monthlyBudget.description());
+        currentMonthlyBudget.setPeriod(monthlyBudget.period());
+        this.repository.persist(currentMonthlyBudget);
+
+        return currentMonthlyBudget;
     }
 
     @Transactional

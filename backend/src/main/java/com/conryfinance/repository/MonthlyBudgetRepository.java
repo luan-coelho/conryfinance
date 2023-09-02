@@ -7,8 +7,7 @@ import com.conryfinance.model.monthlybudget.MonthlyBudget;
 import io.quarkus.panache.common.Page;
 import jakarta.enterprise.context.ApplicationScoped;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @ApplicationScoped
 public class MonthlyBudgetRepository extends BaseRepository<MonthlyBudget> {
@@ -17,8 +16,17 @@ public class MonthlyBudgetRepository extends BaseRepository<MonthlyBudget> {
         return find("FROM MonthlyBudget WHERE description ILIKE ?1", description).singleResultOptional();
     }
 
+    public boolean existsByDescriptionEqualsIgnoreCase(Long id, String description) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", id);
+        params.put("description", description);
+        return count("FROM MonthlyBudget WHERE description LIKE ?1 AND id != ?2", params) > 0;
+    }
+
     public boolean existsByDescriptionEqualsIgnoreCase(String description) {
-        return count("FROM MonthlyBudget WHERE description LIKE ?1", description) > 0;
+        Map<String, Object> params = new HashMap<>();
+        params.put("description", description);
+        return count("FROM MonthlyBudget WHERE description LIKE ?1", params) > 0;
     }
 
     public PagedData<MonthlyBudget> getAllWithPagination(Pageable pageable) {

@@ -5,6 +5,7 @@ import com.conryfinance.commons.pagination.PagedData;
 import com.conryfinance.dto.montlybudget.MonthlyBudgetCreateDTO;
 import com.conryfinance.dto.montlybudget.MonthlyBudgetResponseDTO;
 import com.conryfinance.dto.montlybudget.MonthlyBudgetUpdateBudgetDTO;
+import com.conryfinance.dto.montlybudget.MonthlyBudgetUpdateDTO;
 import com.conryfinance.model.monthlybudget.MonthlyBudget;
 import com.conryfinance.service.MonthlyBudgetService;
 import jakarta.inject.Inject;
@@ -37,6 +38,14 @@ public class MonthlyBudgetResource {
     @POST
     public Response create(@Valid MonthlyBudgetCreateDTO monthlyBudgetCreateDTO) {
         MonthlyBudget monthlyBudgetCreated = monthlyBudgetService.create(monthlyBudgetCreateDTO);
+        MonthlyBudgetResponseDTO dto = MonthlyBudgetResponseDTO.toDataTransferObject(monthlyBudgetCreated);
+        return Response.status(Response.Status.CREATED).entity(dto).build();
+    }
+
+    @Path("/{id}")
+    @PATCH
+    public Response update(@PathParam("id") Long montlyBudgetId, @Valid MonthlyBudgetUpdateDTO monthlyBudgetCreateDTO) {
+        MonthlyBudget monthlyBudgetCreated = monthlyBudgetService.update(montlyBudgetId, monthlyBudgetCreateDTO);
         MonthlyBudgetResponseDTO dto = MonthlyBudgetResponseDTO.toDataTransferObject(monthlyBudgetCreated);
         return Response.status(Response.Status.CREATED).entity(dto).build();
     }
