@@ -33,6 +33,41 @@ interface MonthlyBudgetCardProps {
 
 export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardProps) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const month = new Date(monthlyBudget.period).getMonth();
+
+  const monthToColorMap = {
+    0: "border-t-3 border-blue-500",
+    1: "border-t-4 border-pink-500",
+    2: "border-t-4 border-green-500",
+    3: "border-t-4 border-purple-500",
+    4: "border-t-4 border-yellow-500",
+    5: "border-t-4 border-indigo-500",
+    6: "border-t-4 border-red-500",
+    7: "border-t-4 border-teal-500",
+    8: "border-t-4 border-orange-500",
+    9: "border-t-4 border-gray-500",
+    10: "border-t-4 border-cyan-500",
+    11: "border-t-4 border-pink-500",
+  };
+
+  const monthToBackgroundMap = {
+    0: "bg-blue-600 hover:bg-blue-500",
+    1: "bg-pink-600 hover:bg-pink-500",
+    2: "bg-green-600 hover:bg-green-500",
+    3: "bg-purple-600 hover:bg-purple-500",
+    4: "bg-yellow-600 hover:bg-yellow-500",
+    5: "bg-indigo-600 hover:bg-indigo-500",
+    6: "bg-red-600 hover:bg-red-500",
+    7: "bg-teal-600 hover:bg-teal-500",
+    8: "bg-orange-600 hover:bg-orange-500",
+    9: "bg-gray-600 hover:bg-gray-500",
+    10: "bg-cyan-600 hover:bg-cyan-500",
+    11: "bg-pink-600 hover:bg-pink-500",
+  };
+  // @ts-ignore
+  const borderColor = monthToColorMap[month] || "border-t-4 border-green-500";
+  // @ts-ignore
+  const backgroundColor = monthToBackgroundMap[month] || "bg-green-600 hover:bg-green-500";
 
   async function handleDeleteById() {
     await api.delete(`${routes.monthlyBudget.root}/${monthlyBudget.id}`)
@@ -52,9 +87,9 @@ export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardPr
 
   return (
     <>
-      <Card>
+      <Card className={borderColor}>
         <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">{monthlyBudget.description}</CardTitle>
+          <CardTitle className="text-xl font-medium">{monthlyBudget.description}</CardTitle>
           <div className="flex items-center justify-center gap-1">
             <Badge period={monthlyBudget.period}>{getMonthNameFromDate(monthlyBudget.period)}</Badge>
             <DropdownMenu>
@@ -75,7 +110,8 @@ export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardPr
         <CardContent>
           <div className="mt-3 flex items-end justify-between">
             <span className="text-zinc-900 text-2xl font-medium">{formatToBRL(monthlyBudget.budget.toString())}</span>
-            <Link className={buttonVariants({ variant: "default" })} href={`/monthly-budgets/${monthlyBudget.id}`}>
+            <Link className={`${buttonVariants({ variant: "default" })} ${backgroundColor}`}
+                  href={`/monthly-budgets/${monthlyBudget.id}`}>
               Visualizar
             </Link>
           </div>
@@ -93,7 +129,7 @@ export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardPr
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
             <Button onClick={handleDeleteById} variant="destructive">
-              Confirmar
+              Deletar
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

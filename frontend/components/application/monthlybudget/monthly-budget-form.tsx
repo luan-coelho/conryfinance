@@ -38,7 +38,7 @@ const schema = z.object({
   }),
 });
 
-export default function MonthlyBudgetCreateForm() {
+export default function MonthlyBudgetForm() {
   const [open, setOpen] = useState(false);
   const { message, showMessage, hideMessage } = useMessage();
 

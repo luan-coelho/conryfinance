@@ -3,29 +3,29 @@ export function getMonthNameFromDate(period: Date): string {
   const monthNumber = date.getMonth() + 1;
 
   switch (monthNumber) {
-    case 0:
-      return "Janeiro";
     case 1:
-      return "Fevereiro";
+      return "Janeiro";
     case 2:
-      return "Março";
+      return "Fevereiro";
     case 3:
-      return "Abril";
+      return "Março";
     case 4:
-      return "Maio";
+      return "Abril";
     case 5:
-      return "Junho";
+      return "Maio";
     case 6:
-      return "Julho";
+      return "Junho";
     case 7:
-      return "Agosto";
+      return "Julho";
     case 8:
-      return "Setembro";
+      return "Agosto";
     case 9:
-      return "Outubro";
+      return "Setembro";
     case 10:
-      return "Novembro";
+      return "Outubro";
     case 11:
+      return "Novembro";
+    case 12:
       return "Dezembro";
     default:
       return "Sem mês";

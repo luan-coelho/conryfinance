@@ -2,7 +2,7 @@
 
 import MonthlyBudgetCard from "@/components/application/monthlybudget/monthlybudget-card";
 import MonthlyBudgetCardSkeleton from "@/components/application/monthlybudget/monthlybudget-card-skeleton";
-import MonthlyBudgetCreateForm from "@/components/application/monthlybudget/monthlybudget-create-form";
+import MonthlyBudgetForm from "@/components/application/monthlybudget/monthly-budget-form";
 import Title from "@/components/commons/title";
 import Investment from "@/public/images/Investment.svg";
 import Image from "next/image";
@@ -19,7 +19,7 @@ export default function MonthlyBudgetsPage() {
       <Title>Orçamentos Mensais</Title>
 
       <div className="mt-3">
-        <MonthlyBudgetCreateForm />
+        <MonthlyBudgetForm />
       </div>
 
       {isLoading ? (
