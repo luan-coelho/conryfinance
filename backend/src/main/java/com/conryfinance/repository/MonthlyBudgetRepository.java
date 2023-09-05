@@ -20,13 +20,13 @@ public class MonthlyBudgetRepository extends BaseRepository<MonthlyBudget> {
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
         params.put("description", description);
-        return count("FROM MonthlyBudget WHERE description LIKE ?1 AND id != ?2", params) > 0;
+        return count("FROM MonthlyBudget WHERE id = :id AND description LIKE :description", params) > 0;
     }
 
     public boolean existsByDescriptionEqualsIgnoreCase(String description) {
         Map<String, Object> params = new HashMap<>();
         params.put("description", description);
-        return count("FROM MonthlyBudget WHERE description LIKE ?1", params) > 0;
+        return count("FROM MonthlyBudget WHERE description LIKE :description", params) > 0;
     }
 
     public PagedData<MonthlyBudget> getAllWithPagination(Pageable pageable) {
