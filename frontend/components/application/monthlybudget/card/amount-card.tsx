@@ -2,7 +2,7 @@
 
 import { NoData } from "@/components/commons/no-data";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { routes } from "@/routes";
 import { MonthlyBudgetCard } from "@/types";
@@ -24,7 +24,7 @@ type AmountCardProps = ComponentProps<"div"> & {
   monthlyBudgetId: number
 };
 
-export default function AmountCard({ card, monthlyBudgetId, className }: AmountCardProps) {
+export default function AmountCard({ card, monthlyBudgetId }: AmountCardProps) {
   const [description, setDescription] = useState<string>();
   const [amount, setAmount] = useState<string>();
 
@@ -34,12 +34,10 @@ export default function AmountCard({ card, monthlyBudgetId, className }: AmountC
 
   const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-
     const numericValue = value.replace(/[^0-9]/g, "");
 
     if (numericValue) {
       const numberValue = parseFloat(numericValue) / 100;
-
       const formattedValue = numberValue.toLocaleString("pt-BR", { style: "decimal", minimumFractionDigits: 2 });
 
       setAmount(formattedValue);
@@ -78,38 +76,36 @@ export default function AmountCard({ card, monthlyBudgetId, className }: AmountC
   }
 
   return (
-    <Card className={twMerge("bg-white border-1 rounded-xl shadow p-6", className)}>
-      <div className="flex flex-col justify-between gap-2 h-full">
-        <div className="flex items-center justify-between gap-2">
-          {editDescriptionCard ? (
-            <div className="flex border rounded-md w-full">
-              <Input
-                id="card-description"
-                className="col-span-3 w-full border-2 input rounded-l-xl"
-                value={descriptionCard}
-                onChange={e => setDescriptionCard(e.target.value)}
-              />
-              <Button
-                onClick={fetchUpdateCardDescription}
-                className="px-2 bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                <Check />
-              </Button>
-              <Button
-                onClick={() => setEditDescriptionCard(false)}
-                className="px-2 bg-red-500 text-white hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
-                <X />
-              </Button>
-            </div>
-          ) : (
-            <h2
-              onDoubleClick={() => setEditDescriptionCard(true)}
-              className="text-zinc-900 text-xl font-medium flex items-center gap-2">
-              <Gem />
-              {card.description}
-            </h2>
-          )}
-        </div>
-
+    <Card>
+      <CardHeader>
+        {editDescriptionCard ?
+          <CardTitle className="flex border rounded-md w-full">
+            <Input
+              id="card-description"
+              className="col-span-3 w-full border-2 input rounded-l-xl"
+              value={descriptionCard}
+              onChange={e => setDescriptionCard(e.target.value)}
+            />
+            <Button
+              onClick={fetchUpdateCardDescription}
+              className="px-2 bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+              <Check />
+            </Button>
+            <Button
+              onClick={() => setEditDescriptionCard(false)}
+              className="px-2 bg-red-500 text-white hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
+              <X />
+            </Button>
+          </CardTitle>
+          :
+          <CardTitle
+            onDoubleClick={() => setEditDescriptionCard(true)}
+            className="text-zinc-900 text-xl font-medium">
+            {card.description}
+          </CardTitle>
+        }
+      </CardHeader>
+      <CardContent>
         {card.cardItems.length > 0 ? (
           <div className="mt-4 flex gap-1 flex-col">
             {card.cardItems.map(cardItem => {
@@ -171,7 +167,7 @@ export default function AmountCard({ card, monthlyBudgetId, className }: AmountC
             <PlusCircle />
           </Button>
         </div>
-      </div>
+      </CardContent>
     </Card>
   );
 }
