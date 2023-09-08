@@ -11,7 +11,7 @@ model MonthlyBudget {
   id          Int      @id @default(autoincrement())
   description String
   period      DateTime @default(now())
-  budget      Decimal
+  budget      Decimal  @default(0)
   cards       Card[]
 }
 
