@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model MonthlyBudget {
+  id          Int      @id @default(autoincrement())
+  description String
+  period      DateTime @default(now())
+  budget      Decimal
+  cards       Card[]
+}
+
+model Card {
+  id              Int           @id @default(autoincrement())
+  description     String
+  amount          Decimal       @default(0)
+  cardType        CardType      @default(DEFAULT)
+  monthlyBudgetId Int
+  monthlyBudget   MonthlyBudget @relation(fields: [monthlyBudgetId], references: [id])
+  cardItems       CardItem[]
+}
+
+model CardItem {
+  id            Int      @id @default(autoincrement())
+  description   String
+  amount        Decimal  @default(0)
+  eventDateTime DateTime @default(now())
+  cardId        Int
+  card          Card     @relation(fields: [cardId], references: [id])
+}
+
+enum CardType {
+  DEFAULT
+  TOTAL_AMOUNT_SPENT
+  TOTAL_AVAILABLE
+}
