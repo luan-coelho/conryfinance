@@ -1,9 +1,9 @@
-const BASEAPI_URL = `${process.env.NEXT_PUBLIC_BASEAPI_URL}`;
+const BASEAPI_URL = `/api`;
 
 export const routes = {
   monthlyBudget: {
-    root: `${BASEAPI_URL}/monthlybudget`,
-    updateBudget: `${BASEAPI_URL}/monthlybudget/update-budget`,
+    root: `${BASEAPI_URL}/monthly-budgets`,
+    updateBudget: `${BASEAPI_URL}/monthly-budgets/update-budget`,
   },
   monthlyBudgetCard: {
     root: `${BASEAPI_URL}/card`,

@@ -70,10 +70,9 @@ export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardPr
   const backgroundColor = monthToBackgroundMap[month] || "bg-green-600 hover:bg-green-500";
 
   async function handleDeleteById() {
-    await api.delete(`${routes.monthlyBudget.root}/${monthlyBudget.id}`)
-      .then(() => {
-        mutate(routes.monthlyBudget.root);
-      });
+    await api.delete(`${routes.monthlyBudget.root}/${monthlyBudget.id}`).then(() => {
+      mutate(routes.monthlyBudget.root);
+    });
   }
 
   function formatToBRL(value: string): string {
@@ -94,8 +93,7 @@ export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardPr
             <Badge period={monthlyBudget.period}>{getMonthNameFromDate(monthlyBudget.period)}</Badge>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button
-                  className="w-8 h-8 px-2 py-2 bg-white hover:bg-gray-100 rounded-lg shadow border border-gray-300 text-gray-400 flex-col justify-start items-center gap-2 flex">
+                <Button className="w-8 h-8 px-2 py-2 bg-white hover:bg-gray-100 rounded-lg shadow border border-gray-300 text-gray-400 flex-col justify-start items-center gap-2 flex">
                   <MoreHorizontal size={"16px"} />
                 </Button>
               </DropdownMenuTrigger>
@@ -110,8 +108,9 @@ export default function MonthlyBudgetCard({ monthlyBudget }: MonthlyBudgetCardPr
         <CardContent>
           <div className="mt-3 flex items-end justify-between">
             <span className="text-zinc-900 text-2xl font-medium">{formatToBRL(monthlyBudget.budget.toString())}</span>
-            <Link className={`${buttonVariants({ variant: "default" })} ${backgroundColor}`}
-                  href={`/monthly-budgets/${monthlyBudget.id}`}>
+            <Link
+              className={`${buttonVariants({ variant: "default" })} ${backgroundColor}`}
+              href={`/monthly-budgets/${monthlyBudget.id}`}>
               Visualizar
             </Link>
           </div>

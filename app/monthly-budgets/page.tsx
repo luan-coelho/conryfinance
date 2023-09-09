@@ -1,18 +1,18 @@
 "use client";
 
+import MonthlyBudgetForm from "@/components/application/monthlybudget/monthly-budget-form";
 import MonthlyBudgetCard from "@/components/application/monthlybudget/monthlybudget-card";
 import MonthlyBudgetCardSkeleton from "@/components/application/monthlybudget/monthlybudget-card-skeleton";
-import MonthlyBudgetForm from "@/components/application/monthlybudget/monthly-budget-form";
-import Title from "@/components/commons/title";
-import Investment from "@/public/images/Investment.svg";
-import Image from "next/image";
 import { NoData } from "@/components/commons/no-data";
-import { MonthlyBudget, ResponseData } from "@/types";
+import Title from "@/components/commons/title";
 import { useFetch } from "@/hooks/useFetch";
+import Investment from "@/public/images/Investment.svg";
 import { routes } from "@/routes";
+import { MonthlyBudget } from "@/types";
+import Image from "next/image";
 
 export default function MonthlyBudgetsPage() {
-  const { isLoading, data: monthlyBudgets } = useFetch<ResponseData<MonthlyBudget>>(routes.monthlyBudget.root);
+  const { isLoading, data: monthlyBudgets } = useFetch<MonthlyBudget[]>(routes.monthlyBudget.root);
 
   return (
     <>
@@ -26,9 +26,9 @@ export default function MonthlyBudgetsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-6">
           <MonthlyBudgetCardSkeleton />
         </div>
-      ) : monthlyBudgets?.data && monthlyBudgets.data.length > 0 ? (
+      ) : monthlyBudgets && monthlyBudgets.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-6">
-          {monthlyBudgets?.data.map((mb: MonthlyBudget) => {
+          {monthlyBudgets.map((mb: MonthlyBudget) => {
             return <MonthlyBudgetCard key={mb.id} monthlyBudget={mb} />;
           })}
         </div>

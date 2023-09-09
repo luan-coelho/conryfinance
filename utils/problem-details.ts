@@ -35,6 +35,16 @@ export default class ProblemDetails {
     });
   }
 
+  static notFound({ detail, instance }: { detail: string; instance: string }): ProblemDetails {
+    return new ProblemDetails({
+      type: "https://example.com/probs/bad-request",
+      title: "Recurso não encontrado",
+      status: 404,
+      detail,
+      instance,
+    });
+  }
+
   static internalServerError({ detail, instance }: { detail: string; instance: string }): ProblemDetails {
     return new ProblemDetails({
       type: "https://example.com/probs/internal-server-error",
