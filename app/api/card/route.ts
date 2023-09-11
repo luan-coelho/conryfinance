@@ -1,20 +1,16 @@
 import prisma from "@/services/prisma-client";
 import ProblemDetails from "@/utils/problem-details";
-import { NextResponse } from "next/server";
+import { Card } from "@prisma/client";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
-  const id = Number.parseInt(params.id);
+export async function POST(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const monthlyBudgetId = Number.parseInt(searchParams.get("monthlybudget")!);
+  console.log("Identificador: ", monthlyBudgetId);
 
   const monthlyBudget = await prisma.monthlyBudget.findUnique({
     where: {
-      id: id,
-    },
-    include: {
-      cards: {
-        include: {
-          cardItems: true,
-        },
-      },
+      id: monthlyBudgetId,
     },
   });
 
@@ -26,7 +22,16 @@ export async function GET(request: Request, { params }: { params: { id: string }
     return NextResponse.json(response, { status: response.status });
   }
 
-  return NextResponse.json(monthlyBudget);
+  const card = {
+    description: "Descrição",
+    monthlyBudgetId: monthlyBudgetId,
+  } as Card;
+
+  await prisma.card.create({
+    data: card,
+  });
+
+  return NextResponse.json(card, { status: 201 });
 }
 
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
