@@ -1,15 +1,14 @@
 "use client";
 
-import "@/styles/sidebar.css";
+import "./index.css";
 
+import { useSidebar } from "@/contexts/sidebar-context";
 import { CircleDollarSign, Home, Landmark } from "lucide-react";
 import SidebarMenu from "./sidebar-menu";
 import SidebarMenuItem from "./sidebar-menu-item";
-import { useSidebar } from "@/contexts/sidebar-context";
-import { Button } from "@/components/ui/button";
 
 export default function SidebarRoot() {
-  const { isOpen, toggleSidebar } = useSidebar();
+  const { isOpen } = useSidebar();
 
   return (
     <aside className={`${isOpen ? "sidebar-open" : "sidebar-close"}`}>
@@ -28,10 +27,6 @@ export default function SidebarRoot() {
           <CircleDollarSign />
         </SidebarMenuItem>
       </SidebarMenu>
-
-      <Button onClick={toggleSidebar} className="md:hidden bg-red-600 hover:bg-red-500 rounded-full">
-        Fechar
-      </Button>
     </aside>
   );
 }

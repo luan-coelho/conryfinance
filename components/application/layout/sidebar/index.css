@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+aside {
+  @apply bg-[#1A1C1E] h-full text-white px-6 py-10 content-start border-r border-gray-300 gap-10;
+}
+
+.sidebar-open {
+  @apply w-9/12 absolute grid 
+    sm:static sm:w-[300px]
+    md:w-[400px];
+}
+
+.sidebar-close {
+  @apply hidden lg:flex flex-col w-20;
+}
