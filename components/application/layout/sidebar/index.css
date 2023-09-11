@@ -3,13 +3,12 @@
 @tailwind utilities;
 
 aside {
-  @apply bg-[#1A1C1E] h-full text-white px-6 py-10 content-start border-r border-gray-300 gap-10;
+  @apply fixed h-full z-50 bg-[#1A1C1E] text-white px-6 py-10 content-start border-r border-gray-300 gap-10;
 }
 
 .sidebar-open {
-  @apply w-9/12 absolute grid 
-    sm:static sm:w-[300px]
-    md:w-[400px];
+  @apply w-9/12 grid
+    sm:w-[300px];
 }
 
 .sidebar-close {

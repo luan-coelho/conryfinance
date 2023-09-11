@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { createContext, useContext, useState } from "react";
 
@@ -18,19 +18,15 @@ export const useSidebar = () => {
 };
 
 type SidebarProviderProps = {
-  children: React.ReactNode
-}
+  children: React.ReactNode;
+};
 
 export function SidebarProvider({ children }: SidebarProviderProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
-  return (
-    <SidebarContext.Provider value={{ isOpen, toggleSidebar }}>
-      {children}
-    </SidebarContext.Provider>
-  );
+  return <SidebarContext.Provider value={{ isOpen, toggleSidebar }}>{children}</SidebarContext.Provider>;
 }

@@ -8,7 +8,7 @@ export default function Header() {
 
   return (
     <header
-      className={`w-full h-[70px] bg-white px-10 border-b border-gray-300 shrink-0 flex items-center justify-end md:justify-start`}>
+      className={`fixed z-40 w-full h-[70px] bg-white px-10 border-b border-gray-300 flex items-center justify-end md:justify-start`}>
       <button onClick={toggleSidebar} className="transition-transform duration-300 ease-in-out">
         {isOpen ? (
           <X className={`${isOpen ? "rotate-180" : ""}`} />
