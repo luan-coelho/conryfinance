@@ -10,23 +10,18 @@ import { routes } from "@/routes";
 import api from "@/services/api";
 import { MonthlyBudget, MonthlyBudgetCard } from "@/types";
 import { getMonthNameFromDate } from "@/utils/dateutils";
-import { ArrowDown, ArrowUp, CircleDollarSign, Loader2, PlusCircle } from "lucide-react";
-import { useState } from "react";
+import { ArrowDown, ArrowUp, CircleDollarSign } from "lucide-react";
 
 export default function MonthlyBudgetPage({ params }: { params: { id: string } }) {
-  const [isFetch, setIsFetch] = useState<boolean>(false);
-
   const url = `${routes.monthlyBudget.root}/${params.id}`;
   const { isLoading, data: monthlyBudget, mutate } = useFetch<MonthlyBudget>(url);
 
   async function createNewCard() {
-    setIsFetch(true);
     await api.post(`${routes.monthlyBudgetCard.root}?monthlybudget=${monthlyBudget!.id}`).then(response => {
       if (response.status == 201) {
         mutate();
       }
     });
-    setIsFetch(false);
   }
 
   return (
@@ -46,16 +41,8 @@ export default function MonthlyBudgetPage({ params }: { params: { id: string } }
                 monthlyBudget!.cards.map((card: MonthlyBudgetCard) => {
                   return <AmountCard key={card.id} monthlyBudgetId={monthlyBudget!.id} card={card} />;
                 })}
-              <Button onClick={createNewCard} className="items-center gap-1" disabled={isFetch}>
-                {isFetch ? (
-                  <>
-                    <Loader2 className="animate-spin" /> Cadastrar
-                  </>
-                ) : (
-                  <>
-                    <PlusCircle /> Cadastrar
-                  </>
-                )}
+              <Button onClick={createNewCard} className="items-center gap-1">
+                Cadastrar
               </Button>
             </div>
 

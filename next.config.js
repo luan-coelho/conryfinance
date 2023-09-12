@@ -1,15 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    async redirects() {
-        return [
-          {
-            source: '/',
-            destination:'/dashboard',
-            permanent: true,
-            basePath:false
-          },
-        ]
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/monthly-budgets",
+        permanent: true,
+        basePath: false,
       },
-}
+    ];
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

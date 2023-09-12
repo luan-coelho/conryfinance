@@ -20,9 +20,6 @@ export default function SidebarRoot() {
       </div>
 
       <SidebarMenu>
-        <SidebarMenuItem description="Dashboard" pathName="/dashboard">
-          <Home />
-        </SidebarMenuItem>
         <SidebarMenuItem description="Orçamentos" pathName="/monthly-budgets">
           <CircleDollarSign />
         </SidebarMenuItem>
