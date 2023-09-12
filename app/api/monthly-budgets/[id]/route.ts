@@ -52,6 +52,9 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     where: {
       id: id,
     },
+    include: {
+      cards: true,
+    },
   });
 
   return NextResponse.json(null, { status: 200 });

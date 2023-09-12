@@ -16,12 +16,12 @@ model MonthlyBudget {
 }
 
 model Card {
-  id              Int           @id @default(autoincrement())
+  id              Int            @id @default(autoincrement())
   description     String
-  amount          Decimal       @default(0)
-  cardType        CardType      @default(DEFAULT)
-  monthlyBudgetId Int
-  monthlyBudget   MonthlyBudget @relation(fields: [monthlyBudgetId], references: [id])
+  amount          Decimal        @default(0)
+  cardType        CardType       @default(DEFAULT)
+  monthlyBudgetId Int?
+  monthlyBudget   MonthlyBudget? @relation(fields: [monthlyBudgetId], references: [id], onDelete: Cascade)
   cardItems       CardItem[]
 }
 
