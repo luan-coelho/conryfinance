@@ -6,7 +6,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const monthlyBudgetId = Number.parseInt(searchParams.get("monthlybudget")!);
-  console.log("Identificador: ", monthlyBudgetId);
 
   const monthlyBudget = await prisma.monthlyBudget.findUnique({
     where: {
