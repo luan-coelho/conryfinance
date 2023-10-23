@@ -50,6 +50,7 @@ export default function MonthlyBudgetForm() {
 
   const createMonthlyBudgetForm = useForm<MonthlyBudget>({
     resolver: zodResolver(schema),
+    shouldUnregister: true,
   });
 
   const { handleSubmit, control, reset } = createMonthlyBudgetForm;
