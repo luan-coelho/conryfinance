@@ -32,7 +32,7 @@ registerLocale("pt", pt);
 
 const schema = z.object({
   description: z.string()
-    .nonempty("A descrição é obrigatória"),
+    .min(1, "A descrição é obrigatória"),
   period: z.date({
     required_error: "O período é obrigatório",
   }),
