@@ -1,4 +1,4 @@
-import { Sidebar } from "@/components/application/layout/sidebar";
+import { Sidebar } from "@/components/layout/sidebar";
 import { LoadingProvider } from "@/contexts/request-loading-context";
 import { LayoutProvider } from "@/contexts/sidebar-context";
 import React from "react";

@@ -1,6 +1,6 @@
 "use client";
 
-import AmountCard from "@/components/application/monthlybudget/card/amount-card";
+import AmountCard from "@/components/monthlybudget/card/amount-card";
 import Badge from "@/components/commons/badge";
 import Title from "@/components/commons/title";
 import { Button } from "@/components/ui/button";

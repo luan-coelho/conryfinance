@@ -1,8 +1,8 @@
 "use client";
 
-import MonthlyBudgetForm from "@/components/application/monthlybudget/monthly-budget-form";
-import MonthlyBudgetCard from "@/components/application/monthlybudget/monthlybudget-card";
-import MonthlyBudgetCardSkeleton from "@/components/application/monthlybudget/monthlybudget-card-skeleton";
+import MonthlyBudgetForm from "@/components/monthlybudget/monthly-budget-form";
+import MonthlyBudgetCard from "@/components/monthlybudget/monthlybudget-card";
+import MonthlyBudgetCardSkeleton from "@/components/monthlybudget/monthlybudget-card-skeleton";
 import { EmptyContent } from "@/components/commons/empty-content";
 import Title from "@/components/commons/title";
 import { useFetch } from "@/hooks/useFetch";

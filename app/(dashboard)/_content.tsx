@@ -1,6 +1,6 @@
 "use client";
 
-import Header from "@/components/application/layout/header";
+import Header from "@/components/layout/header";
 import RouteBack from "@/components/commons/route-back";
 import { useLoading } from "@/contexts/request-loading-context";
 import { useLayout } from "@/contexts/sidebar-context";
