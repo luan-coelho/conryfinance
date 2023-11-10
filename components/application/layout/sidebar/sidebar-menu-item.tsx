@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useSidebar } from "@/contexts/sidebar-context";
+import { useLayout } from "@/contexts/sidebar-context";
 import React from "react";
 
 type SidebarMenuItemProps = {
@@ -12,7 +12,7 @@ type SidebarMenuItemProps = {
 };
 
 export default function SidebarMenuItem({ pathName, description, children }: SidebarMenuItemProps) {
-  const { isOpen } = useSidebar();
+  const { sidebarIsOpen } = useLayout();
 
   const activePathName = usePathname();
   const itemTextStyle = activePathName == pathName ? "font-medium text-zinc-200" : "font-normal text-zinc-400";
@@ -24,10 +24,11 @@ export default function SidebarMenuItem({ pathName, description, children }: Sid
       <li
         className={`${itemBackgroundStyle} text-zinc-200 px-4 py-2 rounded-lg transition-opacity duration-700 ease-in-out`}>
         <Link href={pathName}
-              className={`flex items-center gap-2 ${isOpen ? "justify-start" : "justify-center"} flex-col md:flex-row`}>
+              className={`flex items-center gap-2 ${sidebarIsOpen ? "justify-start" : "justify-center"} flex-col md:flex-row`}>
           <div className={iconTextStyle}>{children}</div>
-          {isOpen &&
-            <span className={`${itemTextStyle} text-base leading-normal ${isOpen ? "opacity-100" : "opacity-0"}`}>
+          {sidebarIsOpen &&
+            <span
+              className={`${itemTextStyle} text-base leading-normal ${sidebarIsOpen ? "opacity-100" : "opacity-0"}`}>
               {description}
             </span>
           }

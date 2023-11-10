@@ -2,9 +2,9 @@
 
 import { ChevronLeft } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import React, { useState } from "react";
 
-export default function RouteBack() {
+export default function RouteBack({ show }: { show?: boolean }) {
   const [open, setOpen] = useState<boolean>(true);
 
   const router = useRouter();
@@ -22,7 +22,7 @@ export default function RouteBack() {
 
   return (
     <>
-      {open && (
+      {(open && show) && (
         <button
           onClick={goToParent}
           className="w-[88px] h-6 text-base font-normal hover:font-medium text-zinc-600 rounded-lg justify-start items-center gap-2 inline-flex leading-normal">

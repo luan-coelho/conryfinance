@@ -2,31 +2,32 @@
 
 import React, { createContext, useContext, useState } from "react";
 
-interface SidebarContextProps {
-  isOpen: boolean;
+interface LayoutContextProps {
+  sidebarIsOpen: boolean;
   toggleSidebar: () => void;
 }
 
-const SidebarContext = createContext<SidebarContextProps | undefined>(undefined);
+const LayoutContext = createContext<LayoutContextProps | undefined>(undefined);
 
-export const useSidebar = () => {
-  const context = useContext(SidebarContext);
+export const useLayout = () => {
+  const context = useContext(LayoutContext);
   if (!context) {
-    throw new Error("useSidebar deve ser usado dentro de um SidebarProvider");
+    throw new Error("useLayout deve ser usado dentro de um LayoutProvider");
   }
   return context;
 };
 
-type SidebarProviderProps = {
+type LayoutProviderProps = {
   children: React.ReactNode;
 };
 
-export function SidebarProvider({ children }: SidebarProviderProps) {
-  const [isOpen, setIsOpen] = useState(true);
+export function LayoutProvider({ children }: LayoutProviderProps) {
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(true);
 
   const toggleSidebar = () => {
-    setIsOpen(!isOpen);
+    setSidebarIsOpen(!sidebarIsOpen);
   };
 
-  return <SidebarContext.Provider value={{ isOpen, toggleSidebar }}>{children}</SidebarContext.Provider>;
+  return <LayoutContext.Provider
+    value={{ sidebarIsOpen, toggleSidebar: toggleSidebar }}>{children}</LayoutContext.Provider>;
 }
