@@ -2,7 +2,7 @@ import { Sidebar } from "@/components/layout/sidebar";
 import { LoadingProvider } from "@/contexts/request-loading-context";
 import { LayoutProvider } from "@/contexts/sidebar-context";
 import React from "react";
-import Content from "@/app/(dashboard)/_content";
+import Content from "@/app/dashboard/_content";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
