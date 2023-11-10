@@ -3,7 +3,7 @@
 import MonthlyBudgetForm from "@/components/application/monthlybudget/monthly-budget-form";
 import MonthlyBudgetCard from "@/components/application/monthlybudget/monthlybudget-card";
 import MonthlyBudgetCardSkeleton from "@/components/application/monthlybudget/monthlybudget-card-skeleton";
-import { NoData } from "@/components/commons/no-data";
+import { EmptyContent } from "@/components/commons/empty-content";
 import Title from "@/components/commons/title";
 import { useFetch } from "@/hooks/useFetch";
 import Investment from "@/public/images/Investment.svg";
@@ -35,7 +35,7 @@ export default function MonthlyBudgetsPage() {
       ) : (
         <div className="flex items-center justify-center flex-col gap-5 mt-5">
           <Image src={Investment} width={200} height={200} alt="Picture of the author" />
-          <NoData>Ainda não há nenhum orçamento cadastrado</NoData>
+          <EmptyContent>Ainda não há nenhum orçamento cadastrado</EmptyContent>
         </div>
       )}
     </>

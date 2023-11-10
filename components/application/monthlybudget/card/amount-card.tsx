@@ -1,6 +1,6 @@
 "use client";
 
-import { NoData } from "@/components/commons/no-data";
+import { EmptyContent } from "@/components/commons/empty-content";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -79,7 +79,7 @@ export default function AmountCard({ card, monthlyBudgetId }: AmountCardProps) {
     <Card>
       <CardHeader>
         {editDescriptionCard ?
-          <CardTitle className="flex border rounded-md w-full">
+          <CardTitle className="flex border w-full">
             <Input
               id="card-description"
               className="col-span-3 w-full border-2 input rounded-l-xl"
@@ -100,7 +100,7 @@ export default function AmountCard({ card, monthlyBudgetId }: AmountCardProps) {
           :
           <CardTitle
             onDoubleClick={() => setEditDescriptionCard(true)}
-            className="text-zinc-900 text-xl font-medium">
+            className="text-zinc-900 text-base font-medium">
             {card.description}
           </CardTitle>
         }
@@ -113,7 +113,9 @@ export default function AmountCard({ card, monthlyBudgetId }: AmountCardProps) {
             })}
           </div>
         ) : (
-          <NoData>Ainda não há nenhum item cadastrado</NoData>
+          <div className="w-full">
+            <EmptyContent>Ainda não há nenhum item cadastrado</EmptyContent>
+          </div>
         )}
 
         <div className="grid grid-cols-12 items-center gap-2">

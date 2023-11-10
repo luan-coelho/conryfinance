@@ -4,6 +4,7 @@ import { MonthlyBudgetCardItem } from "@/types";
 import { Trash2 } from "lucide-react";
 import * as React from "react";
 import { mutate } from "swr";
+import { format } from "date-fns";
 
 type AmountCardItemProps = {
   cardItem: MonthlyBudgetCardItem;
@@ -31,15 +32,16 @@ export default function AmountCardItem({ cardItem, monthlyBudgetId }: AmountCard
   }
 
   return (
-    <div className="min-w-full border rounded-xl pl-3 pr-2 py-1">
+    <div className="min-w-full border rounded pl-3 pr-2 py-1">
       <div className="text-gray-800 flex gap-2 items-center justify-between">
         <div className="flex flex-col justify-between">
           <span className="text-base font-medium">{cardItem.description}</span>
-          <span className="text-sm">20/02/2023</span>
+          <span className="text-sm text-zinc-500">{format(new Date(cardItem.eventDateTime), "dd/MM/yyyy")}</span>
         </div>
         <div className="flex items-center justify-center gap-2">
           <span className="text-xl font-medium">{formatToBRL(cardItem.amount.toString())}</span>
-          <Button onClick={handleDeleteById} className="hover:bg-red-100 hover:border hover:border-red-600 text-red-600 p-1 rounded-xl">
+          <Button onClick={handleDeleteById} variant={"secondary"}
+                  className="hover:bg-red-100 text-red-600 w-7 h-7 p-1 rounded-xl">
             <Trash2 size={18} />
           </Button>
         </div>
