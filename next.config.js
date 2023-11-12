@@ -4,7 +4,7 @@ const nextConfig = {
     return [
       {
         source: "/",
-        destination: "/monthly-budgets",
+        destination: "/dashboard/monthly-budgets",
         permanent: true,
         basePath: false,
       },

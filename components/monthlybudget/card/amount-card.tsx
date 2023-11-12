@@ -6,18 +6,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { routes } from "@/routes";
 import { MonthlyBudgetCard } from "@/types";
-import { Calendar as CalendarIcon, Check, Gem, PlusCircle, X } from "lucide-react";
+import { Check, PlusCircle, X } from "lucide-react";
 import React, { ComponentProps, useState } from "react";
-import { twMerge } from "tailwind-merge";
-import { addDays, format } from "date-fns";
-import { cn } from "@/lib/utils";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Select } from "@/components/ui/select";
+import "react-datepicker/dist/react-datepicker.css";
 
 import AmountCardItem from "./amount-card-item";
-import ptBR from "date-fns/locale/pt-BR";
 import { mutate } from "swr";
+import { z } from "zod";
+import { Controller, FormProvider, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CardItem } from "@prisma/client";
+import api from "@/services/api";
+import { Form } from "@/components/form";
+import DatePicker from "react-datepicker";
+import pt from "date-fns/locale/pt";
 
 type AmountCardProps = ComponentProps<"div"> & {
   card: MonthlyBudgetCard;
@@ -25,55 +27,35 @@ type AmountCardProps = ComponentProps<"div"> & {
 };
 
 export default function AmountCard({ card, monthlyBudgetId }: AmountCardProps) {
-  const [description, setDescription] = useState<string>();
-  const [amount, setAmount] = useState<string>();
-
   const [editDescriptionCard, setEditDescriptionCard] = useState<boolean>(false);
   const [descriptionCard, setDescriptionCard] = useState<string>(card.description);
-  const [eventDateTime, setEventDateTime] = useState<Date>();
 
-  const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    const numericValue = value.replace(/[^0-9]/g, "");
-
-    if (numericValue) {
-      const numberValue = parseFloat(numericValue) / 100;
-      const formattedValue = numberValue.toLocaleString("pt-BR", { style: "decimal", minimumFractionDigits: 2 });
-
-      setAmount(formattedValue);
-    } else {
-      setAmount("");
-    }
-  };
-
-  function formatToGlobalNumber(value: string): string {
-    const withoutThousandSeparator = value.replace(/\./g, "");
-    return withoutThousandSeparator.replace(",", ".");
-  }
-
-  async function fetchCreateCardItem() {
-    await fetch(`${routes.monthlyBudgetCardItem.root}?card=${card.id}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      cache: "no-cache",
-      mode: "cors",
-      body: JSON.stringify({ description, amount: formatToGlobalNumber(amount!), eventDateTime }),
-    });
-
+  async function fetchCreateCardItem(cardItem: CardItem) {
+    await api.post<CardItem>(`${routes.monthlyBudgetCardItem.root}?card=${card.id}`, cardItem);
     await mutate(`${routes.monthlyBudget.root}/${monthlyBudgetId}`);
+    reset();
   }
 
   async function fetchUpdateCardDescription() {
-    await fetch(`${routes.monthlyBudgetCard.updateDescription}/${card.id}`, {
-      method: "POST",
-      cache: "no-cache",
-      headers: { "Content-Type": "application/json" },
-      mode: "cors",
-      body: JSON.stringify({ newDescription: descriptionCard }),
-    });
-
+    await api.post(`${routes.monthlyBudgetCard.updateDescription}/${card.id}`,
+      { newDescription: descriptionCard });
     await mutate(`${routes.monthlyBudget.root}/${monthlyBudgetId}`);
   }
+
+  const cardItemSchema = z.object({
+    description: z.string()
+      .min(1),
+    eventDateTime: z.date(),
+    amount: z.coerce.number().min(1),
+  });
+
+  const createCardItemForm = useForm<CardItem>({
+    resolver: zodResolver(cardItemSchema),
+    shouldUnregister: true,
+    mode: "onChange",
+  });
+
+  const { handleSubmit, reset, control, formState } = createCardItemForm;
 
   return (
     <Card>
@@ -107,7 +89,7 @@ export default function AmountCard({ card, monthlyBudgetId }: AmountCardProps) {
       </CardHeader>
       <CardContent>
         {card.cardItems.length > 0 ? (
-          <div className="mt-4 flex gap-1 flex-col">
+          <div className="flex gap-1 flex-col">
             {card.cardItems.map(cardItem => {
               return <AmountCardItem key={cardItem.id} monthlyBudgetId={monthlyBudgetId} cardItem={cardItem} />;
             })}
@@ -118,57 +100,46 @@ export default function AmountCard({ card, monthlyBudgetId }: AmountCardProps) {
           </div>
         )}
 
-        <div className="grid grid-cols-12 items-center gap-2">
-          <Input
-            id="description"
-            placeholder="Descrição do item"
-            className="col-span-12 xl:col-span-5 input"
-            value={description}
-            onChange={e => setDescription(e.target.value)}
-          />
-
-          <div className="col-span-12 xl:col-span-3">
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant={"outline"}
-                  className={cn(
-                    "input",
-                    !eventDateTime && "text-muted-foreground",
-                  )}>
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {eventDateTime ? <span>{format(eventDateTime, "dd/MM/yyyy")}</span> : <span>Data</span>}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="bg-white flex w-auto flex-col space-y-2 p-2">
-                <Select onValueChange={value => setEventDateTime(addDays(new Date(), parseInt(value)))} />
-                <div className="rounded-md border">
-                  <Calendar mode="single" selected={eventDateTime} onSelect={setEventDateTime} locale={ptBR} />
-                </div>
-              </PopoverContent>
-            </Popover>
-          </div>
-
-          <div className="col-span-12 xl:col-span-2 flex items-center">
-            <div className="bg-gray-100 flex items-center px-1 border h-10">
-              <span className="rounded font-medium text-sm text-gray-500 p-1">R$</span>
+        <FormProvider {...createCardItemForm}>
+          <form onSubmit={handleSubmit(fetchCreateCardItem)} className="grid grid-cols-12 items-center gap-2 mt-2">
+            <div className="col-span-12 xl:col-span-5">
+              <Form.Field>
+                <Form.TextField name="description" className="input" placeholder="Descrição do item" />
+              </Form.Field>
             </div>
-            <Input
-              id="item-amount"
-              placeholder="Valor"
-              className="square-input"
-              value={amount}
-              onChange={handleAmountChange}
-            />
-          </div>
 
-          <Button
-            onClick={fetchCreateCardItem}
-            className="col-span-12 xl:col-span-2 app-button"
-            disabled={!description || !amount || !eventDateTime}>
-            <PlusCircle />
-          </Button>
-        </div>
+            <div className="col-span-12 xl:col-span-3">
+              <Form.Field>
+                <Controller
+                  control={control}
+                  name="eventDateTime"
+                  render={({ field }) => (
+                    <DatePicker
+                      selected={field.value}
+                      onChange={(date) => field.onChange(date)}
+                      locale={pt}
+                      placeholderText="Data do item"
+                      dateFormat="dd/MM/yyyy"
+                      className="input"
+                    />
+                  )} />
+              </Form.Field>
+            </div>
+
+            <div className="col-span-12 xl:col-span-2">
+              <Form.Field>
+                <Form.TextField name="amount" className="input" placeholder="Valor do item" />
+              </Form.Field>
+            </div>
+
+            <Button
+              type="submit"
+              className="col-span-12 xl:col-span-2 app-button"
+              disabled={!formState.isValid}>
+              <PlusCircle />
+            </Button>
+          </form>
+        </FormProvider>
       </CardContent>
     </Card>
   );
